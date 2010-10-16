@@ -17,33 +17,37 @@ $white = rgba(255, 255, 255, 1)
   -moz-border-radius: $radius
   -webkit-border-radius: $radius
 
-@mixin shadow($radius: 15px)
-  $color: lighten($transparent-black, 50%)
+@mixin shadow($radius: 15px, $color: lighten($transparent-black, 50%))
   box-shadow: 0 0 $radius $color
   -webkit-box-shadow: 0 0 $radius $color
   -moz-box-shadow: 0 0 $radius $color
 
 @mixin button
-  background: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
-  border-radius: 12px
+  @include rounded-corners(12px)
+  @include shadow(10px, darken($transparent-black, 25%))
+  background-image: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
+  background-image: -moz-linear-gradient(center bottom, $light-blue 0%, darken($light-blue, 25%) 50%)
   border: 0 none
-  color: darken($light-blue, 65%)
+  color: darken($light-blue, 65%) !important
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   font-size: 1.5em
-  margin: 50px 0
-  padding: 15px 20px
+  margin-bottom: 10px
+  padding: 15px 20px 10px
   text-decoration: none
+
+  &.large
+    font-size: 2em
 
   &:hover
     background: -webkit-gradient(linear, left top, left bottom, from(darken($light-blue, 10%)), to(darken($light-blue, 20%)))
-    color: darken($light-blue, 85%)
+    color: darken($light-blue, 85%) !important
 
 *
   margin: 0
   padding: 0
 
 html, body
-  background-color: $light-blue
+  background: $light-blue url(/images/clouds.png) top left
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   height: 100%
 
@@ -58,8 +62,32 @@ p
 ol, ul
   margin-left: 20px
 
+.clearfix:after
+  clear: both
+  content: ' '
+  display: block
+  font-size: 0
+  height: 0
+  line-height: 0
+  visibility: hidden
+  width: 0
+
+.clearfix
+  display: inline-block
+
+* html .clearfix
+  height: 1%
+
+.clearfix
+  display: block
+
 .clear
   clear: both
+  display: block
+  height: 0
+  overflow: hidden
+  visibility: hidden
+  width: 0
 
 .center
   text-align: center
@@ -67,25 +95,54 @@ ol, ul
 .button
   @include button
 
+a.button
+  @include button
+  display: inline-block
+
 #wrapper
   min-height: 80%
   padding: 20px
 
 #logo
+<<<<<<< HEAD
+  margin: 10% auto 0
+=======
   margin: 0 auto
+>>>>>>> 5d5c8ce70f946047a1704e114b0461d845ed3e69
 
 .splash
   @include rounded-corners
   @include shadow
   background-color: $transparent-black
+  background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($transparent-black, 25%)), to($transparent-black))
+  background-image: -moz-linear-gradient(center bottom, lighten($light-blue, 25%) 0%, $transparent-black 50%)
   color: $white
   padding: 35px
   position: absolute
   text-align: center
   z-index: 100
 
-  .controls
-    margin-top: 40px
+  .birdie
+    background: url(/images/birdie.png) top right
+    height: 112px
+    position: absolute
+    right: -33px
+    top: -33px
+    width: 100px
+
+  a
+    color: $white
+
+  ul.controls
+    margin: 40px 0 0
+    padding: 0
+
+    li
+      display: inline-block
+      margin-right: 10px
+
+  p:last-child
+    margin-bottom: 0
 
 #welcome
   display: none
@@ -168,10 +225,16 @@ ol, ul
       text-align: center
 
 #footer
-  padding: 20px 0 50px
+  background: $white
+  border-top: 1px solid lighten($transparent-black, 90%)
+  border-bottom: 1px solid lighten($transparent-black, 90%)
+  bottom: 0
+  color: lighten($transparent-black, 50%)
+  font-size: 12px
+  padding: 10px
+  position: absolute
   text-align: center
-  color: $gray
-  font-size: 14px
+  width: 98.5%
 
   a
-    color: $gray
+    color: lighten($transparent-black, 50%)
