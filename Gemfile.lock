@@ -53,6 +53,7 @@ GEM
     haml (3.0.21)
     highline (1.6.1)
     i18n (0.4.1)
+    json (1.4.6)
     mail (2.2.7)
       activesupport (>= 2.3.6)
       mime-types
@@ -125,6 +126,7 @@ DEPENDENCIES
   capistrano
   fabrication
   haml (= 3.0.21)
+  json (= 1.4.6)
   mocha
   mysql2
   rails (= 3.0.1)
