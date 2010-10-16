@@ -6,6 +6,7 @@ class CreateTweets < ActiveRecord::Migration
       t.integer :tweet_count,     :default => 0,  :null => false
       t.integer :follower_count,  :default => 0,  :null => false
       t.integer :retweet_count,   :default => 0,  :null => false
+      t.datetime :joined_at
       t.timestamps
     end
   end

@@ -18,8 +18,10 @@ $question_types = QuestionType::Chooser.new(
   HowManyFollowers.new( :weight => 1, :value => 1, :countdown => 10),
   HowManyRetweets.new(  :weight => 1, :value => 1, :countdown => 10),
   GuessTagForTweet.new( :weight => 1, :value => 1, :countdown => 10),
-  GuessTweetForTag.new( :weight => 1, :value => 1, :countdown => 10)
-)  
+  GuessTweetForTag.new( :weight => 1, :value => 1, :countdown => 10),
+  HasMoreFollowers.new( :weight => 1, :value => 1, :countdown => 10),
+  HasMoreTweets.new(    :weight => 1, :value => 1, :countdown => 10)
+)
 
 def generate_questions
   if Question.count < $max_questions and Tweet.count > $min_tweets
@@ -40,7 +42,8 @@ def catch_tweet(status)
       :text => status.text,
       :tweet_count => status.user.statuses_count || 0,
       :follower_count => status.user.followers_count || 0,
-      :retweet_count => status.retweet_count || 0)
+      :retweet_count => status.retweet_count || 0,
+      :joined_at => status.created_at)
   tweet.save if good_tweet? tweet
 rescue Exception => e
   Rails.logger.error e

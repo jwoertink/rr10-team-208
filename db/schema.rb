@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20101016085927) do
   end
 
   create_table "questions", :force => true do |t|
+    t.text     "category"
     t.text     "content"
     t.text     "correct_answer"
     t.text     "incorrect_answers"
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20101016085927) do
     t.integer  "tweet_count",                   :default => 0, :null => false
     t.integer  "follower_count",                :default => 0, :null => false
     t.integer  "retweet_count",                 :default => 0, :null => false
+    t.datetime "joined_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

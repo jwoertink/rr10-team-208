@@ -1,6 +1,28 @@
 require File.expand_path('../question_type', __FILE__)
 
-class HowManyTweets < QuestionType
+class HowManyQuestion < QuestionType
+  def category
+    'How Many?'
+  end
+end
+
+class HashTagsQuestion < QuestionType
+  def category
+    'Hash Tags'
+  end
+end
+
+class TrueFalseQuestion < QuestionType
+  def category
+    'True or False'
+  end
+  def true_false_question(tweet, content, answer)
+    new_question(tweet, content,
+      [answer, !answer].map {|_| _ ? 'True' : 'False' })
+  end
+end
+
+class HowManyTweets < HowManyQuestion
   def generate
     if tweets = tweets_with_counts(3) {|_| _.tweet_count }
       new_question(tweets.first,
@@ -10,7 +32,7 @@ class HowManyTweets < QuestionType
   end
 end
 
-class HowManyCharacters < QuestionType
+class HowManyCharacters < HowManyQuestion
   def generate
     if tweets = tweets_with_counts(3) {|_| _.text.size }
       new_question(tweets.first,
@@ -20,7 +42,7 @@ class HowManyCharacters < QuestionType
   end
 end
 
-class HowManyFollowers < QuestionType
+class HowManyFollowers < HowManyQuestion
   def generate
     if tweets = tweets_with_counts(3) {|_| _.follower_count }
       new_question(tweets.first,
@@ -30,7 +52,7 @@ class HowManyFollowers < QuestionType
   end
 end
 
-class HowManyRetweets < QuestionType
+class HowManyRetweets < HowManyQuestion
   def generate
     if tweets = tweets_with_counts(3) {|_| _.retweet_count }
       new_question(tweets.first,
@@ -40,7 +62,7 @@ class HowManyRetweets < QuestionType
   end
 end
 
-class GuessTagForTweet < QuestionType
+class GuessTagForTweet < HashTagsQuestion
   def generate
     if tweets = tweet_sample(3) {|_| _.hash_tags.size == 1 }
       new_question(tweets.first,
@@ -50,12 +72,32 @@ class GuessTagForTweet < QuestionType
   end
 end
 
-class GuessTweetForTag < QuestionType
+class GuessTweetForTag < HashTagsQuestion
   def generate
     if tweets = tweet_sample(3) {|_| _.hash_tags.size == 1 }
       new_question(tweets.first,
         "#{tweets.first.hash_tags.first}\n\nWhich tweet does this hash tag go with?",
         tweets.map {|_| _.text_without_hash_tags })
+    end
+  end
+end
+
+class HasMoreFollowers < TrueFalseQuestion
+  def generate
+    if tweets = tweet_sample(2)
+      true_false_question(tweets.first,
+        "#{tweets.first.screen_name} has more followers than #{tweets.last.screen_name}",
+        tweets.first.follower_count > tweets.last.follower_count)
+    end
+  end
+end
+
+class HasMoreTweets < TrueFalseQuestion
+  def generate
+    if tweets = tweet_sample(2)
+      true_false_question(tweets.first,
+        "#{tweets.first.screen_name} has more tweets than #{tweets.last.screen_name}",
+        tweets.first.tweet_count > tweets.last.tweet_count)
     end
   end
 end
