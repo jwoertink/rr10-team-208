@@ -6,3 +6,4 @@ production:
   pool: 5
   username: root
   password: Puwa7Hbbk1001
+  socket: /var/run/mysqld/mysqld.sock
