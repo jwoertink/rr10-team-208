@@ -1,5 +1,7 @@
 Twithole::Application.routes.draw do
   
+  resources :rules
+
   resources :questions, :only => [:show]
   
   resources :psas do
