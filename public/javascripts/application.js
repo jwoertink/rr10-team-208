@@ -50,7 +50,6 @@ function showPlayerSetup() {
 			$('body').prepend(data);
 			$('.splash').css({
 				width: '600px',
-				height: '400px',
 				top: "100px",
 				left: (( $(window).width() - 650) / 2+$(window).scrollLeft() + "px")
 			});
@@ -92,6 +91,7 @@ function addPlayerField() {
 
 function removePlayerField() {
 	$('a[rel^=remove_field]').live('click', function() {
+		$('a[rel^=add_field]').show();
 		var currentPlayerCount = parseInt($(this).siblings('input').attr('name').match(/\d/)[0], 10);
 		$(this).parent('.field').remove();
 		if(currentPlayerCount > 4) {
