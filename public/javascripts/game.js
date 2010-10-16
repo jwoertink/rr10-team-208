@@ -28,7 +28,7 @@ var Action = {
 		$('#flash');
 		$('#flash').show('fast', function() {
 		 	Action.resetFlash();
-			setTimeout(function() {
+			window.setTimeout(function() {
 				$('#flash').fadeOut('fast');
 			}, 2500);
 		});
@@ -96,7 +96,7 @@ var Game = {
 					$('.splash').remove();
 					$('body').prepend(data);
 					$('#gameform').fadeOut('fast');
-					setTimeout(function() {
+					window.setTimeout(function() {
 						$('#players').children().remove();
 						
 						$(playersOrder).each(function(i,player) {
@@ -146,13 +146,13 @@ var Game = {
 				$('.splash').remove();
 				$('body').prepend(data);
 				var timer;
-				timer = setInterval(function() {
+				timer = window.setInterval(function() {
 					var time = $('.splash').find('.counter').text();
 					var newCount = parseInt(time, 10) - 1;
 					$('.splash').find('.counter').text(newCount);
 				}, 1000);
-				setTimeout(function() {
-					clearInterval(timer);
+				window.setTimeout(function() {
+					window.clearInterval(timer);
 					$('.splash').remove();
 					Game.start();
 				}, 10000);
@@ -218,23 +218,23 @@ var Game = {
 		var questionTime = parseInt($('.counter', q).text(), 10) * 1000;
 		var intervalTimer;
 		var timeoutTimer;
-		intervalTimer = setInterval(function() {
+		intervalTimer = window.setInterval(function() {
 			var time = $('.splash').find('.counter').text();
 			var newCount = parseInt(time, 10) - 1;
 			$('.splash').find('.counter').text(newCount);
 		}, 1000);
-		timeoutTimer = setTimeout(function() {
-			clearInterval(intervalTimer);
+		timeoutTimer = window.setTimeout(function() {
+			window.clearInterval(intervalTimer);
 			$('.splash').remove();
 			Flash['wrong'] = 'WRONG!! Drink up!';
 			Action.displayFlash();
+			Game.log('Inside timer');
 			Game.nextTurn();
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
 		Game.timeoutTimers.push(timeoutTimer);
 		$('.answer').live('click', function() {
-			Game.clearTimer(intervalTimer, 'interval');
-			Game.clearTimer(timeoutTimer, 'timeout');
+			Game.clearTimers();
 			$('.splash').remove();
 			var correctAnswer = question.selection;
 			var selectedAnswer = $(this).attr('rel');
@@ -247,31 +247,19 @@ var Game = {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
 			}
+			Game.log('Inside clicking');
 			Game.nextTurn();
 
 			return false;
 		});
 	},
-	clearTimer: function(timer, type) {
-		switch(type) {
-			case 'interval' :
-				$(Game.intervalTimers).each(function(i,e) {
-					clearInterval(e);
-				});
-						
-			break;
-			case 'timeout' :
-				$(Game.timeoutTimers).each(function(i, e) {
-					clearTimeout(e);
-				});
-			break;
-			case '' :
-				$(Game.intervalTimers).each(function(i,e) {
-					clearInterval(e);
-					clearTimeout(e);
-				});
-			break;
-		}
+	clearTimers: function() {
+		$(Game.intervalTimers).each(function(i,timer) {
+			window.clearInterval(timer);
+		});
+		$(Game.timeoutTimers).each(function(i, timer) {
+			window.clearTimeout(timer);
+		});
 		Game.intervalTimers = [];
 		Game.timeoutTimers = [];
 	},

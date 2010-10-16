@@ -109,7 +109,7 @@ a.button {
     background: -webkit-gradient(linear, left top, left bottom, from(#b8f1ff), to(#85e7ff));
     color: #002d38 !important; }
 
-a:active, a:focus {
+a:active, a:focus, input.button {
   outline: none; }
 
 #wrapper {
