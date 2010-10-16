@@ -1,5 +1,6 @@
 $(function() {
 	openingScene();
+	moveClouds();
 });
 
 function openingScene() {
@@ -9,6 +10,15 @@ function openingScene() {
 		});
 		$('#logo').fadeOut();
 	}, 2000);
+}
+
+function moveClouds() {
+	setInterval(function() {
+		$('body').animate({
+			'background-position': "-=1% 0%, center bottom"
+		});
+	}, 800);
+	
 }
 
 function showWelcomeScreen() {
