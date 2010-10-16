@@ -4,30 +4,30 @@ $(function() {
 
 function openingScene() {
 	setTimeout(function() {
-		$('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
-			showWelcomeScreen();
-		});
-	}, 1500);
+		// $('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
+		// 	showWelcomeScreen();
+		// });
+		$('#logo').fadeOut();
+	  showWelcomeScreen();
+	}, 2000);
 }
 
 function showWelcomeScreen() {
-	centerSplashScreen(600, 120);
-	$('#welcome').animate({
-		width: '600px',
-		height: '120px'
-	}, 1000, 'easeOutBounce', function() {
-		setButtonControls();
-	});
-	
+  centerSplashScreen(600, 120);
+  $('#welcome').animate({
+    width: '600px',
+  }, 1000, 'easeOutBounce', function() {
+    setButtonControls();
+  });
 }
 
 function setButtonControls() {
-	$('.play_game').click(function() {
+	$('#play_game').click(function() {
 		showPlayerSetup();
 		return false;
 	});
 	
-	$('.rules_link').click(function() {
+	$('#rules_link').click(function() {
 		alert('Reading the rules');
 		return false;
 	});
@@ -35,8 +35,8 @@ function setButtonControls() {
 
 function centerSplashScreen(w, h) {
 	$('.splash').css({
-		top: (($(window).height() - h) / 2+$(window).scrollTop() + "px"),
-		left: (( $(window).width() - w) / 2+$(window).scrollLeft() + "px")
+		top: "100px",
+		left: (( $(window).width() - (w + 60)) / 2+$(window).scrollLeft() + "px")
 	});
 }
 
@@ -49,10 +49,10 @@ function showPlayerSetup() {
 		success: function(data) {
 			$('body').prepend(data);
 			$('.splash').css({
-				width: '550px',
+				width: '600px',
 				height: '400px',
-				top:  (($(window).height() - 360) / 2+$(window).scrollTop() + "px"),
-				left: (( $(window).width() - 550) / 2+$(window).scrollLeft() + "px")
+				top: "100px",
+				left: (( $(window).width() - 650) / 2+$(window).scrollLeft() + "px")
 			});
 			addPlayerField();
 			removePlayerField();

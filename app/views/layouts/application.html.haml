@@ -8,18 +8,22 @@
 
 %body
   = yield
-  
+
   #welcome.splash
     %h1 Welcome to TwitHole
     %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget arcu mi, eu pretium neque. Aenean pretium, felis a aliquam egestas, magna est consectetur neque, a consectetur justo sem sed lacus.
-    = link_to('Check out the Rules!', '#', :class => 'rules_link')
-    = link_to('Play the !@%*# Game!', '#', :class => 'play_game')
-  %br{:clear => 'all'}
+    .clear
+    %p.controls
+      = link_to("Check out the Rules!", "#", :id => "rules_link", :class => "button")
+      = link_to("Play the Game!", "#", :id => "play_game", :class => "button")
+    .clear
+  .clear
+
   #footer
     &copy; 2010 SinCityRuby.com
-    = link_to('Terms &amp; Conditions', '')
+    = link_to(raw("Terms &amp; Conditions"), "")
     Designed for RailsRumble.com 2010
-    
+
   :javascript
     var rumbleUrl = 'http://railsrumble.com';
 

@@ -86,5 +86,5 @@ pid = fork do
   threads.each {|_| _.join }
 end
 
-#Process.detach pid
-Process.wait
+Process.detach pid
+# Process.wait

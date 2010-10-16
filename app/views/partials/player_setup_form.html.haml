@@ -1,6 +1,6 @@
 #new_player_form.splash
+  %h1 Enter in your Player Names
   = form_tag '#', :id => 'gameform' do
-    %p Enter in your player names
     .field
       = label_tag(:player_1)
       = text_field_tag(:player_1, '', :class => 'playername')
@@ -12,4 +12,4 @@
       = text_field_tag(:player_3, '', :class => 'playername')  
     .controls
       = link_to(image_tag('add-icon.png'), '#', :rel => 'add_field')
-      = submit_tag('KICK IT!')
+      = submit_tag('KICK IT!', :class => "button")

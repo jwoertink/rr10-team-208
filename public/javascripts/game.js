@@ -53,10 +53,10 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-										<h3 class="name">'+ player.attributes['name'] + '</h3> \
-										<span>Position: </span><span class="position">' + player.attributes["position"] + '</span><br /> \
-										<span class="points">'+player.attributes['points']+'</span><span> bird seeds</span> \
+										<!-- <span>Position: </span><span class="position">' + player.attributes["position"] + '</span><br /> --> \
+										<span class="points">'+player.attributes['points']+'<span> bird seeds</span></span> \
 									</div> \
+									<h3 class="name">'+ player.attributes['name'] + '</h3> \
 								</li>'
 							);
 						});
@@ -136,7 +136,7 @@ var Game = {
 		$('.question').remove();
 		$('.splash').remove();
 		var q = $('<div class="question splash"></div>');
-		q.append('<p>' + question.content + '</p>');
+		q.append('<h1>' + question.content + '</h1>');
 		$(question.answers).each(function(i,e) {
 			q.append('<a href="#" class="answer" rel="' + i + '">' + e + '</a>');
 		});
