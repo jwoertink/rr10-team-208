@@ -8,27 +8,32 @@ class QuestionType
     @countdown = opts[:countdown] || 10
   end
   
-  attr_reader :weight
+  attr_reader :weight, :value, :countdown
   
   def new_question(tweet, content, answers)
     question = Question.new(
+      :category => category,
       :content => content,
       :correct_answer => answers.first,
       :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    question.save
+      :value => value,
+      :countdown => countdown)
     tweet.delete
+    question.save
     question
   end
   
   def tweet_sample(n)
-    Tweet.random(n) {|_| yield _ }
+    if block_given?
+      Tweet.random(n) {|_| yield _ }
+    else
+      Tweet.random(n)
+    end
   end
   
   def tweets_with_counts(n)
     counts = Set[]
-    Tweet.random(n) do |t|
+    tweet_sample(n) do |t|
       count = yield t
       counts << count unless counts.include? count
     end
