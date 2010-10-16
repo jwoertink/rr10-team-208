@@ -5,5 +5,5 @@ production:
   database: twithole
   pool: 5
   username: root
-  password:
+  password: Puwa7Hbbk1001
   socket: /tmp/mysql.sock
