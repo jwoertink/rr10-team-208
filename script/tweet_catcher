@@ -2,6 +2,7 @@
 
 ENV["RAILS_ENV"] ||= 'development'
 require File.expand_path("../../config/environment", __FILE__)
+require 'set'
 
 $twitter_user = 'twitholegame'
 $twitter_password = '4ssh0le!'
@@ -11,48 +12,72 @@ $min_tweets = 100
 $sleep_period = 30 # seconds
 
 def gen_how_many_tweets
-  if tweets = Tweet.random(3)
+  counts = Set[]
+  tweets = Tweet.random(3) do |t|
+    counts << t.tweet_count unless counts.include?(t.tweet_count)
+  end
+  if tweets
     answers = tweets.map {|_| _.tweet_count.to_s }
     question = Question.new(
       :content => "How many times has #{tweets.first.screen_name} tweeted?",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
 end
 
 def gen_how_many_characters
-  if tweets = Tweet.random(3)
+  counts = Set[]
+  tweets = Tweet.random(3) do |t|
+    counts << t.text.size unless counts.include?(t.text.size)
+  end
+  if tweets
     answers = tweets.map {|_| _.text.size.to_s }
     question = Question.new(
       :content => "#{tweets.first.text}\n\nHow many characters are in this tweet?",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
 end
 
 def gen_how_many_followers
-  if tweets = Tweet.random(3)
+  counts = Set[]
+  tweets = Tweet.random(3) do |t|
+    counts << t.follower_count unless counts.include?(t.follower_count)
+  end
+  if tweets
     answers = tweets.map {|_| _.follower_count.to_s }
     question = Question.new(
       :content => "How many followers does #{tweets.first.screen_name} have?",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
 end
 
 def gen_how_many_retweets
-  if tweets = Tweet.random(3)
+  counts = Set[]
+  tweets = Tweet.random(3) do |t|
+    counts << t.retweet_count unless counts.include?(t.retweet_count)
+  end
+  if tweets
     answers = tweets.map {|_| _.retweet_count.to_s }
     question = Question.new(
       :content => "#{tweets.first.text}\n\nHow many times was this retweeted?",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
@@ -64,7 +89,9 @@ def gen_guess_tag_for_tweet
     question = Question.new(
       :content => "#{tweets.first.text_without_hash_tags}\n\nGuess the missing hash tag",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
@@ -76,7 +103,9 @@ def gen_guess_tweet_for_tag
     question = Question.new(
       :content => "#{tweets.first.hash_tags.first}\n\nWhich tweet does this hash tag go with?",
       :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1))
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
@@ -102,16 +131,17 @@ def generate_questions
 end
 
 def good_tweet?(tweet)
-  tweet.hash_tags.size > 0
+  tweet.hash_tags.size > 0 or
+  tweet.retweet_count > 0
 end
 
 def catch_tweet(status)
   tweet = Tweet.new(
       :screen_name => status.user.screen_name,
       :text => status.text,
-      :tweet_count => status.user.statuses_count,
-      :follower_count => status.user.follower_count,
-      :retweet_count => status.retweet_count)
+      :tweet_count => status.user.statuses_count || 0,
+      :follower_count => status.user.followers_count || 0,
+      :retweet_count => status.retweet_count || 0)
   tweet.save if good_tweet? tweet
 rescue Exception => e
   Rails.logger.error e

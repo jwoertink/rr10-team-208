@@ -1,7 +1,177 @@
+$black = rgba(0, 0, 0, 1)
+$gray = #658896
 $light-blue: rgba(235, 251, 255, 1)
+$transparent-black: rgba(0, 0, 0, 0.6)
+$white = rgba(255, 255, 255, 1)
 
-body
+@font-face
+  font-family: "MEgalopolis"
+  src: url("/fonts/megalopolisextra-webfont.eot")
+  src: local('☺'), url('/fonts/megalopolisextra-webfont.woff') format('woff'), url('/fonts/megalopolisextra-webfont.ttf') format('truetype'), url('/fonts/megalopolisextra-webfont.svg') format('svg')
+  font-weight: normal
+  font-style: normal
+
+@mixin rounded-corners($radius: 12px)
+  $radius: 12px
+  border-radius: $radius
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+
+@mixin shadow($radius: 15px)
+  $color: lighten($transparent-black, 50%)
+  box-shadow: 0 0 $radius $color
+  -webkit-box-shadow: 0 0 $radius $color
+  -moz-box-shadow: 0 0 $radius $color
+
+@mixin button
+  background: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
+  border-radius: 12px
+  border: 0 none
+  color: darken($light-blue, 65%)
+  font-family: Megalopolis, Helvetica, Arial, sans-serif
+  font-size: 1.5em
+  margin: 50px 0
+  padding: 15px 20px
+  text-decoration: none
+
+  &:hover
+    background: -webkit-gradient(linear, left top, left bottom, from(darken($light-blue, 10%)), to(darken($light-blue, 20%)))
+    color: darken($light-blue, 85%)
+
+*
+  margin: 0
+  padding: 0
+
+html, body
   background-color: $light-blue
+  font-family: Megalopolis, Helvetica, Arial, sans-serif
+  height: 100%
+
+h1
+  font-size: 36px
+  margin-bottom: 10px
+  text-shadow: 0px 0px 15px lighten($transparent-black, 25%)
+
+p
+  margin-bottom: 10px
+
+ol, ul
+  margin-left: 20px
+
+.clear
+  clear: both
 
 .center
   text-align: center
+
+.button
+  @include button
+
+#wrapper
+  min-height: 80%
+  padding: 20px
+
+#logo
+  margin-top: 5%
+
+.splash
+  @include rounded-corners
+  @include shadow
+  background-color: $transparent-black
+  color: $white
+  padding: 35px
+  position: absolute
+  text-align: center
+  z-index: 100
+
+  .controls
+    margin-top: 40px
+
+#welcome
+  display: none
+
+#new_player_form
+  width: 550px
+  height: 400px
+
+#start_screen
+  width: 300px
+  height: 300px
+
+#setting_player
+  width: 400px
+  height: 100px 
+
+.question
+  width: 800px
+  height: 250px
+
+.question a
+  color: #BEFFA0
+  margin: 0 10px
+
+.field
+  margin: 10px
+
+.field label
+  font-size: 18px
+  margin-right: 10px
+
+.field .playername
+  @include rounded-corners(4px)
+  border: 0 none
+  font-size: 20px
+  padding: 10px
+
+#players
+  background: url(/images/players_background.png) bottom center repeat-x
+  color: $white
+  margin: 0
+  text-align: center
+  width: 100%
+
+  li
+    display: inline-block
+    margin-right: 10px
+
+    .player
+      @include rounded-corners(4px)
+      background: url(http://a2.twimg.com/profile_images/28196462/jamis_icon_new.png) top left no-repeat
+      border: 3px solid $black
+      height: 130px
+      margin-bottom: 10px
+      position: relative
+      text-align: right
+      width: 130px
+
+      &.current
+        height: 150px
+        width: 150px
+
+      .points
+        background-color: $transparent-black
+        bottom: 0
+        display: block
+        font-size: 34px
+        left: 0
+        padding: 10px
+        position: absolute
+        width: 88%
+
+        span
+          display: block
+          font-size: 14px
+          margin-top: -5px
+
+    h3.name
+      font-size: 14px
+      text-align: center
+
+#footer
+  padding: 20px 0 50px
+  text-align: center
+  color: $gray
+  font-size: 14px
+
+  a
+    color: $gray
