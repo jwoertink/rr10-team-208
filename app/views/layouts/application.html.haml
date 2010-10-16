@@ -1,0 +1,27 @@
+!!! 5
+
+%html
+%head
+  %title tw!th*le
+  = csrf_meta_tag
+  = stylesheet_link_tag("reset", "application")
+
+%body
+  = yield
+  
+  #welcome.splash
+    %h1 Welcome to TwitHole
+    %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget arcu mi, eu pretium neque. Aenean pretium, felis a aliquam egestas, magna est consectetur neque, a consectetur justo sem sed lacus.
+    = link_to('Check out the Rules!', '#', :class => 'rules_link')
+    = link_to('Play the !@%*# Game!', '#', :class => 'play_game')
+  %br{:clear => 'all'}
+  #footer
+    &copy; 2010 SinCityRuby.com
+    = link_to('Terms &amp; Conditions', '')
+    Designed for RailsRumble.com 2010
+    
+  :javascript
+    var rumbleUrl = 'http://railsrumble.com';
+
+  = javascript_include_tag("jquery.min", 'easing', 'game_helpers', 'game', :defaults)
+  = javascript_include_tag("http://blog.railsrumble.com/javascripts/rumble-r10-sash.js")

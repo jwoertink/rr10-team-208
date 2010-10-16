@@ -1,0 +1,116 @@
+$light-blue: rgba(235, 251, 255, 1)
+$transparent-black: rgba(0, 0, 0, 0.6)
+@mixin rounded-corners
+  $radius: 8px
+  border-radius: $radius
+  -moz-border-radius: $radius
+  -webkit-border-radius: $radius
+
+*
+  margin: 0
+  padding: 0
+
+html, body
+  height: 100%
+
+body
+  background-color: $light-blue
+
+a img, img
+  border: 0
+
+a:active, a:focus
+  outline: none
+  
+ol, ul
+  margin-left: 20px
+  
+#wrapper
+  min-height: 100%
+  padding: 20px
+  
+.center
+  text-align: center
+
+#logo
+
+#welcome
+  display: none
+  position: absolute
+  z-index: 100
+  background-color: $transparent-black
+  padding: 10px
+  border: 1px solid #000000
+  text-align: center
+  width: 0px
+  height: 0px
+  color: #ffffff
+  @include rounded-corners
+
+.splash
+  position: absolute
+  z-index: 100
+  background-color: $transparent-black
+  padding: 10px
+  border: 1px solid #000000
+  text-align: center
+  width: 0px
+  height: 0px
+  color: #ffffff
+  @include rounded-corners
+  
+#new_player_form
+  width: 550px
+  height: 400px
+
+#start_screen
+  width: 300px
+  height: 300px
+
+#setting_player
+  width: 400px
+  height: 100px 
+
+.question
+  width: 800px
+  height: 250px
+
+#welcome a
+  color: $light-blue
+  margin: 0 10px
+
+.field
+  margin: 10px
+  
+.field label
+  font-size: 18px
+  
+.field .playername
+  border: 1px solid #000000
+  font-size: 20px
+  padding: 3px
+
+#players
+  list-style: none
+  
+#players li
+  float: left
+  margin-right: 10px
+
+#players .player
+  background-color: #ffffff
+  border: 1px solid #000000
+  padding: 4px
+  
+#players .player.current
+  background-color: #BAFF9B !important
+  border: 1px solid #388813 !important
+
+#footer
+  padding: 20px 0 50px
+  text-align: center
+  color: #658896
+  font-size: 14px
+
+#footer a
+  color: #658896
