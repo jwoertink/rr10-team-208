@@ -37,7 +37,7 @@ function setButtonControls() {
 
 function centerSplashScreen(w, h) {
 	$('.splash').css({
-		top: "100px",
+		top: "25%",
 		left: (( $(window).width() - (w + 60)) / 2+$(window).scrollLeft() + "px")
 	});
 }
