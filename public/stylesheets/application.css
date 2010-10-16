@@ -11,9 +11,9 @@
 
 html, body {
   background-color: #ebfbff;
-  background-image: url(/images/clouds.png), url(/images/trees.png);
-  background-position: top center, bottom center;
-  background-repeat: repeat, repeat-x;
+  background-image: url(/images/trees.png), url(/images/clouds.png);
+  background-position: bottom center, bottom center;
+  background-repeat: repeat-x, repeat;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
   height: 100%; }
 
@@ -72,7 +72,7 @@ ol, ul {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
-  background-image: -moz-linear-gradient(center bottom, #ebfbff 0%, #6be1ff 50%);
+  background-image: -moz-linear-gradient(center top, #ebfbff 0%, #6be1ff 50%);
   border: 0 none;
   color: #007f9e !important;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
@@ -94,7 +94,7 @@ a.button {
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
-  background-image: -moz-linear-gradient(center bottom, #ebfbff 0%, #6be1ff 50%);
+  background-image: -moz-linear-gradient(center top, #ebfbff 0%, #6be1ff 50%);
   border: 0 none;
   color: #007f9e !important;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
@@ -117,7 +117,7 @@ a:active, a:focus {
   padding: 20px; }
 
 #logo {
-  margin: 7% auto 0; }
+  margin: 50px auto 0; }
 
 #flash {
   border-radius: 12px;
@@ -147,6 +147,11 @@ a:active, a:focus {
 #flash.notice {
   background-color: rgba(250, 250, 0, 0.9); }
 
+.counter {
+  font-size: 142px;
+  letter-spacing: -5px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6); }
+
 .splash {
   border-radius: 12px;
   -moz-border-radius: 12px;
@@ -156,7 +161,7 @@ a:active, a:focus {
   -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
   background-color: rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(64, 64, 64, 0.6)), to(rgba(0, 0, 0, 0.6)));
-  background-image: -moz-linear-gradient(center bottom, white 0%, rgba(0, 0, 0, 0.6) 50%);
+  background-image: -moz-linear-gradient(center top, rgba(115, 115, 115, 0.6) 0%, rgba(26, 26, 26, 0.6) 50%);
   color: white;
   padding: 35px;
   position: absolute;
@@ -194,8 +199,10 @@ a:active, a:focus {
   height: 300px; }
 
 #setting_player {
-  width: 400px;
-  height: 100px; }
+  width: 400px; }
+
+.psa {
+  max-width: 70%; }
 
 .question {
   width: 800px;

@@ -27,7 +27,7 @@ $white = rgba(255, 255, 255, 1)
   @include rounded-corners(12px)
   @include shadow(10px, darken($transparent-black, 25%))
   background-image: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
-  background-image: -moz-linear-gradient(center bottom, $light-blue 0%, darken($light-blue, 25%) 50%)
+  background-image: -moz-linear-gradient(center top, $light-blue 0%, darken($light-blue, 25%) 50%)
   border: 0 none
   color: darken($light-blue, 65%) !important
   font-family: Megalopolis, Helvetica, Arial, sans-serif
@@ -49,9 +49,9 @@ $white = rgba(255, 255, 255, 1)
 
 html, body
   background-color: $light-blue
-  background-image: url(/images/clouds.png), url(/images/trees.png)
-  background-position: top center, bottom center
-  background-repeat: repeat, repeat-x
+  background-image: url(/images/trees.png), url(/images/clouds.png)
+  background-position: bottom center, bottom center
+  background-repeat: repeat-x, repeat
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   height: 100%
 
@@ -117,7 +117,7 @@ a:active, a:focus
   padding: 20px
 
 #logo
-  margin: 7% auto 0
+  margin: 50px auto 0
 
 #flash
   @include rounded-corners
@@ -142,13 +142,18 @@ a:active, a:focus
     
 #flash.notice
   background-color: rgba(250, 250, 0, 0.9)
-  
+
+.counter
+  font-size: 142px
+  letter-spacing: -5px
+  text-shadow: 0 0 10px $transparent-black
+
 .splash
   @include rounded-corners
   @include shadow
   background-color: $transparent-black
   background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($transparent-black, 25%)), to($transparent-black))
-  background-image: -moz-linear-gradient(center bottom, lighten($light-blue, 25%) 0%, $transparent-black 50%)
+  background-image: -moz-linear-gradient(center top, lighten($transparent-black, 45%) 0%, lighten($transparent-black, 10%) 50%)
   color: $white
   padding: 35px
   position: absolute
@@ -194,7 +199,9 @@ a:active, a:focus
 
 #setting_player
   width: 400px
-  height: 100px 
+
+.psa
+  max-width: 70%
 
 .question
   width: 800px
