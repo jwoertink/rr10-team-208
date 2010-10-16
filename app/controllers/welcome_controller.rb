@@ -6,6 +6,6 @@ class WelcomeController < ApplicationController
   end
   
   def official_rules
+    render(:layout => false)
   end
-  
 end

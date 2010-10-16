@@ -1,5 +1,50 @@
 var currentPlayer;
 
+var Player = function(args) {
+	this.attributes = {
+		name: args["name"],
+		points: args["points"],
+		position: args["position"]
+	}
+};
+var Action = {
+	displayFlash: function() {
+		$('#flash').remove();
+		if(Flash['correct'] != '') {
+			var correctMsg = $('<div id="flash" class="correct"></div>');
+			$(correctMsg).text(Flash['correct']);
+			$('body').append(correctMsg);
+		} else if(Flash['wrong'] != '') {
+			var wrongMsg = $('<div id="flash" class="wrong"></div>');
+			$(wrongMsg).text(Flash['wrong']);
+			$('body').append(wrongMsg);
+		} else if(Flash['notice'] != '') {
+			var noticeMsg = $('<div id="flash" class="notice"></div>');
+			$(noticeMsg).text(Flash['notice']);
+			$('body').append(noticeMsg);
+		} else {
+			// what else is there?
+		}
+		$('#flash');
+		$('#flash').show('fast', function() {
+		 	Action.resetFlash();
+			setTimeout(function() {
+				$('#flash').fadeOut('fast');
+			}, 2500);
+		});
+	},
+	resetFlash: function() {
+		for(key in Flash) {
+			Flash[key] = '';
+		}
+	}
+}
+var Flash = {
+	correct: "",
+	wrong: "",
+	notice: ""
+}
+
 var Game = {
 	intervalTimers: [],
 	timeoutTimers: [],
@@ -7,9 +52,13 @@ var Game = {
 	init: function() {
 		$('#gameform').submit(function() {
 			var playersCount =  Game.players.length;
+			var players = [];
 			$('.playername').each(function(i,e) {
 				if($(e).val() != '') {
-					playersCount += 1;
+					if($.inArray($(e).val(), players) == -1) {
+						players.push($(e).val());
+						playersCount += 1;
+					}
 				}
 			});
 			if(playersCount >= 3) {
@@ -23,7 +72,8 @@ var Game = {
 				//Do stuff to the form
 				Game.randomizePlayers();
 			} else {
-				alert('You must add more players');
+				Flash['notice'] = 'You must add more players. Be sure there are no duplicates';
+				Action.displayFlash();
 			}			
 
 			return false;
@@ -117,6 +167,27 @@ var Game = {
 		$('.player').removeClass('curren');
 		$(currentPlayer).addClass('current');
 	},
+	setNewPlayer: function() {
+		var currentIndex = $('.player').toArray().indexOf(currentPlayer[0]);
+		var playerCount = $('.player').length;
+		if(currentIndex != -1) {
+			if(currentIndex < (playerCount - 1)) {
+				if((currentIndex + 1) > playerCount) {
+					Game.setFirstPlayer();
+				} else {
+					currentPlayer = $('.player').eq(currentIndex + 1);
+					$('.player').removeClass('current');
+					$(currentPlayer).addClass('current');
+				}
+			} else {
+				Game.setFirstPlayer();
+			}
+		} else {
+			Game.setFirstPlayer();
+		}
+
+		return currentPlayer;
+	},
 	grabQuestion: function() {
 		if(currentPlayer != null) {
 			$.ajax({
@@ -124,16 +195,14 @@ var Game = {
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
-					var questions = data.questions
-					var question = questions[Math.floor(Math.random() * questions.length)];
-					Game.displayQuestion(question);
+					Game.displayQuestion(data.question);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert('PORKCHOP SANDWICHES. GTFO: ' + errorThrown);
 				}
 			});
 		} else {
-			endRound();
+			Game.endRound();
 		}
 	},
 	displayQuestion: function(question) {
@@ -157,7 +226,8 @@ var Game = {
 		timeoutTimer = setTimeout(function() {
 			clearInterval(intervalTimer);
 			$('.splash').remove();
-			console.log('Something happens because your bitch ass just got the question wrong!');
+			Flash['wrong'] = 'WRONG!! Drink up!';
+			Action.displayFlash();
 			Game.nextTurn();
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
@@ -169,10 +239,13 @@ var Game = {
 			var correctAnswer = question.selection;
 			var selectedAnswer = $(this).attr('rel');
 			if(selectedAnswer == correctAnswer) {
+				Flash['correct'] = 'YAY! Well played';
+				Action.displayFlash();
 				var newPoints = parseInt($('.points', currentPlayer).text(), 10) - question.value;
 				$('.points', currentPlayer).text(newPoints);
 			} else {
-				console.log('Something happens because your bitch ass just got the question wrong!');
+				Flash['wrong'] = 'WRONG!! Drink up!';
+				Action.displayFlash();
 			}
 			Game.nextTurn();
 
@@ -192,6 +265,12 @@ var Game = {
 					clearTimeout(e);
 				});
 			break;
+			case '' :
+				$(Game.intervalTimers).each(function(i,e) {
+					clearInterval(e);
+					clearTimeout(e);
+				});
+			break;
 		}
 		Game.intervalTimers = [];
 		Game.timeoutTimers = [];
@@ -203,31 +282,27 @@ var Game = {
 			dataType: 'json',
 			type: 'GET',
 			success: function(data) {
-				var psa = $('<div class="splash"></div>');
-				Game.log('PSA Data ' + data);
-				//$('body').prepend(data);
-				// $('a[rel=ready]').live('click', function() {
-				// 					var playerStatus = setNewPlayer();
-				// 					if(playerStatus != null) {
-				// 						grabQuestion();
-				// 					} else {
-				// 						endRound();
-				// 					}
-				// 
-				// 					return false;
-				// 				});
+				var psa = $('<div class="psa splash"></div>');
+				$(psa).append('<p>' + data.psa.text + '</p>');
+				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
+				$('body').prepend(psa);
+				$('a[rel=ready]').live('click', function() {
+				  var playerStatus = Game.setNewPlayer();
+					if(playerStatus != null) {
+						Game.grabQuestion();
+				 	} else {
+				 		Game.endRound();
+				 	}
+				 		
+					return false;
+				});
 			},
 			error: function(a, b, error) {
 				alert(error);
 			}
 		});
-	}
-	
-};
-var Player = function(args) {
-	this.attributes = {
-		name: args["name"],
-		points: args["points"],
-		position: args["position"]
+	},
+	endRound: function() {
+		//things to happen when a round is complete....
 	}
 };
