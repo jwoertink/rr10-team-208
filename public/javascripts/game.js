@@ -1,5 +1,54 @@
 var currentPlayer;
 
+var Player = function(args) {
+	this.attributes = {
+		name: args["name"],
+		points: args["points"],
+		position: args["position"]
+	}
+};
+var Action = {
+	displayFlash: function() {
+		$('#flash').remove();
+		if(Flash['correct'] != '') {
+			var correctMsg = $('<div id="flash" class="correct"></div>');
+			$(correctMsg).text(Flash['correct']);
+			$('body').append(correctMsg);
+		} else if(Flash['wrong'] != '') {
+			var wrongMsg = $('<div id="flash" class="wrong"></div>');
+			$(wrongMsg).text(Flash['wrong']);
+			$('body').append(wrongMsg);
+		} else if(Flash['notice'] != '') {
+			var noticeMsg = $('<div id="flash" class="notice"></div>');
+			$(noticeMsg).text(Flash['notice']);
+			$('body').append(noticeMsg);
+		} else {
+			// what else is there?
+		}
+		$('#flash').css({
+			width: $(window).width(),
+			height: '100%'
+		});
+		$('#flash');
+		$('#flash').show('fast', function() {
+		 	Action.resetFlash();
+			setTimeout(function() {
+				$('#flash').fadeOut('fast');
+			}, 2500);
+		});
+	},
+	resetFlash: function() {
+		for(key in Flash) {
+			Flash[key] = '';
+		}
+	}
+}
+var Flash = {
+	correct: "",
+	wrong: "",
+	notice: ""
+}
+
 var Game = {
 	intervalTimers: [],
 	timeoutTimers: [],
@@ -27,7 +76,8 @@ var Game = {
 				//Do stuff to the form
 				Game.randomizePlayers();
 			} else {
-				alert('You must add more players. Be sure there are no duplicates');
+				Flash['notice'] = 'You must add more players. Be sure there are no duplicates';
+				Action.displayFlash();
 			}			
 
 			return false;
@@ -152,7 +202,7 @@ var Game = {
 				}
 			});
 		} else {
-			endRound();
+			Game.endRound();
 		}
 	},
 	displayQuestion: function(question) {
@@ -176,7 +226,8 @@ var Game = {
 		timeoutTimer = setTimeout(function() {
 			clearInterval(intervalTimer);
 			$('.splash').remove();
-			console.log('Something happens because your bitch ass just got the question wrong!');
+			Flash['wrong'] = 'WRONG!! Drink up!';
+			Action.displayFlash();
 			Game.nextTurn();
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
@@ -188,10 +239,13 @@ var Game = {
 			var correctAnswer = question.selection;
 			var selectedAnswer = $(this).attr('rel');
 			if(selectedAnswer == correctAnswer) {
+				Flash['correct'] = 'YAY! Well played';
+				Action.displayFlash();
 				var newPoints = parseInt($('.points', currentPlayer).text(), 10) - question.value;
 				$('.points', currentPlayer).text(newPoints);
 			} else {
-				console.log('Something happens because your bitch ass just got the question wrong!');
+				Flash['wrong'] = 'WRONG!! Drink up!';
+				Action.displayFlash();
 			}
 			Game.nextTurn();
 
@@ -208,6 +262,12 @@ var Game = {
 			break;
 			case 'timeout' :
 				$(Game.timeoutTimers).each(function(i, e) {
+					clearTimeout(e);
+				});
+			break;
+			case '' :
+				$(Game.intervalTimers).each(function(i,e) {
+					clearInterval(e);
 					clearTimeout(e);
 				});
 			break;
@@ -241,13 +301,8 @@ var Game = {
 				alert(error);
 			}
 		});
-	}
-	
-};
-var Player = function(args) {
-	this.attributes = {
-		name: args["name"],
-		points: args["points"],
-		position: args["position"]
+	},
+	endRound: function() {
+		//things to happen when a round is complete....
 	}
 };
