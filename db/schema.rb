@@ -10,6 +10,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20101016055546) do
+
+  create_table "questions", :force => true do |t|
+    t.text     "content"
+    t.text     "correct_answer"
+    t.text     "incorrect_answers"
+    t.integer  "value"
+    t.integer  "countdown"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tweets", :force => true do |t|
+    t.string   "screen_name", :limit => 20
+    t.string   "text",        :limit => 140
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
