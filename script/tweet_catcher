@@ -40,6 +40,7 @@ def catch_tweet(status)
   tweet = Tweet.new(
       :screen_name => status.user.screen_name,
       :text => status.text,
+      :profile_image_url => status.user.profile_image_url,
       :tweet_count => status.user.statuses_count || 0,
       :follower_count => status.user.followers_count || 0,
       :retweet_count => status.retweet_count || 0,
