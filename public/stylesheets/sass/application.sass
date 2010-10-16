@@ -17,14 +17,14 @@ $white = rgba(255, 255, 255, 1)
   -moz-border-radius: $radius
   -webkit-border-radius: $radius
 
-@mixin shadow($radius: 15px)
-  $color: lighten($transparent-black, 50%)
+@mixin shadow($radius: 15px, $color: lighten($transparent-black, 50%))
   box-shadow: 0 0 $radius $color
   -webkit-box-shadow: 0 0 $radius $color
   -moz-box-shadow: 0 0 $radius $color
 
 @mixin button
   @include rounded-corners(12px)
+  @include shadow(10px, darken($transparent-black, 25%))
   background-image: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
   background-image: -moz-linear-gradient(center bottom, $light-blue 0%, darken($light-blue, 25%) 50%)
   border: 0 none
@@ -44,7 +44,7 @@ $white = rgba(255, 255, 255, 1)
   padding: 0
 
 html, body
-  background-color: $light-blue
+  background: $light-blue url(/images/clouds.png) top left
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   height: 100%
 
@@ -79,6 +79,8 @@ ol, ul
   @include rounded-corners
   @include shadow
   background-color: $transparent-black
+  background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($transparent-black, 25%)), to(darken($transparent-black, 10%)))
+  background-image: -moz-linear-gradient(center bottom, $light-blue 0%, darken($light-blue, 25%) 50%)
   color: $white
   padding: 35px
   position: absolute
