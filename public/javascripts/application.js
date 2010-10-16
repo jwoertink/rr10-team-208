@@ -8,13 +8,11 @@ function openingScene() {
 			showWelcomeScreen();
 		});
 		$('#logo').fadeOut();
-	  showWelcomeScreen();
 	}, 2000);
 }
 
 function showWelcomeScreen() {
   centerSplashScreen(600, 120);
-	//$('#welcome').show();
   $('#welcome').animate({
     width: '600px'
 		
