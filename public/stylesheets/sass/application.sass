@@ -1,6 +1,7 @@
 $black = rgba(0, 0, 0, 1)
 $gray = #658896
-$light-blue: rgba(235, 251, 255, 1)
+$light-blue = rgba(235, 251, 255, 1)
+$teal = rgba(101, 166, 168, 1)
 $transparent-black: rgba(0, 0, 0, 0.6)
 $white = rgba(255, 255, 255, 1)
 
@@ -47,7 +48,10 @@ $white = rgba(255, 255, 255, 1)
   padding: 0
 
 html, body
-  background: $light-blue url(/images/clouds.png) top left
+  background-color: $light-blue
+  background-image: url(/images/clouds.png), url(/images/trees.png)
+  background-position: top center, bottom center
+  background-repeat: repeat, repeat-x
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   height: 100%
 
@@ -107,7 +111,7 @@ a:active, a:focus
   padding: 20px
 
 #logo
-  margin: 10% auto 0
+  margin: 7% auto 0
 
 #flash
   display: none
@@ -199,22 +203,25 @@ a:active, a:focus
   padding: 10px
 
 #players
-  background: url(/images/players_background.png) bottom center repeat-x
+  bottom: 37px
   color: $white
   margin: 0
+  min-height: 150px
+  position: absolute
   text-align: center
   width: 100%
 
   li
     display: inline-block
+    font-size: 12px
     margin-right: 10px
 
     .player
-      @include rounded-corners(4px)
-      background: url(http://a2.twimg.com/profile_images/28196462/jamis_icon_new.png) top left no-repeat
-      border: 3px solid $black
+      @include shadow
+      border: 5px solid $black
       height: 130px
       margin-bottom: 10px
+      overflow: hidden
       position: relative
       text-align: right
       width: 130px
@@ -223,20 +230,47 @@ a:active, a:focus
         height: 150px
         width: 150px
 
+      .president, .vice_president, .twithole, .citizen
+        position: absolute
+        height: 86px
+        margin-left: 8px
+        width: 36px
+        z-index: 100
+
+      .president
+        background: url(/images/ribbons.png) 0 0 no-repeat
+
+      .vice_president
+        background: url(/images/ribbons.png) -36px 0 no-repeat
+
+      .citizen
+        background: url(/images/ribbons.png) -72px 0 no-repeat
+
+      .twithole
+        background: url(/images/ribbons.png) -108px 0 no-repeat
+
+
+      img
+        max-width: 100%
+
       .points
         background-color: $transparent-black
         bottom: 0
         display: block
-        font-size: 34px
         left: 0
-        padding: 10px
         position: absolute
-        width: 88%
+        width: 100%
 
-        span
+        strong
           display: block
-          font-size: 14px
-          margin-top: -5px
+          font-size: 34px
+          margin: 5px 10px 0
+
+        em
+          display: block
+          font-size: 12px
+          font-style: normal
+          margin: -5px 10px 5px
 
     h3.name
       font-size: 14px
