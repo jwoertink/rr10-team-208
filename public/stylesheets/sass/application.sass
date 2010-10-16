@@ -24,8 +24,9 @@ $white = rgba(255, 255, 255, 1)
   -moz-box-shadow: 0 0 $radius $color
 
 @mixin button
-  background: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
-  border-radius: 12px
+  @include rounded-corners(12px)
+  background-image: -webkit-gradient(linear, left top, left bottom, from($light-blue), to(darken($light-blue, 25%)))
+  background-image: -moz-linear-gradient(center bottom, $light-blue 0%, darken($light-blue, 25%) 50%)
   border: 0 none
   color: darken($light-blue, 65%)
   font-family: Megalopolis, Helvetica, Arial, sans-serif
