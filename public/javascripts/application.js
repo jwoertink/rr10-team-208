@@ -28,7 +28,7 @@ function setButtonControls() {
 	});
 	
 	$('#rules_link').click(function() {
-		alert('Reading the rules');
+		showRulesScreen();
 		return false;
 	});
 }
@@ -37,6 +37,32 @@ function centerSplashScreen(w, h) {
 	$('.splash').css({
 		top: "25%",
 		left: (( $(window).width() - (w + 60)) / 2+$(window).scrollLeft() + "px")
+	});
+}
+
+function showRulesScreen() {
+	$('.splash').hide();
+	$.ajax({
+		url: '/official_rules',
+		dataType: 'html',
+		type: 'GET',
+		success: function(data) {
+			$('body').prepend(data);
+			$('.splash').css({
+				width: '600px',
+				top: "100px",
+				left: (( $(window).width() - 650) / 2+$(window).scrollLeft() + "px")
+			});
+			$('.splash').fadeIn('fast');
+
+	    $('a#back_to_game').live('click', function() {
+	      $('.splash').remove();
+        showWelcomeScreen();
+      });
+		},
+		error: function(a, b, error) {
+			alert(error);
+		}
 	});
 }
 

@@ -25,10 +25,6 @@ var Action = {
 		} else {
 			// what else is there?
 		}
-		$('#flash').css({
-			width: $(window).width(),
-			height: '100%'
-		});
 		$('#flash');
 		$('#flash').show('fast', function() {
 		 	Action.resetFlash();

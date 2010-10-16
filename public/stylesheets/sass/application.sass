@@ -93,6 +93,12 @@ ol, ul
   visibility: hidden
   width: 0
 
+.text-left
+  text-align: left
+
+.text-right
+  text-align: right
+
 .center
   text-align: center
 
@@ -114,23 +120,28 @@ a:active, a:focus
   margin: 7% auto 0
 
 #flash
+  @include rounded-corners
+  @include shadow
+  color: $white
   display: none
-  position: absolute
-  z-index: 1000
-  text-align: center
   font-size: 72px
   padding: 50px
-  top: 0
-  @include rounded-corners
+  position: absolute
+  text-align: center
+  text-shadow: 0 0 10px $transparent-black
+  top: 150px
+  left: 17%
+  width: 60%
+  z-index: 1000
   
 #flash.correct
-  background-color: rgba(30, 255, 0, 0.6)
+  background-color: rgba(30, 255, 0, 0.9)
   
 #flash.wrong
-  background-color: rgba(255, 51, 0, 0.6)
+  background-color: rgba(255, 51, 0, 0.9)
     
 #flash.notice
-  background-color: rgba(250, 250, 0, 0.6)
+  background-color: rgba(250, 250, 0, 0.9)
   
 .splash
   @include rounded-corners
@@ -151,6 +162,10 @@ a:active, a:focus
     right: -33px
     top: -33px
     width: 100px
+
+  .scroll-overflow
+    height: 450px
+    overflow: auto
 
   a
     color: $white
