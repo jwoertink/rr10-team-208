@@ -4,9 +4,9 @@ $(function() {
 
 function openingScene() {
 	setTimeout(function() {
-		// $('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
-		// 	showWelcomeScreen();
-		// });
+		$('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
+			showWelcomeScreen();
+		});
 		$('#logo').fadeOut();
 	  showWelcomeScreen();
 	}, 2000);
@@ -14,8 +14,10 @@ function openingScene() {
 
 function showWelcomeScreen() {
   centerSplashScreen(600, 120);
+	//$('#welcome').show();
   $('#welcome').animate({
-    width: '600px',
+    width: '600px'
+		
   }, 1000, 'easeOutBounce', function() {
     setButtonControls();
   });
