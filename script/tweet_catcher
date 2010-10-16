@@ -1,0 +1,90 @@
+#!/usr/bin/env ruby
+
+ENV["RAILS_ENV"] ||= 'development'
+require File.expand_path("../../config/environment", __FILE__)
+
+$twitter_user = 'twitholegame'
+$twitter_password = '4ssh0le!'
+$max_tweets = 100
+$max_questions = 100
+$min_tweets = 50
+$sleep_period = 30 # seconds
+
+def gen_guess_tag_for_tweet
+  if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
+    question = Question.new(
+      :content => "#{tweets.first.text_without_hash_tags}\n\nGuess the missing hash tag",
+      :correct_answer => tweets.first.hash_tags.first,
+      :incorrect_answers => tweets.drop(1).map {|_| _.hash_tags.first })
+    tweets.first.delete
+    question.save
+  end
+end
+
+def gen_guess_tweet_for_tag
+  if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
+    question = Question.new(
+      :content => "#{tweets.first.hash_tags.first}\n\nWhich tweet does this hash tag go with?",
+      :correct_answer => tweets.first.text_without_hash_tags,
+      :incorrect_answers => tweets.drop(1).map {|_| _.text_without_hash_tags })
+    tweets.first.delete
+    question.save
+  end
+end
+
+def generate_question
+  case rand(2)
+  when 0 then gen_guess_tag_for_tweet
+  when 1 then gen_guess_tweet_for_tag
+  end
+end
+
+def generate_questions
+  if Question.count < $max_questions and Tweet.count > $min_tweets
+    generate_question
+  else
+    sleep $sleep_period
+  end
+end
+
+def good_tweet?(tweet)
+  tweet.hash_tags.size > 0
+end
+
+def catch_tweet(status)
+  tweet = Tweet.new(
+      :screen_name => status.user.screen_name,
+      :text => status.text)
+  tweet.save if good_tweet? tweet
+end
+
+def catch_tweets
+  TweetStream::Client.new($twitter_user, $twitter_password).sample do |status, client|
+    if Tweet.count < $max_tweets
+      catch_tweet(status)
+    else
+      sleep $sleep_period
+    end
+  end
+end
+
+def continually
+  loop do
+    begin
+      yield
+    rescue Exception => e
+      Rails.logger.error e
+    end
+  end
+end
+
+pid = fork do
+  threads = [
+    Thread.new { continually { catch_tweets } },
+    Thread.new { continually { generate_questions } }
+  ]
+  threads.each {|_| _.join }
+end
+
+#Process.detach pid
+Process.wait
