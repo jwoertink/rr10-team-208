@@ -12,6 +12,13 @@
 
 ActiveRecord::Schema.define(:version => 20101016064848) do
 
+  create_table "psas", :force => true do |t|
+    t.text     "text"
+    t.integer  "weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "questions", :force => true do |t|
     t.text     "content"
     t.text     "correct_answer"
@@ -25,13 +32,6 @@ ActiveRecord::Schema.define(:version => 20101016064848) do
   create_table "tweets", :force => true do |t|
     t.string   "screen_name", :limit => 20
     t.string   "text",        :limit => 140
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "psas", :force => true do |t|
-    t.text     "text"
-    t.integer  "weight"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

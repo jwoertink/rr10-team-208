@@ -4,6 +4,7 @@ gem "rails", "3.0.1"
 
 gem "capistrano"
 gem "haml", "3.0.21"
+gem "json", "1.4.6"
 gem "mysql2"
 gem "rspec-rails", "2.0.1", :group => [ :development, :test ]
 gem "tweetstream"
