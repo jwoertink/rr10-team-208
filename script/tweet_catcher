@@ -11,12 +11,19 @@ $max_questions = 200
 $min_tweets = 100
 $sleep_period = 30 # seconds
 
-def gen_how_many_tweets
-  counts = Set[]
-  tweets = Tweet.random(3) do |t|
-    counts << t.tweet_count unless counts.include?(t.tweet_count)
+def generate_question
+  case rand(6)
+  when 0 then gen_how_many_tweets
+  when 1 then gen_how_many_characters
+  when 2 then gen_how_many_followers
+  when 3 then gen_how_many_retweets
+  when 4 then gen_guess_tag_for_tweet
+  when 5 then gen_guess_tweet_for_tag
   end
-  if tweets
+end
+
+def gen_how_many_tweets
+  if tweets = tweets_with_counts(3) {|_| _.tweet_count }
     answers = tweets.map {|_| _.tweet_count.to_s }
     question = Question.new(
       :content => "How many times has #{tweets.first.screen_name} tweeted?",
@@ -30,11 +37,7 @@ def gen_how_many_tweets
 end
 
 def gen_how_many_characters
-  counts = Set[]
-  tweets = Tweet.random(3) do |t|
-    counts << t.text.size unless counts.include?(t.text.size)
-  end
-  if tweets
+  if tweets = tweets_with_counts(3) {|_| _.text.size }
     answers = tweets.map {|_| _.text.size.to_s }
     question = Question.new(
       :content => "#{tweets.first.text}\n\nHow many characters are in this tweet?",
@@ -48,11 +51,7 @@ def gen_how_many_characters
 end
 
 def gen_how_many_followers
-  counts = Set[]
-  tweets = Tweet.random(3) do |t|
-    counts << t.follower_count unless counts.include?(t.follower_count)
-  end
-  if tweets
+  if tweets = tweets_with_counts(3) {|_| _.follower_count }
     answers = tweets.map {|_| _.follower_count.to_s }
     question = Question.new(
       :content => "How many followers does #{tweets.first.screen_name} have?",
@@ -66,11 +65,7 @@ def gen_how_many_followers
 end
 
 def gen_how_many_retweets
-  counts = Set[]
-  tweets = Tweet.random(3) do |t|
-    counts << t.retweet_count unless counts.include?(t.retweet_count)
-  end
-  if tweets
+  if tweets = tweets_with_counts(3) {|_| _.retweet_count }
     answers = tweets.map {|_| _.retweet_count.to_s }
     question = Question.new(
       :content => "#{tweets.first.text}\n\nHow many times was this retweeted?",
@@ -111,14 +106,11 @@ def gen_guess_tweet_for_tag
   end
 end
 
-def generate_question
-  case rand(6)
-  when 0 then gen_how_many_tweets
-  when 1 then gen_how_many_characters
-  when 2 then gen_how_many_followers
-  when 3 then gen_how_many_retweets
-  when 4 then gen_guess_tag_for_tweet
-  when 5 then gen_guess_tweet_for_tag
+def tweets_with_counts(n)
+  counts = Set[]
+  Tweet.random(n) do |t|
+    count = yield t
+    counts << count unless counts.include? count
   end
 end
 

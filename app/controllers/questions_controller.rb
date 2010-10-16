@@ -3,9 +3,10 @@ class QuestionsController < ApplicationController
   
   def new
     Question.take_random do |question|
-      respond_to do |format|
-        format.json { render :json => question }
-      end
+      respond_with(question.to_json(
+        :only => [:content, :value, :countdown],
+        :methods => [:answers, :selection]
+      ))
     end
   end
   

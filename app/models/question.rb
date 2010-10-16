@@ -23,9 +23,4 @@ class Question < ActiveRecord::Base
     answers.find_index correct_answer
   end
   
-  def to_json
-    super(:only => [:content, :value, :countdown],
-      :methods => [:answers, :selection])
-  end
-  
 end
