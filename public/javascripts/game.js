@@ -7,9 +7,13 @@ var Game = {
 	init: function() {
 		$('#gameform').submit(function() {
 			var playersCount =  Game.players.length;
+			var players = [];
 			$('.playername').each(function(i,e) {
 				if($(e).val() != '') {
-					playersCount += 1;
+					if($.inArray($(e).val(), players) == -1) {
+						players.push($(e).val());
+						playersCount += 1;
+					}
 				}
 			});
 			if(playersCount >= 3) {
@@ -23,7 +27,7 @@ var Game = {
 				//Do stuff to the form
 				Game.randomizePlayers();
 			} else {
-				alert('You must add more players');
+				alert('You must add more players. Be sure there are no duplicates');
 			}			
 
 			return false;
@@ -113,6 +117,27 @@ var Game = {
 		$('.player').removeClass('curren');
 		$(currentPlayer).addClass('current');
 	},
+	setNewPlayer: function() {
+		var currentIndex = $('.player').toArray().indexOf(currentPlayer[0]);
+		var playerCount = $('.player').length;
+		if(currentIndex != -1) {
+			if(currentIndex < (playerCount - 1)) {
+				if((currentIndex + 1) > playerCount) {
+					Game.setFirstPlayer();
+				} else {
+					currentPlayer = $('.player').eq(currentIndex + 1);
+					$('.player').removeClass('current');
+					$(currentPlayer).addClass('current');
+				}
+			} else {
+				Game.setFirstPlayer();
+			}
+		} else {
+			Game.setFirstPlayer();
+		}
+
+		return currentPlayer;
+	},
 	grabQuestion: function() {
 		if(currentPlayer != null) {
 			$.ajax({
@@ -120,9 +145,7 @@ var Game = {
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
-					var questions = data.questions
-					var question = questions[Math.floor(Math.random() * questions.length)];
-					Game.displayQuestion(question);
+					Game.displayQuestion(data.question);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
 					alert('PORKCHOP SANDWICHES. GTFO: ' + errorThrown);
@@ -199,19 +222,20 @@ var Game = {
 			dataType: 'json',
 			type: 'GET',
 			success: function(data) {
-				var psa = $('<div class="splash"></div>');
-				Game.log('PSA Data ' + data);
-				//$('body').prepend(data);
-				// $('a[rel=ready]').live('click', function() {
-				// 					var playerStatus = setNewPlayer();
-				// 					if(playerStatus != null) {
-				// 						grabQuestion();
-				// 					} else {
-				// 						endRound();
-				// 					}
-				// 
-				// 					return false;
-				// 				});
+				var psa = $('<div class="psa splash"></div>');
+				$(psa).append('<p>' + data.psa.text + '</p>');
+				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
+				$('body').prepend(psa);
+				$('a[rel=ready]').live('click', function() {
+				  var playerStatus = Game.setNewPlayer();
+					if(playerStatus != null) {
+						Game.grabQuestion();
+				 	} else {
+				 		Game.endRound();
+				 	}
+				 		
+					return false;
+				});
 			},
 			error: function(a, b, error) {
 				alert(error);
