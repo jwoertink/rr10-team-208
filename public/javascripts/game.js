@@ -283,7 +283,7 @@ var Game = {
 			type: 'GET',
 			success: function(data) {
 				var psa = $('<div class="psa splash"></div>');
-				$(psa).append('<p>' + data.psa.text + '</p>');
+				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
 				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
 				$('body').prepend(psa);
 				$('a[rel=ready]').live('click', function() {
