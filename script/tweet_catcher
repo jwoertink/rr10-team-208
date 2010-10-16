@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= 'development'
+ENV["RAILS_ENV"] ||= 'daemon_dev'
 require File.expand_path("../../config/environment", __FILE__)
 require 'set'
 
