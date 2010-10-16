@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+ENV["RAILS_ENV"] ||= 'development'
+require File.expand_path("../../config/environment", __FILE__)
+
+$twitter_user = 'twitholegame'
+$twitter_password = '4ssh0le!'
+$max_tweets = 10
+$sleep_period = 30 # seconds
+
+def good_tweet?(tweet)
+  tweet.hash_tags.size > 1
+end
+
+def catch_tweet(status)
+  tweet = Tweet.new(
+      :screen_name => status.user.screen_name,
+      :text => status.text)
+  tweet.save if good_tweet? tweet
+end
+
+Rails.logger.info 'hello from tweet_catcher'
+
+TweetStream::Daemon.new($twitter_user, $twitter_password, 'tweet_catcher').sample do |status, client|
+#TweetStream::Client.new($twitter_user, $twitter_password).sample do |status, client|
+  require File.expand_path("../../config/environment", __FILE__)
+  Rails.logger.info 'tweet_catcher sampling'
+  if Tweet.count < $max_tweets
+    Rails.logger.info 'tweet_catcher catching'
+    catch_tweet(status)
+  else
+    Rails.logger.info 'tweet_catcher sleeping'
+    sleep $sleep_period
+  end
+end
