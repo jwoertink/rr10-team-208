@@ -10,14 +10,11 @@
   = yield
 
   #welcome.splash
+    .birdie
     %h1 Welcome to TwitHole
     %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget arcu mi, eu pretium neque. Aenean pretium, felis a aliquam egestas, magna est consectetur neque, a consectetur justo sem sed lacus.
-    .clear
-    %p.controls
-      = link_to("Check out the Rules!", "#", :id => "rules_link", :class => "button")
-      = link_to("Play the Game!", "#", :id => "play_game", :class => "button")
-    .clear
-  .clear
+    %p= link_to("Play Now and Learn as You Go!", "#", :id => "play_game", :class => "button large")
+    %p= link_to("Check out the Rules!", "#", :id => "rules_link")
 
   #footer
     &copy; 2010 SinCityRuby.com

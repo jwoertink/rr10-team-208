@@ -53,10 +53,14 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-										<!-- <span>Position: </span><span class="position">' + player.attributes["position"] + '</span><br /> --> \
-										<span class="points">'+player.attributes['points']+'<span> bird seeds</span></span> \
+									  <div class="twithole ' + player.attributes["position"] + '"></div> \
+									  <img src="/images/default_avatar.png" /> \
+										<div class="points"> \
+										  <strong>' + player.attributes['points'] + '</strong> \
+										  <em>bird seeds</em> \
+										</div> \
 									</div> \
-									<h3 class="name">'+ player.attributes['name'] + '</h3> \
+									<p class="name">' + player.attributes['name'] + '</p> \
 								</li>'
 							);
 						});
@@ -200,7 +204,7 @@ var Game = {
 			type: 'GET',
 			success: function(data) {
 				var psa = $('<div class="splash"></div>');
-				Game.log(data);
+				Game.log('PSA Data ' + data);
 				//$('body').prepend(data);
 				// $('a[rel=ready]').live('click', function() {
 				// 					var playerStatus = setNewPlayer();

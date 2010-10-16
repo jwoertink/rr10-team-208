@@ -1,21 +1,92 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= 'development'
+ENV["RAILS_ENV"] ||= 'daemon_dev'
 require File.expand_path("../../config/environment", __FILE__)
+require 'set'
 
 $twitter_user = 'twitholegame'
 $twitter_password = '4ssh0le!'
-$max_tweets = 100
-$max_questions = 100
-$min_tweets = 50
+$max_tweets = 200
+$max_questions = 200
+$min_tweets = 100
 $sleep_period = 30 # seconds
+
+def generate_question
+  case rand(6)
+  when 0 then gen_how_many_tweets
+  when 1 then gen_how_many_characters
+  when 2 then gen_how_many_followers
+  when 3 then gen_how_many_retweets
+  when 4 then gen_guess_tag_for_tweet
+  when 5 then gen_guess_tweet_for_tag
+  end
+end
+
+def gen_how_many_tweets
+  if tweets = tweets_with_counts(3) {|_| _.tweet_count }
+    answers = tweets.map {|_| _.tweet_count.to_s }
+    question = Question.new(
+      :content => "How many times has #{tweets.first.screen_name} tweeted?",
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
+    tweets.first.delete
+    question.save
+  end
+end
+
+def gen_how_many_characters
+  if tweets = tweets_with_counts(3) {|_| _.text.size }
+    answers = tweets.map {|_| _.text.size.to_s }
+    question = Question.new(
+      :content => "#{tweets.first.text}\n\nHow many characters are in this tweet?",
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
+    tweets.first.delete
+    question.save
+  end
+end
+
+def gen_how_many_followers
+  if tweets = tweets_with_counts(3) {|_| _.follower_count }
+    answers = tweets.map {|_| _.follower_count.to_s }
+    question = Question.new(
+      :content => "How many followers does #{tweets.first.screen_name} have?",
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
+    tweets.first.delete
+    question.save
+  end
+end
+
+def gen_how_many_retweets
+  if tweets = tweets_with_counts(3) {|_| _.retweet_count }
+    answers = tweets.map {|_| _.retweet_count.to_s }
+    question = Question.new(
+      :content => "#{tweets.first.text}\n\nHow many times was this retweeted?",
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
+    tweets.first.delete
+    question.save
+  end
+end
 
 def gen_guess_tag_for_tweet
   if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
+    answers = tweets.map {|_| _.hash_tags.first }
     question = Question.new(
       :content => "#{tweets.first.text_without_hash_tags}\n\nGuess the missing hash tag",
-      :correct_answer => tweets.first.hash_tags.first,
-      :incorrect_answers => tweets.drop(1).map {|_| _.hash_tags.first })
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
@@ -23,19 +94,23 @@ end
 
 def gen_guess_tweet_for_tag
   if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
+    answers.map {|_| _.text_without_hash_tags }
     question = Question.new(
       :content => "#{tweets.first.hash_tags.first}\n\nWhich tweet does this hash tag go with?",
-      :correct_answer => tweets.first.text_without_hash_tags,
-      :incorrect_answers => tweets.drop(1).map {|_| _.text_without_hash_tags })
+      :correct_answer => answers.first,
+      :incorrect_answers => answers.drop(1),
+      :value => 1,
+      :countdown => 10)
     tweets.first.delete
     question.save
   end
 end
 
-def generate_question
-  case rand(2)
-  when 0 then gen_guess_tag_for_tweet
-  when 1 then gen_guess_tweet_for_tag
+def tweets_with_counts(n)
+  counts = Set[]
+  Tweet.random(n) do |t|
+    count = yield t
+    counts << count unless counts.include? count
   end
 end
 
@@ -48,14 +123,20 @@ def generate_questions
 end
 
 def good_tweet?(tweet)
-  tweet.hash_tags.size > 0
+  tweet.hash_tags.size > 0 or
+  tweet.retweet_count > 0
 end
 
 def catch_tweet(status)
   tweet = Tweet.new(
       :screen_name => status.user.screen_name,
-      :text => status.text)
+      :text => status.text,
+      :tweet_count => status.user.statuses_count || 0,
+      :follower_count => status.user.followers_count || 0,
+      :retweet_count => status.retweet_count || 0)
   tweet.save if good_tweet? tweet
+rescue Exception => e
+  Rails.logger.error e
 end
 
 def catch_tweets
@@ -87,4 +168,3 @@ pid = fork do
 end
 
 Process.detach pid
-# Process.wait

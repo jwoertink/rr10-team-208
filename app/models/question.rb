@@ -2,6 +2,13 @@ class Question < ActiveRecord::Base
   
   serialize :incorrect_answers
   
+  def self.take_random
+    if q = self.random
+      yield q
+      q.delete
+    end
+  end
+  
   def self.random
     if (c = count) > 0
       find :first, :offset => rand(c)
@@ -14,11 +21,6 @@ class Question < ActiveRecord::Base
   
   def selection
     answers.find_index correct_answer
-  end
-  
-  def to_json
-    super(:only => [:content, :value, :countdown],
-      :methods => [:answers, :selection])
   end
   
 end

@@ -11,6 +11,9 @@
 
 html, body {
   background-color: #ebfbff;
+  background-image: url(/images/clouds.png), url(/images/trees.png);
+  background-position: top center, bottom center;
+  background-repeat: repeat, repeat-x;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
   height: 100%; }
 
@@ -25,32 +28,87 @@ p {
 ol, ul {
   margin-left: 20px; }
 
+.clearfix:after {
+  clear: both;
+  content: " ";
+  display: block;
+  font-size: 0;
+  height: 0;
+  line-height: 0;
+  visibility: hidden;
+  width: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
 .clear {
-  clear: both; }
+  clear: both;
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0; }
 
 .center {
   text-align: center; }
 
 .button {
-  background: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
   border-radius: 12px;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
+  background-image: -moz-linear-gradient(center bottom, #ebfbff 0%, #6be1ff 50%);
   border: 0 none;
-  color: #007f9e;
+  color: #007f9e !important;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
   font-size: 1.5em;
-  margin: 50px 0;
-  padding: 15px 20px;
+  margin-bottom: 10px;
+  padding: 15px 20px 10px;
   text-decoration: none; }
+  .button.large {
+    font-size: 2em; }
   .button:hover {
     background: -webkit-gradient(linear, left top, left bottom, from(#b8f1ff), to(#85e7ff));
-    color: #002d38; }
+    color: #002d38 !important; }
+
+a.button {
+  border-radius: 12px;
+  -moz-border-radius: 12px;
+  -webkit-border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
+  background-image: -moz-linear-gradient(center bottom, #ebfbff 0%, #6be1ff 50%);
+  border: 0 none;
+  color: #007f9e !important;
+  font-family: Megalopolis, Helvetica, Arial, sans-serif;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  padding: 15px 20px 10px;
+  text-decoration: none;
+  display: inline-block; }
+  a.button.large {
+    font-size: 2em; }
+  a.button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, from(#b8f1ff), to(#85e7ff));
+    color: #002d38 !important; }
 
 #wrapper {
   min-height: 80%;
   padding: 20px; }
 
 #logo {
-  margin-top: 5%; }
+  margin: 7% auto 0; }
 
 .splash {
   border-radius: 12px;
@@ -60,13 +118,30 @@ ol, ul {
   -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
   -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
   background-color: rgba(0, 0, 0, 0.6);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(64, 64, 64, 0.6)), to(rgba(0, 0, 0, 0.6)));
+  background-image: -moz-linear-gradient(center bottom, white 0%, rgba(0, 0, 0, 0.6) 50%);
   color: white;
   padding: 35px;
   position: absolute;
   text-align: center;
   z-index: 100; }
-  .splash .controls {
-    margin-top: 40px; }
+  .splash .birdie {
+    background: url(/images/birdie.png) top right;
+    height: 112px;
+    position: absolute;
+    right: -33px;
+    top: -33px;
+    width: 100px; }
+  .splash a {
+    color: white; }
+  .splash ul.controls {
+    margin: 40px 0 0;
+    padding: 0; }
+    .splash ul.controls li {
+      display: inline-block;
+      margin-right: 10px; }
+  .splash p:last-child {
+    margin-bottom: 0; }
 
 #welcome {
   display: none; }
@@ -107,49 +182,77 @@ ol, ul {
   padding: 10px; }
 
 #players {
-  background: url(/images/players_background.png) bottom center repeat-x;
+  bottom: 37px;
   color: white;
   margin: 0;
+  min-height: 150px;
+  position: absolute;
   text-align: center;
   width: 100%; }
   #players li {
     display: inline-block;
+    font-size: 12px;
     margin-right: 10px; }
     #players li .player {
-      border-radius: 12px;
-      -moz-border-radius: 12px;
-      -webkit-border-radius: 12px;
-      background: url(http://a2.twimg.com/profile_images/28196462/jamis_icon_new.png) top left no-repeat;
-      border: 3px solid black;
+      box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+      -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+      -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+      border: 5px solid black;
       height: 130px;
       margin-bottom: 10px;
+      overflow: hidden;
       position: relative;
       text-align: right;
       width: 130px; }
       #players li .player.current {
         height: 150px;
         width: 150px; }
+      #players li .player .president, #players li .player .vice_president, #players li .player .twithole, #players li .player .citizen {
+        position: absolute;
+        height: 86px;
+        margin-left: 8px;
+        width: 36px;
+        z-index: 100; }
+      #players li .player .president {
+        background: url(/images/ribbons.png) 0 0 no-repeat; }
+      #players li .player .vice_president {
+        background: url(/images/ribbons.png) -36px 0 no-repeat; }
+      #players li .player .citizen {
+        background: url(/images/ribbons.png) -72px 0 no-repeat; }
+      #players li .player .twithole {
+        background: url(/images/ribbons.png) -108px 0 no-repeat; }
+      #players li .player img {
+        max-width: 100%; }
       #players li .player .points {
         background-color: rgba(0, 0, 0, 0.6);
         bottom: 0;
         display: block;
-        font-size: 34px;
         left: 0;
-        padding: 10px;
         position: absolute;
-        width: 88%; }
-        #players li .player .points span {
+        width: 100%; }
+        #players li .player .points strong {
           display: block;
-          font-size: 14px;
-          margin-top: -5px; }
+          font-size: 34px;
+          margin: 5px 10px 0; }
+        #players li .player .points em {
+          display: block;
+          font-size: 12px;
+          font-style: normal;
+          margin: -5px 10px 5px; }
     #players li h3.name {
       font-size: 14px;
       text-align: center; }
 
 #footer {
-  padding: 20px 0 50px;
+  background: white;
+  border-top: 1px solid rgba(230, 230, 230, 0.6);
+  border-bottom: 1px solid rgba(230, 230, 230, 0.6);
+  bottom: 0;
+  color: rgba(128, 128, 128, 0.6);
+  font-size: 12px;
+  padding: 10px;
+  position: absolute;
   text-align: center;
-  color: #658896;
-  font-size: 14px; }
+  width: 98.5%; }
   #footer a {
-    color: #658896; }
+    color: rgba(128, 128, 128, 0.6); }
