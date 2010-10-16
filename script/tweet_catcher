@@ -2,6 +2,7 @@
 
 ENV["RAILS_ENV"] ||= 'daemon_dev'
 require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../question_types', __FILE__)
 require 'set'
 
 $twitter_user = 'twitholegame'
@@ -11,112 +12,18 @@ $max_questions = 200
 $min_tweets = 100
 $sleep_period = 30 # seconds
 
-def generate_question
-  case rand(6)
-  when 0 then gen_how_many_tweets
-  when 1 then gen_how_many_characters
-  when 2 then gen_how_many_followers
-  when 3 then gen_how_many_retweets
-  when 4 then gen_guess_tag_for_tweet
-  when 5 then gen_guess_tweet_for_tag
-  end
-end
-
-def gen_how_many_tweets
-  if tweets = tweets_with_counts(3) {|_| _.tweet_count }
-    answers = tweets.map {|_| _.tweet_count.to_s }
-    question = Question.new(
-      :content => "How many times has #{tweets.first.screen_name} tweeted?",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def gen_how_many_characters
-  if tweets = tweets_with_counts(3) {|_| _.text.size }
-    answers = tweets.map {|_| _.text.size.to_s }
-    question = Question.new(
-      :content => "#{tweets.first.text}\n\nHow many characters are in this tweet?",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def gen_how_many_followers
-  if tweets = tweets_with_counts(3) {|_| _.follower_count }
-    answers = tweets.map {|_| _.follower_count.to_s }
-    question = Question.new(
-      :content => "How many followers does #{tweets.first.screen_name} have?",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def gen_how_many_retweets
-  if tweets = tweets_with_counts(3) {|_| _.retweet_count }
-    answers = tweets.map {|_| _.retweet_count.to_s }
-    question = Question.new(
-      :content => "#{tweets.first.text}\n\nHow many times was this retweeted?",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def gen_guess_tag_for_tweet
-  if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
-    answers = tweets.map {|_| _.hash_tags.first }
-    question = Question.new(
-      :content => "#{tweets.first.text_without_hash_tags}\n\nGuess the missing hash tag",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def gen_guess_tweet_for_tag
-  if tweets = Tweet.random(3) {|_| _.hash_tags.size == 1 }
-    answers.map {|_| _.text_without_hash_tags }
-    question = Question.new(
-      :content => "#{tweets.first.hash_tags.first}\n\nWhich tweet does this hash tag go with?",
-      :correct_answer => answers.first,
-      :incorrect_answers => answers.drop(1),
-      :value => 1,
-      :countdown => 10)
-    tweets.first.delete
-    question.save
-  end
-end
-
-def tweets_with_counts(n)
-  counts = Set[]
-  Tweet.random(n) do |t|
-    count = yield t
-    counts << count unless counts.include? count
-  end
-end
+$question_types = QuestionType::Chooser.new(
+  HowManyTweets.new(    :weight => 1, :value => 1, :countdown => 10),
+  HowManyCharacters.new(:weight => 1, :value => 1, :countdown => 10),
+  HowManyFollowers.new( :weight => 1, :value => 1, :countdown => 10),
+  HowManyRetweets.new(  :weight => 1, :value => 1, :countdown => 10),
+  GuessTagForTweet.new( :weight => 1, :value => 1, :countdown => 10),
+  GuessTweetForTag.new( :weight => 1, :value => 1, :countdown => 10)
+)  
 
 def generate_questions
   if Question.count < $max_questions and Tweet.count > $min_tweets
-    generate_question
+    $question_types.choose.generate
   else
     sleep $sleep_period
   end
