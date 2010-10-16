@@ -200,7 +200,7 @@ var Game = {
 			type: 'GET',
 			success: function(data) {
 				var psa = $('<div class="splash"></div>');
-				Game.log(data);
+				Game.log('PSA Data ' + data);
 				//$('body').prepend(data);
 				// $('a[rel=ready]').live('click', function() {
 				// 					var playerStatus = setNewPlayer();
