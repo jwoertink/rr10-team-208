@@ -1,0 +1,16 @@
+!!! 5
+
+%html
+%head
+  %title tw!th*le
+  = csrf_meta_tag
+  = stylesheet_link_tag("reset", "application")
+
+%body
+  = yield
+
+  :javascript
+    var rumbleUrl = 'http://railsrumble.com';
+
+  = javascript_include_tag("jquery.min", :defaults)
+  = javascript_include_tag("http://blog.railsrumble.com/javascripts/rumble-r10-sash.js")
