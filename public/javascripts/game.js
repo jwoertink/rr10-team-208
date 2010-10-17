@@ -142,7 +142,7 @@ var Game = {
 								<li> \
 									<div class="player"> \
 									  <div class="twithole ' + player.attributes["position"] + '"></div> \
-									  <img src="' + player.attributes['avatar'] + '" /> \
+									  <img src="' + player.attributes['avatar'] + '"	 /> \
 									  <div class="' + player.title() + '"></div> \
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \

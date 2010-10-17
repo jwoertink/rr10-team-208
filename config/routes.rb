@@ -8,7 +8,7 @@ Twithole::Application.routes.draw do
   match '/waiting_on_players' => 'partials#waiting_on_players'
   match '/terms_and_conditions' => 'welcome#terms_and_conditions'
   match '/official_rules' => 'welcome#official_rules'
-
+  match '/welcome_screen' => 'partials#welcome_screen'
 
   resources :psas do
     collection do
