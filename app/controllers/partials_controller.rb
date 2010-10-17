@@ -7,6 +7,7 @@ class PartialsController < ApplicationController
   def setting_player_order;end
   def waiting_on_players;end
   def welcome_screen;end
+  def end_of_term;end
   
   private
   
