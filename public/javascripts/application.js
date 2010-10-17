@@ -81,12 +81,8 @@ function returnToHome() {
 		success: function(data) {
 			$('body').prepend(data);
 			centerSplashScreen(600, 120);
-		  $('#welcome').animate({
-		    width: '600px'
-
-		  }, 1000, 'easeOutBounce', function() {
-		    setButtonControls();
-		  });
+		  $('#welcome').fadeIn();
+	    setButtonControls();
 		},
 		error: function(a,b,error) {
 			//failsafe

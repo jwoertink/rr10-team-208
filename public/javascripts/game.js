@@ -204,7 +204,7 @@ var Game = {
 	},
 	setFirstPlayer: function() {
 		currentPlayer = $('.player:first');
-		$('.player').removeClass('curren');
+		$('.player').removeClass('current');
 		$(currentPlayer).addClass('current');
 	},
 	setNewPlayer: function() {
