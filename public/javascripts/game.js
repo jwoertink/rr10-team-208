@@ -216,20 +216,22 @@ var Game = {
 		currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
 	},
 	setNewPlayer: function() {
-		var currentIndex = $('.player').toArray().indexOf(currentPlayerContainer[0]);
+		$('a[rel=ready]').die();
+		var players = $('.player').toArray();
+		var currentIndex = players.indexOf(currentPlayerContainer[0]);
 		console.log('current index is ' + currentIndex);
-		var lastPlayerIndex = $('.player').toArray().indexOf($('.player:last')[0]);
-		var totalPlayers = $('.player').length;
+		var lastPlayerIndex = (players.length - 1);
+		var totalPlayers = players.length;
 		var activePlayers = $('.player').not('.completed').length;
 		if(activePlayers > 1) {
 			if(currentIndex == lastPlayerIndex) {
 					Game.setFirstPlayer();
 			} else {
-					var group = $('.player').toArray();
-					var nextPlayerContainer = $(group.rotate(currentIndex)).not('.completed').first();
-					if($(nextPlayerContainer).siblings('.name').text() == $(currentPlayerContainer).siblings('.name').text()) {
-						//var arr = group.rotate(currentIndex);
-						currentPlayerContainer = $(group.rotate(currentIndex)[1]);
+					var nextPlayerContainer = $(players.rotate(currentIndex)).not('.completed').first();
+					var nextIndex = players.indexOf(nextPlayerContainer[0]);
+					
+					if(currentIndex == nextIndex) {
+						currentPlayerContainer = $(players.rotate(nextIndex)[1]);
 					} else {
 						currentPlayerContainer = nextPlayerContainer;
 					}
@@ -246,6 +248,7 @@ var Game = {
 		return currentPlayerContainer;
 	},
 	grabQuestion: function() {
+		var attempts = 1;
 		if(currentPlayerContainer != null) {
 			$.ajax({
 				url: '/questions/new',
@@ -255,7 +258,14 @@ var Game = {
 					Game.displayQuestion(data.question);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					alert('PORKCHOP SANDWICHES. GTFO: ' + errorThrown);
+					if(attempts == 1) {
+						alert('WHOA! The tw!tth*le bird fell asleep. Give me a minute to wake him up, and get your next quesiton');
+					} else {
+						alert('OMG.... Where the #*%@! did he go? This might take a little longer.');
+					}
+					setTimeout(function() {
+						Game.grabQuestion();
+					}, 10000);
 				}
 			});
 		} else {
@@ -312,7 +322,7 @@ var Game = {
 			$('.splash').remove();
 			var correctAnswer = question.selection;
 			var selectedAnswer = $(this).attr('rel');
-			console.log(question);
+			
 			if(selectedAnswer == correctAnswer) {
 				Flash['correct'] = 'YAY! Well played';
 				Action.displayFlash();
