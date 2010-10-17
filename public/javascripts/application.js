@@ -1,6 +1,11 @@
 $(function() {
 	openingScene();
 	moveClouds();
+	$(window).keydown(function(event) {
+		if(event.keyCode == 13) {
+			$('.go').click();
+		}
+	});
 });
 
 function openingScene() {
@@ -14,11 +19,14 @@ function openingScene() {
 	} else {
 		// Player is using IE
 		var sign = $('<div id="ieblock"></div>');
-		sign.text('Sorry, but the browser you\'re using is not supported');
+		sign.html('<p>Sorry, but the browser you\'re using is not supported. <small>(yet)</small></p>');
 		sign.css({
 			width: ($(window).width() + 'px'),
 			height: ($(window).height() + 'px')
 		});
+		sign.append('<br /><a href="http://www.google.com/chrome">Download Chrome</a>');
+		sign.append('<br /><a href="http://www.mozilla.com/en-US/">Download Firefox</a>');
+		sign.append('<br /><a href="http://www.apple.com/safari/download/">Download Safari</a>');
 		$('body').append(sign);
 		$('#ieblock').slideDown(10000);
 	}
