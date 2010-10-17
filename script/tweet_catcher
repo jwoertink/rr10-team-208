@@ -13,17 +13,17 @@ $min_tweets = 250
 $sleep_period = 60 # seconds
 
 $question_types = QuestionType::Chooser.new(
-  HowManyTweets.new(        :weight => 1,   :value => 30, :countdown => 10),
-  HowManyCharacters.new(    :weight => 1,   :value => 10, :countdown => 8),
-  HowManyFollowers.new(     :weight => 1,   :value => 30, :countdown => 10),
-  HowManyRetweets.new(      :weight => 1,   :value => 30, :countdown => 10),
-  GuessTagForTweet.new(     :weight => 1,   :value => 30, :countdown => 15),
-  GuessTweetForTag.new(     :weight => 1,   :value => 30, :countdown => 15),
-  HasMoreFollowers.new(     :weight => 1,   :value => 15, :countdown => 10),
-  HasMoreTweets.new(        :weight => 1,   :value => 15, :countdown => 10),
-  GuessLocationOfTweet.new( :weight => 1,   :value => 25, :countdown => 10),
+  HowManyTweets.new(        :weight => 2,   :value => 30, :countdown => 10),
+  HowManyCharacters.new(    :weight => 2,   :value => 10, :countdown => 8),
+  HowManyFollowers.new(     :weight => 2,   :value => 30, :countdown => 10),
+  HowManyRetweets.new(      :weight => 10,  :value => 30, :countdown => 10),
+  GuessTagForTweet.new(     :weight => 2,   :value => 30, :countdown => 15),
+  GuessTweetForTag.new(     :weight => 2,   :value => 30, :countdown => 15),
+  HasMoreFollowers.new(     :weight => 2,   :value => 15, :countdown => 10),
+  HasMoreTweets.new(        :weight => 2,   :value => 15, :countdown => 10),
+  GuessLocationOfTweet.new( :weight => 3,   :value => 25, :countdown => 10),
   GuessLanguageOfTweet.new( :weight => 1,   :value => 10, :countdown => 10),
-  WhichIsFromCeleb.new(     :weight => 10,  :value => 30, :countdown => 10)
+  WhichIsFromCeleb.new(     :weight => 20,  :value => 30, :countdown => 10)
 )
 
 def generate_questions
