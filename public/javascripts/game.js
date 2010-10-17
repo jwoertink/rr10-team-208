@@ -23,6 +23,7 @@ var Player = function(args) {
 
 var Action = {
 	displayFlash: function() {
+		$('.answer').die();
 		$('#flash').remove();
 		if(Flash['correct'] != '') {
 			var correctMsg = $('<div id="flash" class="correct"></div>');
@@ -275,7 +276,7 @@ var Game = {
 
 		var q = $('<div class="question splash ' + color + '"></div>');
 		q.append('<img src="' + question.profile_image_url + '" class="profile_image"/>');
-		q.append('<h2>Fix Me with a Category</h1>');
+		q.append('<h2>' + question.heading + '</h1>');
 		q.append('<h1>' + question.content + '</h1>');
 		var t = "";
 		t += '<ul class="answers">';
@@ -310,6 +311,7 @@ var Game = {
 			$('.splash').remove();
 			var correctAnswer = question.selection;
 			var selectedAnswer = $(this).attr('rel');
+			console.log(question);
 			if(selectedAnswer == correctAnswer) {
 				Flash['correct'] = 'YAY! Well played';
 				Action.displayFlash();
