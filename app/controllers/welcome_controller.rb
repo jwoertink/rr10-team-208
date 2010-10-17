@@ -2,7 +2,7 @@ class WelcomeController < ApplicationController
   def index
   end
   
-  def terms
+  def terms_and_conditions
     render(:layout => false)
   end
   
