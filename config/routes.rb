@@ -10,6 +10,8 @@ Twithole::Application.routes.draw do
   match '/official_rules' => 'welcome#official_rules'
   match '/welcome_screen' => 'partials#welcome_screen'
   match '/end_of_term' => 'partials#end_of_term'
+  match '/faq' => 'welcome#faq'
+  
 
   resources :psas do
     collection do

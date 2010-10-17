@@ -171,7 +171,7 @@ var Game = {
 										  <em>bird seed</em> \
 										</div> \
 									</div> \
-									<p class="name">' + player.attributes['name'] + '</p> \
+									<p class="name"><span>' + player.attributes['name'] + '</span></p> \
 								</li>'
 							);
 						});
@@ -247,7 +247,7 @@ var Game = {
 										  <em>bird seed</em> \
 										</div> \
 									</div> \
-									<p class="name">' + player.attributes['name'] + ' - ' + player.attributes['score'] + '</p> \
+									<p class="name"><span>' + player.attributes['name'] + '</span> - ' + player.attributes['score'] + '</p> \
 								</li>'
 							);
 						});
@@ -267,7 +267,7 @@ var Game = {
 		currentPlayerContainer = $('.player').not('.completed').first();
 		$('.player').removeClass('current');
 		$(currentPlayerContainer).addClass('current');
-		currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
+		currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').children('span').text());
 	},
 	setNewPlayer: function() {
 		$('a[rel=ready]').die();
@@ -291,7 +291,7 @@ var Game = {
 					
 					$('.player').removeClass('current');
 					$(currentPlayerContainer).addClass('current');
-					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
+					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').children('span').text());
 			}
 		} else {
 			Game.state = "stop";
@@ -377,7 +377,7 @@ var Game = {
 		timeoutTimer = window.setTimeout(function() {
 			window.clearInterval(intervalTimer);
 			$('.splash').remove();
-			Flash['wrong'] = 'WRONG!! Drink up!';
+			Flash['wrong'] = 'NOPE! Drink!';
 			Action.displayFlash();
 			Game.nextTurn(question);
 		}, questionTime);
@@ -390,13 +390,13 @@ var Game = {
 			var selectedAnswer = $(this).attr('rel');
 			
 			if(selectedAnswer == correctAnswer) {
-				Flash['correct'] = 'YAY! Well played';
+				Flash['correct'] = 'Well played!';
 				Action.displayFlash();
 				var newPoints = parseInt($('.points', currentPlayerContainer).text(), 10) - question.value;
 				$('.points strong', currentPlayerContainer).text(newPoints);
 				currentPlayer.attributes['points'] = newPoints;
 			} else {
-				Flash['wrong'] = 'WRONG!! Drink up!';
+				Flash['wrong'] = 'NOPE! Drink!';
 				Action.displayFlash();
 			}
 			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {

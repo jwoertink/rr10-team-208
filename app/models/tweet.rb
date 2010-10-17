@@ -19,7 +19,7 @@ class Tweet < ActiveRecord::Base
   memoize :hash_tags
   
   def text_without_hash_tags
-    self.text.gsub(@@hash_tag_pattern, '_')
+    self.text.gsub(@@hash_tag_pattern, '_____')
   end
   memoize :text_without_hash_tags
   

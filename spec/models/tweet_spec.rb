@@ -12,7 +12,7 @@ describe Tweet do
   
   describe '#text_without_hash_tags' do
     it 'returns the text with hash tags removed' do
-      subject.text_without_hash_tags.should == 'this is a _ for with some _ for _'
+      subject.text_without_hash_tags.should == 'this is a _____ for with some _____ for _____'
     end
   end
   
