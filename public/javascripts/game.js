@@ -66,6 +66,7 @@ var Game = {
 	players: [],
 	nextTermOrder: [],
 	terms: 0,
+	
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
@@ -129,8 +130,17 @@ var Game = {
 		});
 	},
 	randomizePlayers: function() {
-		function randomSort() {
-			return Math.floor(Math.random() * Game.players.length + 1);
+		function randomSort(a, b) {
+			// return Math.floor(Math.random() * Game.players.length + 1000);
+			// return (Math.round(Math.random())-0.5);
+      // Get a random number between 0 and 10
+      var temp = parseInt( Math.random()*10 );
+      // Get 1 or 0, whether temp is odd or even
+      var isOddOrEven = temp%2;
+      // Get +1 or -1, whether temp greater or smaller than 5
+      var isPosOrNeg = temp>5 ? 1 : -1;
+      // Return -1, 0, or +1
+      return( isOddOrEven*isPosOrNeg );
 		}
 		var playersOrder = Game.players.sort(randomSort);
 		$('#players').fadeOut('slow', function() {
@@ -191,7 +201,7 @@ var Game = {
 			success: function(data) {
 				$('.splash').remove();
 				$('body').prepend(data);
-				centerSplashScreen(300, 0);
+				centerSplashScreen(450, 0);
 				var timer;
 				timer = window.setInterval(function() {
 					var time = $('.splash').find('.counter').text();
@@ -268,11 +278,11 @@ var Game = {
 
 		var color;
 		switch (question.category) {
-		case "How Many?": color = "red"; break;
-		case "Hash Tags": color = "green"; break;
-		case "True or False": color = "blue"; break;
-		case "Location": color = "purple"; break;
-		case "Pictures": color = "orange"; break;
+		case "How Many?": color = "red how_many"; break;
+		case "Hash Tags": color = "green hash_tags"; break;
+		case "True or False": color = "blue true_false"; break;
+		case "Location": color = "purple location"; break;
+		case "Pictures": color = "orange pictures"; break;
     }
 
 		var q = $('<div class="question splash ' + color + '"></div>');
