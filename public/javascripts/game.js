@@ -1,3 +1,4 @@
+var currentPlayerContainer;
 var currentPlayer;
 
 var Player = function(args) {
@@ -5,7 +6,8 @@ var Player = function(args) {
 		name: args["name"],
 		points: args["points"],
 		position: args["position"],
-		avatar: args['avatar']
+		avatar: args['avatar'],
+		status: ""
 	}
 
   this.title = function() {
@@ -60,6 +62,7 @@ var Game = {
 	intervalTimers: [],
 	timeoutTimers: [],
 	players: [],
+	nextTermOrder: [],
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
@@ -118,6 +121,14 @@ var Game = {
 	},
 	start: function() {
 		Game.grabQuestion();
+		$(window).bind('beforeunload', function(event) {
+			if(confirm('Leave?')) {
+				
+			} else {
+				return '';
+			}
+			
+		});
 	},
 	randomizePlayers: function() {
 		function randomSort() {
@@ -171,8 +182,6 @@ var Game = {
 	log: function(msg) {
 		if('console' in window) {
 			window.console.log(msg);
-		} else {
-			alert(msg);
 		}
 	},
 	firstSessionPrep: function() {
@@ -203,21 +212,23 @@ var Game = {
 		});
 	},
 	setFirstPlayer: function() {
-		currentPlayer = $('.player:first');
+		currentPlayerContainer = $('.player:first');
 		$('.player').removeClass('current');
-		$(currentPlayer).addClass('current');
+		$(currentPlayerContainer).addClass('current');
+		currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
 	},
 	setNewPlayer: function() {
-		var currentIndex = $('.player').toArray().indexOf(currentPlayer[0]);
+		var currentIndex = $('.player').toArray().indexOf(currentPlayerContainer[0]);
 		var playerCount = $('.player').length;
 		if(currentIndex != -1) {
 			if(currentIndex < (playerCount - 1)) {
 				if((currentIndex + 1) > playerCount) {
 					Game.setFirstPlayer();
 				} else {
-					currentPlayer = $('.player').eq(currentIndex + 1);
+					currentPlayerContainer = $('.player').eq(currentIndex + 1);
 					$('.player').removeClass('current');
-					$(currentPlayer).addClass('current');
+					$(currentPlayerContainer).addClass('current');
+					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
 				}
 			} else {
 				Game.setFirstPlayer();
@@ -225,11 +236,11 @@ var Game = {
 		} else {
 			Game.setFirstPlayer();
 		}
-
-		return currentPlayer;
+		
+		return currentPlayerContainer;
 	},
 	grabQuestion: function() {
-		if(currentPlayer != null) {
+		if(currentPlayerContainer != null) {
 			$.ajax({
 				url: '/questions/new',
 				dataType: 'json',
@@ -299,16 +310,25 @@ var Game = {
 			if(selectedAnswer == correctAnswer) {
 				Flash['correct'] = 'YAY! Well played';
 				Action.displayFlash();
-				var newPoints = parseInt($('.points', currentPlayer).text(), 10) - question.value;
-				$('.points strong', currentPlayer).text(newPoints);
+				var newPoints = parseInt($('.points', currentPlayerContainer).text(), 10) - question.value;
+				$('.points strong', currentPlayerContainer).text(newPoints);
+				currentPlayer.attributes['points'] = newPoints;
 			} else {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
 			}
+			
 			Game.nextTurn();
 
 			return false;
 		});
+		if(currentPlayer.attributes['points'] <= 0) {
+			currentPlayer.attributes['status'] = 'completed';
+			currentPlayer.attributes['points'] = 0;
+			$('.points', currentPlayerConttainer).text('Done!');
+			Game.nextTermOrder.push(currentPlayer);
+		}
+		Game.log('Next Round will be ' + Game.nextTermOrder);
 	},
 	clearTimers: function() {
 		$(Game.intervalTimers).each(function(i,timer) {
@@ -351,5 +371,6 @@ var Game = {
 	},
 	endRound: function() {
 		//things to happen when a round is complete....
+		Game.log('Just completed a round');
 	}
 };
