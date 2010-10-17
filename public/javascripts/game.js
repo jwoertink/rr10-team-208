@@ -4,8 +4,9 @@ var Player = function(args) {
 	this.attributes = {
 		name: args["name"],
 		points: args["points"],
-		position: args["position"]
-	},
+		position: args["position"],
+		avatar: args['avatar']
+	}
 
   this.title = function() {
     var titles = [ "president", "vice_president", "twithole" ];
@@ -59,6 +60,19 @@ var Game = {
 	intervalTimers: [],
 	timeoutTimers: [],
 	players: [],
+	find_player_by_name: function(name) {
+		var player;
+		if(Game.players.length == 0) {
+			player = null;
+		} else {
+			for(var i = 0; i < Game.players.length; i++) {
+				if(Game.players[i].attributes['name'] == name) {
+					player = Game.players[i];
+				}
+			}
+		}
+		return player;
+	},
 	init: function() {
 		$('#gameform').submit(function() {
 			var playersCount =  Game.players.length;
@@ -74,7 +88,20 @@ var Game = {
 			if(playersCount >= 3) {
 				$('.playername', this).each(function(i,e) {
 					if($(e).val() != '') {
-						var player = new Player({name: $(e).val(), points: 140, position: (i + 1)});
+						var twitter_handle = $(e).val().match(/@\w+/);
+						var avatar;
+						if(twitter_handle != null) {
+							twitter_handle = twitter_handle[0].replace('@', '');
+							var twiturl = 'http://api.twitter.com/1/users/show.json?screen_name=' + twitter_handle + '&callback=?';
+							$.getJSON(twiturl, function(data) {
+								avatar = data['profile_image_url'].replace('_normal', '');
+								Game.find_player_by_name('@'+twitter_handle).attributes['avatar'] = avatar;
+							});
+							
+						} else {
+							avatar = '/images/default_avatar.png';
+						}
+						var player = new Player({name: $(e).val(), points: 140, position: (i + 1), avatar: avatar});
 						Game.players.push(player);
 					}
 				});
@@ -114,8 +141,13 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
+<<<<<<< HEAD
+									  <div class="twithole ' + player.attributes["position"] + '"></div> \
+									  <img src="' + player.attributes['avatar'] + '" /> \
+=======
 									  <div class="' + player.title() + '"></div> \
 									  <img src="/images/default_avatar.png" /> \
+>>>>>>> b2c5dbda1581be5de2460894527f065b3945dfed
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
 										  <em>bird seeds</em> \
@@ -247,7 +279,6 @@ var Game = {
 			$('.splash').remove();
 			Flash['wrong'] = 'WRONG!! Drink up!';
 			Action.displayFlash();
-			Game.log('Inside timer');
 			Game.nextTurn();
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
@@ -266,7 +297,6 @@ var Game = {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
 			}
-			Game.log('Inside clicking');
 			Game.nextTurn();
 
 			return false;
