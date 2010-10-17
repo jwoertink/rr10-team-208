@@ -120,7 +120,7 @@ class HasMoreTweets < TrueFalseQuestion
   def generate
     if tweets = tweet_sample(2)
       true_false_question(tweets,
-        "@#{tweets.first.screen_name} has more tweets than @#{tweets.last.screen_name}",
+        "@#{tweets.first.screen_name} has tweeted more than @#{tweets.last.screen_name}",
         tweets.first.tweet_count > tweets.last.tweet_count)
     end
   end
@@ -141,7 +141,7 @@ class GuessLanguageOfTweet < LocationQuestion
   def generate
     if tweets = tweet_sample_uniq(3) {|_| _.lang }
       new_question(tweets,
-        "Guess the language of this tweet.",
+        "Guess this user's language.",
         "\"#{tweets.first.text}\"",
         tweets.map {|_| _.language.name })
     end
