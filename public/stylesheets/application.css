@@ -213,20 +213,20 @@ a:active, a:focus, input.button {
   min-height: 300px;
   width: 900px; }
   .question.red {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#d86157), to(#8f2921));
-    background-image: -moz-linear-gradient(center top, #ebafaa 0%, #b8352b 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(216, 97, 87, 0.6)), to(rgba(143, 41, 33, 0.6)));
+    background-image: -moz-linear-gradient(center top, rgba(235, 175, 170, 0.6) 0%, rgba(184, 53, 43, 0.6) 50%); }
   .question.green {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#87d857), to(#4a8f21));
-    background-image: -moz-linear-gradient(center top, #c2ebaa 0%, #5fb82b 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(135, 216, 87, 0.6)), to(rgba(74, 143, 33, 0.6)));
+    background-image: -moz-linear-gradient(center top, rgba(194, 235, 170, 0.6) 0%, rgba(95, 184, 43, 0.6) 50%); }
   .question.blue {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#b2c2f7), to(#3e67ec));
-    background-image: -moz-linear-gradient(center top, white 0%, #6c8cf1 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(178, 194, 247, 0.6)), to(rgba(62, 103, 236, 0.6)));
+    background-image: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.6) 0%, rgba(108, 140, 241, 0.6) 50%); }
   .question.purple {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#b44fe2), to(#701998));
-    background-image: -moz-linear-gradient(center top, #d9a6f0 0%, #9020c4 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(180, 79, 226, 0.6)), to(rgba(112, 25, 152, 0.6)));
+    background-image: -moz-linear-gradient(center top, rgba(217, 166, 240, 0.6) 0%, rgba(144, 32, 196, 0.6) 50%); }
   .question.orange {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#f5bf77), to(#dd8410));
-    background-image: -moz-linear-gradient(center top, #fcecd6 0%, #f09d30 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(245, 191, 119, 0.6)), to(rgba(221, 132, 16, 0.6)));
+    background-image: -moz-linear-gradient(center top, rgba(252, 236, 214, 0.6) 0%, rgba(240, 157, 48, 0.6) 50%); }
   .question img.profile_image {
     box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
     -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
