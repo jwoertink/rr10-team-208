@@ -129,7 +129,7 @@ class GuessLanguageOfTweet < LocationQuestion
     if tweets = tweet_sample(3)
       new_question(tweets.first,
         "#{tweets.first.text}\n\nGuess the language of this tweet.",
-        tweets.map {|_| _.lang })
+        tweets.map {|_| _.language.name })
     end
   end
 end

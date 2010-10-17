@@ -1,4 +1,5 @@
 class Tweet < ActiveRecord::Base
+  extend ActiveSupport::Memoizable
   
   @@hash_tag_pattern = /\#\w+/
   
@@ -13,15 +14,23 @@ class Tweet < ActiveRecord::Base
   end
   
   def hash_tags
-    @hash_tags ||= self.text.scan(@@hash_tag_pattern)
+    self.text.scan(@@hash_tag_pattern)
   end
+  memoize :hash_tags
   
   def text_without_hash_tags
     self.text.gsub(@@hash_tag_pattern, '_')
   end
+  memoize :text_without_hash_tags
   
   def has_profile_image?
     !(profile_image_url =~ /\/images\/default_profile/)
   end
+  memoize :has_profile_image?
+  
+  def language
+    Language.find_by_code(lang)
+  end
+  memoize :language
   
 end
