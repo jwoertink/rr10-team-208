@@ -162,7 +162,7 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-									  <div class="twithole ' + player.attributes["position"] + '"></div> \
+									  <div class="' + player.attributes["position"] + '"></div> \
 									  <img src="' + player.attributes['avatar'] + '"	 /> \
 									  <div class="' + player.title() + '"></div> \
 										<div class="points"> \
@@ -363,7 +363,7 @@ var Game = {
 			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {
 				currentPlayer.attributes['status'] = 'completed';
 				currentPlayer.attributes['points'] = 0;
-				$('.points', currentPlayerContainer).text('<strong>Done!</strong>');
+				$('.points', currentPlayerContainer).html('<strong>Done!</strong>');
 				$(currentPlayerContainer).addClass('completed');
 				Game.nextTermOrder.push(currentPlayer);
 				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
