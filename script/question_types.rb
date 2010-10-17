@@ -34,6 +34,12 @@ class PicturesQuestion < QuestionType
   end
 end
 
+class CelebQuestion < QuestionType
+  def category
+    'Celebs'
+  end
+end
+
 class HowManyTweets < HowManyQuestion
   def generate
     if tweets = tweet_sample_uniq(3) {|_| _.tweet_count }
@@ -122,7 +128,7 @@ end
 
 class GuessLocationOfTweet < LocationQuestion
   def generate
-    if tweets = tweet_sample(3) {|_| !_.location.empty? }
+    if tweets = tweet_sample_uniq(3) {|_| _.location if not _.location.empty? }
       new_question(tweets.first,
         "Guess the location of this tweet.",
         "\"#{tweets.first.text}\"",
@@ -155,11 +161,25 @@ end
 
 class GuessTweetForPic < PicturesQuestion
   def generate
-    if tweets = tweet_sample(3) {|_| _.has_profile_image? }
+    if tweets = tweet_sample(3) {|_| _.has_profile_image? and _.text.size <= 70 }
       new_question(tweets.first,
         tweets.first.profile_image_url,
         "Which tweet goes with this avatar?",
         tweets.map {|_| _.text })
+    end
+  end
+end
+
+class WhichIsFromCeleb < CelebQuestion
+  def generate
+    if celeb_tweets = tweet_sample(1) {|_| _.verified_user and _.text.size <= 70 }
+      if others = tweet_sample(2) {|_| !_.verified_user and _.text.size <= 70 }
+        tweets = celeb_tweets + others
+        new_question(tweets.first,
+          'Celebrity Tweet',
+          'Which tweet was from a verified account?',
+          tweets.map {|_| _.text })
+      end
     end
   end
 end
