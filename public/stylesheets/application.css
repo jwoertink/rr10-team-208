@@ -188,19 +188,19 @@ a:active, a:focus, input.button {
     margin: 40px 0 0;
     padding: 0; }
     .splash ul.controls li {
-      display: inline-block;
+      display: inline-block !important;
       margin-right: 10px; }
-  .splash ol, .splash ul {
-    list-style-type: decimal;
-    margin: 0 0 20px 150px;
-    text-align: left; }
-    .splash ol li, .splash ul li {
-      font-size: 24px; }
   .splash p:last-child {
     margin-bottom: 0; }
 
 #welcome {
   display: none; }
+  #welcome ol {
+    list-style-type: decimal;
+    margin: 0 0 20px 150px;
+    text-align: left; }
+    #welcome ol li {
+      font-size: 24px; }
 
 #new_player_form {
   width: 550px; }
