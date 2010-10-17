@@ -141,13 +141,9 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-<<<<<<< HEAD
 									  <div class="twithole ' + player.attributes["position"] + '"></div> \
 									  <img src="' + player.attributes['avatar'] + '" /> \
-=======
 									  <div class="' + player.title() + '"></div> \
-									  <img src="/images/default_avatar.png" /> \
->>>>>>> b2c5dbda1581be5de2460894527f065b3945dfed
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
 										  <em>bird seeds</em> \
