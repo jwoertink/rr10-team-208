@@ -363,7 +363,7 @@ var Game = {
 			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {
 				currentPlayer.attributes['status'] = 'completed';
 				currentPlayer.attributes['points'] = 0;
-				$('.points', currentPlayerContainer).text('Done!');
+				$('.points', currentPlayerContainer).text('<strong>Done!</strong>');
 				$(currentPlayerContainer).addClass('completed');
 				Game.nextTermOrder.push(currentPlayer);
 				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
