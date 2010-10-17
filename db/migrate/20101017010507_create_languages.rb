@@ -1,9 +1,8 @@
 class CreateLanguages < ActiveRecord::Migration
   def self.up
     create_table :languages do |t|
-      t.string :code
+      t.string :code, :limit => 2
       t.string :name
-
       t.timestamps
     end
   end
