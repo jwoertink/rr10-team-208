@@ -391,3 +391,15 @@ a:active, a:focus, input.button {
   width: 98.5%; }
   #footer a {
     color: rgba(128, 128, 128, 0.6); }
+
+#ieblock {
+  background-color: black;
+  color: white;
+  font-size: 72px;
+  text-align: center;
+  padding: 150px;
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: none; }
