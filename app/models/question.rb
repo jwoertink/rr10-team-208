@@ -1,4 +1,5 @@
 class Question < ActiveRecord::Base
+  extend ActiveSupport::Memoizable
   
   serialize :incorrect_answers
   
@@ -16,11 +17,13 @@ class Question < ActiveRecord::Base
   end
   
   def answers
-    @answers ||= ([correct_answer] + incorrect_answers).shuffle
+    ([correct_answer] + incorrect_answers).shuffle
   end
+  memoize :answers
   
   def selection
     answers.find_index correct_answer
   end
+  memoize :selection
   
 end

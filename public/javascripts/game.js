@@ -142,11 +142,11 @@ var Game = {
 								<li> \
 									<div class="player"> \
 									  <div class="twithole ' + player.attributes["position"] + '"></div> \
-									  <img src="' + player.attributes['avatar'] + '" /> \
+									  <img src="' + player.attributes['avatar'] + '"	 /> \
 									  <div class="' + player.title() + '"></div> \
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
-										  <em>bird seeds</em> \
+										  <em>bird seed</em> \
 										</div> \
 									</div> \
 									<p class="name">' + player.attributes['name'] + '</p> \
@@ -204,7 +204,7 @@ var Game = {
 	},
 	setFirstPlayer: function() {
 		currentPlayer = $('.player:first');
-		$('.player').removeClass('curren');
+		$('.player').removeClass('current');
 		$(currentPlayer).addClass('current');
 	},
 	setNewPlayer: function() {
@@ -235,6 +235,7 @@ var Game = {
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
+				  console.log(data);
 					Game.displayQuestion(data.question);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -248,7 +249,18 @@ var Game = {
 	displayQuestion: function(question) {
 		$('.question').remove();
 		$('.splash').remove();
-		var q = $('<div class="question splash"></div>');
+
+		var color;
+		switch (question.category) {
+		case "How Many?": color = "red"; break;
+		case "Hash Tags": color = "green"; break;
+		case "True or False": color = "blue"; break;
+		case "Location": color = "purple"; break;
+		case "Pictures": color = "orange"; break;
+    }
+
+		var q = $('<div class="question splash ' + color + '"></div>');
+		q.append('<img src="' + question.profile_image_url + '" class="profile_image"/>');
 		q.append('<h2>Fix Me with a Category</h1>');
 		q.append('<h1>' + question.content + '</h1>');
 		var t = "";
@@ -288,7 +300,7 @@ var Game = {
 				Flash['correct'] = 'YAY! Well played';
 				Action.displayFlash();
 				var newPoints = parseInt($('.points', currentPlayer).text(), 10) - question.value;
-				$('.points', currentPlayer).text(newPoints);
+				$('.points strong', currentPlayer).text(newPoints);
 			} else {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
@@ -316,6 +328,7 @@ var Game = {
 			type: 'GET',
 			success: function(data) {
 				var psa = $('<div class="psa splash"></div>');
+				$(psa).append('<div class="birdie"></div>');
 				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
 				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
 				$('body').prepend(psa);

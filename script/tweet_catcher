@@ -7,9 +7,9 @@ require 'set'
 
 $twitter_user = 'twitholegame'
 $twitter_password = '4ssh0le!'
-$max_tweets = 200
-$max_questions = 200
-$min_tweets = 100
+$max_tweets = 500
+$max_questions = 500
+$min_tweets = 200
 $sleep_period = 30 # seconds
 
 $question_types = QuestionType::Chooser.new(

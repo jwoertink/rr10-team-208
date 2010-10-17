@@ -23,12 +23,8 @@ function moveClouds() {
 
 function showWelcomeScreen() {
   centerSplashScreen(600, 120);
-  $('#welcome').animate({
-    width: '600px'
-		
-  }, 1000, 'easeOutBounce', function() {
-    setButtonControls();
-  });
+  $('#welcome').fadeIn();
+  setButtonControls();
 }
 
 function setButtonControls() {
@@ -51,7 +47,7 @@ function centerSplashScreen(w, h) {
 }
 
 function showRulesScreen() {
-	$('.splash').hide();
+	$('.splash').remove();
 	$.ajax({
 		url: '/official_rules',
 		dataType: 'html',
@@ -66,12 +62,31 @@ function showRulesScreen() {
 			$('.splash').fadeIn('fast');
 
 	    $('a#back_to_game').live('click', function() {
-	      $('.splash').remove();
-        showWelcomeScreen();
+	      returnToHome();
+				return false;
       });
 		},
 		error: function(a, b, error) {
 			alert(error);
+		}
+	});
+}
+
+function returnToHome() {
+	$('.splash').remove();
+  $.ajax({
+		url: '/welcome_screen',
+		dataType: 'html',
+		type: 'get',
+		success: function(data) {
+			$('body').prepend(data);
+			centerSplashScreen(600, 120);
+		  $('#welcome').fadeIn();
+	    setButtonControls();
+		},
+		error: function(a,b,error) {
+			//failsafe
+			window.location = window.location.href;
 		}
 	});
 }
