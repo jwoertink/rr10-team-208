@@ -10,9 +10,10 @@ class QuestionType
   
   attr_reader :weight, :value, :countdown
   
-  def new_question(tweet, content, answers)
+  def new_question(tweet, heading, content, answers)
     question = Question.new(
       :category => category,
+      :heading => heading,
       :content => content,
       :correct_answer => answers.first,
       :incorrect_answers => answers.drop(1),
@@ -32,11 +33,11 @@ class QuestionType
     end
   end
   
-  def tweets_with_counts(n)
-    counts = Set[]
+  def tweet_sample_uniq(n)
+    values = Set[]
     tweet_sample(n) do |t|
-      count = yield t
-      counts << count unless counts.include? count
+      v = yield t
+      values << v unless values.include? v
     end
   end
   
