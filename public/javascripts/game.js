@@ -1,5 +1,7 @@
 var currentPlayerContainer;
 var currentPlayer;
+//The number of times to try and grab a question if it fails.
+var retries = 1;
 
 var Player = function(args) {
 	this.attributes = {
@@ -258,7 +260,6 @@ var Game = {
 		return currentPlayerContainer;
 	},
 	grabQuestion: function() {
-		var attempts = 1;
 		if(currentPlayerContainer != null) {
 			$.ajax({
 				url: '/questions/new',
@@ -266,13 +267,21 @@ var Game = {
 				type: 'GET',
 				success: function(data) {
 					Game.displayQuestion(data.question);
+					retries = 1;
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					if(attempts == 1) {
-						alert('WHOA! The tw!tth*le bird fell asleep. Give me a minute to wake him up, and get your next quesiton');
-					} else {
-						alert('OMG.... Where the #*%@! did he go? This might take a little longer.');
+					switch(retries) {
+						case 1:
+							alert('WHOA! The tw!tth*le bird fell asleep. Give him a minute to wake him up, and get your next quesiton');
+						break;
+						case 2:
+							alert('OMG.... Where the #*%@! did he go? This might take a little longer.');
+						break;
+						default :
+							alert('Just continue to chat aomngst yourselves for a bit while we get this sorted out');
 					}
+					
+					retries += 1;
 					setTimeout(function() {
 						Game.grabQuestion();
 					}, 10000);

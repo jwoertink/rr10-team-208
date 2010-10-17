@@ -4,20 +4,32 @@ $(function() {
 });
 
 function openingScene() {
-	setTimeout(function() {
-		$('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
-			showWelcomeScreen();
+	if($.support.cssFloat) {
+		setTimeout(function() {
+			$('#logo').animate({width: '58px', height: '70px'}, 2000, 'easeInBack', function() {
+				showWelcomeScreen();
+			});
+			$('#logo').fadeOut();
+		}, 2000);
+	} else {
+		// Player is using IE
+		var sign = $('<div id="ieblock"></div>');
+		sign.text('Sorry, but the browser you\'re using is not supported');
+		sign.css({
+			width: ($(window).width() + 'px'),
+			height: ($(window).height() + 'px')
 		});
-		$('#logo').fadeOut();
-	}, 2000);
+		$('body').append(sign);
+		$('#ieblock').slideDown(10000);
+	}
 }
 
 function moveClouds() {
 	setInterval(function() {
-		$('body').animate({
-			'background-position': "-=1% 0%, center bottom"
+		$('body').stop(true, true).animate({
+			'background-position': "-=1px 0%, center bottom"
 		});
-	}, 800);
+	}, 300);
 	
 }
 
