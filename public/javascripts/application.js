@@ -23,12 +23,8 @@ function moveClouds() {
 
 function showWelcomeScreen() {
   centerSplashScreen(600, 120);
-  $('#welcome').animate({
-    width: '600px'
-		
-  }, 1000, 'easeOutBounce', function() {
-    setButtonControls();
-  });
+  $('#welcome').fadeIn();
+  setButtonControls();
 }
 
 function setButtonControls() {
