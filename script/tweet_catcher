@@ -13,9 +13,9 @@ $min_tweets = 250
 $sleep_period = 60 # seconds
 
 $question_types = QuestionType::Chooser.new(
-  HowManyTweets.new(        :weight => 1,   :value => 30, :countdown => 5),
+  HowManyTweets.new(        :weight => 1,   :value => 30, :countdown => 10),
   HowManyCharacters.new(    :weight => 1,   :value => 10, :countdown => 8),
-  HowManyFollowers.new(     :weight => 1,   :value => 30, :countdown => 5),
+  HowManyFollowers.new(     :weight => 1,   :value => 30, :countdown => 10),
   HowManyRetweets.new(      :weight => 1,   :value => 30, :countdown => 10),
   GuessTagForTweet.new(     :weight => 1,   :value => 30, :countdown => 15),
   GuessTweetForTag.new(     :weight => 1,   :value => 30, :countdown => 15),
