@@ -95,6 +95,7 @@ var Game = {
 				success: function(data) {
 					$('.splash').remove();
 					$('body').prepend(data);
+					centerSplashScreen(400, 0);
 					$('#gameform').fadeOut('fast');
 					window.setTimeout(function() {
 						$('#players').children().remove();
@@ -145,6 +146,7 @@ var Game = {
 			success: function(data) {
 				$('.splash').remove();
 				$('body').prepend(data);
+				centerSplashScreen(300, 0);
 				var timer;
 				timer = window.setInterval(function() {
 					var time = $('.splash').find('.counter').text();
@@ -209,12 +211,19 @@ var Game = {
 		$('.question').remove();
 		$('.splash').remove();
 		var q = $('<div class="question splash"></div>');
+		q.append('<h2>Fix Me with a Category</h1>');
 		q.append('<h1>' + question.content + '</h1>');
+		var t = "";
+		t += '<ul class="answers">';
 		$(question.answers).each(function(i,e) {
-			q.append('<a href="#" class="answer" rel="' + i + '">' + e + '</a>');
+			t += '<li><a href="#" class="button answer" rel="' + i + '">' + e + '</a></li>';
 		});
+		t += '</ul>';
+		q.append(t);
+		q.append("<br class=\"clear\" />");
 		q.append('<span class="counter">' + question.countdown + '</span>');
 		$('body').prepend(q);
+		centerSplashScreen(900, 0);
 		var questionTime = parseInt($('.counter', q).text(), 10) * 1000;
 		var intervalTimer;
 		var timeoutTimer;
@@ -274,6 +283,7 @@ var Game = {
 				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
 				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
 				$('body').prepend(psa);
+				centerSplashScreen(600, 0);
 				$('a[rel=ready]').live('click', function() {
 				  var playerStatus = Game.setNewPlayer();
 					if(playerStatus != null) {
