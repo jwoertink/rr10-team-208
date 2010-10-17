@@ -286,7 +286,15 @@ var Game = {
     }
 
 		var q = $('<div class="question splash ' + color + '"></div>');
-		q.append('<img src="' + question.profile_image_url + '" class="profile_image"/>');
+
+		if (question.category == "True or False") {
+      for (var handle in question.profile_image_urls) {
+        q.append('<div class="avatar"><img src="' + question.profile_image_urls[handle] + '" class="profile_image" /><span><strong>@' + handle + '</strong></span></div>');
+      }
+    } else {
+      q.append('<div class="avatar"><img src="' + question.profile_image_url + '" class="profile_image" /></div>');
+    }
+
 		q.append('<h2>' + question.heading + '</h1>');
     content = question.content.replace(/(@\w+)/gi, "<span class=\"handle\">$1</span>");
     q.append('<h1>' + content + '</h1>');
