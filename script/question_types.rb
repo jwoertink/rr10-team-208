@@ -104,7 +104,7 @@ class HasMoreFollowers < TrueFalseQuestion
   def generate
     if tweets = tweet_sample(2)
       true_false_question(tweets.first,
-        "#{tweets.first.screen_name} has more followers than #{tweets.last.screen_name}",
+        "@#{tweets.first.screen_name} has more followers than @#{tweets.last.screen_name}",
         tweets.first.follower_count > tweets.last.follower_count)
     end
   end
@@ -114,7 +114,7 @@ class HasMoreTweets < TrueFalseQuestion
   def generate
     if tweets = tweet_sample(2)
       true_false_question(tweets.first,
-        "#{tweets.first.screen_name} has more tweets than #{tweets.last.screen_name}",
+        "@#{tweets.first.screen_name} has more tweets than @#{tweets.last.screen_name}",
         tweets.first.tweet_count > tweets.last.tweet_count)
     end
   end
