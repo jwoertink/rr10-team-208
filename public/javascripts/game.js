@@ -69,7 +69,7 @@ var Game = {
 	nextTermOrder: [],
 	terms: 0,
 	state: "play",
-	defaultPointValue: 30,
+	defaultPointValue: 140,
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
