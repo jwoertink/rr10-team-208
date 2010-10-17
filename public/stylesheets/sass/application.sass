@@ -58,7 +58,7 @@ html, body
 h1
   font-size: 36px
   margin-bottom: 10px
-  text-shadow: 0px 0px 15px lighten($transparent-black, 25%)
+  // text-shadow: 0px 0px 15px lighten($transparent-black, 25%)
 
 p
   margin-bottom: 10px
@@ -201,15 +201,39 @@ a:active, a:focus, input.button
   width: 400px
 
 .psa
-  max-width: 70%
+  max-width: 600px
 
 .question
-  width: 800px
-  height: 250px
+  min-height: 300px
+  width: 900px
 
-.question a
-  color: #BEFFA0
-  margin: 0 10px
+  &.red
+    background-image: -webkit-gradient(linear, left top, left bottom, from(lighten(red, 25%)), to(red))
+    background-image: -moz-linear-gradient(center top, lighten(red, 45%) 0%, lighten(red, 10%) 50%)
+
+  h1, h2
+    margin-bottom: 25px
+    text-align: left
+
+  ul
+    margin: 0
+
+    li
+      margin-bottom: 8px
+      text-align: left
+
+  a
+    color: #BEFFA0
+    margin: 0 10px
+
+  .counter
+    position: absolute
+    letter-spacing: -15px
+    bottom: 40px
+    right: 40px
+    display: inline-block
+    float: right
+    line-height: 0
 
 .field
   margin: 10px
