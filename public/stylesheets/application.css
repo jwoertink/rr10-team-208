@@ -11,9 +11,9 @@
 
 html, body {
   background-color: #ebfbff;
-  background-image: url(/images/trees.png), url(/images/clouds.png);
+  background-image: url(/images/clouds.png), url(/images/trees.png);
   background-position: bottom center, bottom center;
-  background-repeat: repeat-x, repeat;
+  background-repeat: repeat, repeat-x;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
   height: 100%; }
 
