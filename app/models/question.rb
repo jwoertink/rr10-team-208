@@ -2,6 +2,7 @@ class Question < ActiveRecord::Base
   extend ActiveSupport::Memoizable
   
   serialize :incorrect_answers
+  serialize :profile_image_urls
   
   def self.take_random
     if q = self.random

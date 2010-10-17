@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
     t.text     "correct_answer"
     t.text     "incorrect_answers"
     t.string   "profile_image_url"
+    t.text     "profile_image_urls"
     t.integer  "value"
     t.integer  "countdown"
     t.datetime "created_at"

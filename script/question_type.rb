@@ -10,17 +10,21 @@ class QuestionType
   
   attr_reader :weight, :value, :countdown
   
-  def new_question(tweet, heading, content, answers)
+  def new_question(tweets, heading, content, answers)
+    image_urls = tweets.each_with_object({}) do |_, h|
+      h[_.screen_name] = _.profile_image_url
+    end
     question = Question.new(
       :category => category,
       :heading => heading,
       :content => content,
       :correct_answer => answers.first,
       :incorrect_answers => answers.drop(1),
-      :profile_image_url => tweet.profile_image_url,
+      :profile_image_url => tweets.first.profile_image_url,
+      :profile_image_urls => image_urls,
       :value => value,
       :countdown => countdown)
-    tweet.delete
+    tweets.first.delete
     question.save
     question
   end
