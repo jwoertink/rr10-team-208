@@ -5,7 +5,7 @@ $(function() {
 		if(event.keyCode == 13) {
 			$('.go').click();
 		}
-	});
+	});	
 });
 
 function openingScene() {
@@ -52,9 +52,16 @@ function setButtonControls() {
 		showPlayerSetup();
 		return false;
 	});
-	
 	$('#rules_link').click(function() {
 		showRulesScreen();
+		return false;
+	});
+	$('#terms_link').click(function() {
+		showTermsScreen();
+		return false;
+	});
+	$('#faq_link').click(function() {
+		showFAQScreen();
 		return false;
 	});
 }
@@ -91,7 +98,54 @@ function showRulesScreen() {
 		}
 	});
 }
-
+function showTermsScreen() {
+	$('.splash').remove();
+	$.ajax({
+		url: '/terms_and_conditions',
+		dataType: 'html',
+		type: 'get',
+		success: function(data) {
+			$('body').prepend(data);
+			$('.splash').css({
+				width: '600px',
+				top: "100px",
+				left: (( $(window).width() - 650) / 2+$(window).scrollLeft() + "px")
+			});
+			$('.splash').fadeIn('fast');
+			$('a#back_to_game').live('click', function() {
+	      returnToHome();
+				return false;
+      });
+		},
+		error: function(a,b,error) {
+			alert(error);
+		}
+	});
+}
+function showFAQScreen() {
+	$('.splash').remove();
+	$.ajax({
+		url: '/faq',
+		dataType: 'html',
+		type: 'get',
+		success: function(data) {
+			$('body').prepend(data);
+			$('.splash').css({
+				width: '600px',
+				top: "100px",
+				left: (( $(window).width() - 650) / 2+$(window).scrollLeft() + "px")
+			});
+			$('.splash').fadeIn('fast');
+			$('a#back_to_game').live('click', function() {
+	      returnToHome();
+				return false;
+      });
+		},
+		error: function(a,b,error) {
+			alert(error);
+		}
+	});
+}
 function returnToHome() {
 	$('.splash').remove();
   $.ajax({
