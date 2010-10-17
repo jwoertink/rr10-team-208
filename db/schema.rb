@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
 
   create_table "questions", :force => true do |t|
     t.string   "category"
+    t.text     "heading"
     t.text     "content"
     t.text     "correct_answer"
     t.text     "incorrect_answers"

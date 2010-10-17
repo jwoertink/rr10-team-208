@@ -213,8 +213,30 @@ a:active, a:focus, input.button {
   min-height: 300px;
   width: 900px; }
   .question.red {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ff8080), to(red));
-    background-image: -moz-linear-gradient(center top, #ffe5e5 0%, #ff3333 50%); }
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#d86157), to(#8f2921));
+    background-image: -moz-linear-gradient(center top, #ebafaa 0%, #b8352b 50%); }
+  .question.green {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#87d857), to(#4a8f21));
+    background-image: -moz-linear-gradient(center top, #c2ebaa 0%, #5fb82b 50%); }
+  .question.blue {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#b2c2f7), to(#3e67ec));
+    background-image: -moz-linear-gradient(center top, white 0%, #6c8cf1 50%); }
+  .question.purple {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#b44fe2), to(#701998));
+    background-image: -moz-linear-gradient(center top, #d9a6f0 0%, #9020c4 50%); }
+  .question.orange {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f5bf77), to(#dd8410));
+    background-image: -moz-linear-gradient(center top, #fcecd6 0%, #f09d30 50%); }
+  .question img.profile_image {
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    border: 5px solid white;
+    display: block;
+    float: right;
+    margin: 10px 0 0 10px;
+    width: 130px;
+    height: 130px; }
   .question h1, .question h2 {
     margin-bottom: 25px;
     text-align: left; }

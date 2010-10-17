@@ -2,6 +2,7 @@ class CreateQuestions < ActiveRecord::Migration
   def self.up
     create_table :questions do |t|
       t.string :category
+      t.text :heading
       t.text :content
       t.text :correct_answer
       t.text :incorrect_answers
