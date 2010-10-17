@@ -158,7 +158,7 @@ a:active, a:focus, input.button
   padding: 35px
   position: absolute
   text-align: center
-  z-index: 100
+  z-index: 1000
 
   .birdie
     background: url(/images/birdie.png) top right
@@ -189,9 +189,16 @@ a:active, a:focus, input.button
 #welcome
   display: none
 
+  ol
+    list-style-type: decimal
+    margin: 0 0 20px 150px
+    text-align: left
+
+    li
+      font-size: 24px
+
 #new_player_form
   width: 550px
-
 
 #start_screen
   width: 300px
@@ -297,7 +304,7 @@ a:active, a:focus, input.button
 
 
       img
-        max-width: 100%
+        width: 100%
 
       .points
         background-color: $transparent-black

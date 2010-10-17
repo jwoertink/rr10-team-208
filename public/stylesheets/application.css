@@ -165,7 +165,7 @@ a:active, a:focus, input.button {
   padding: 35px;
   position: absolute;
   text-align: center;
-  z-index: 100; }
+  z-index: 1000; }
   .splash .birdie {
     background: url(/images/birdie.png) top right;
     height: 112px;
@@ -189,6 +189,12 @@ a:active, a:focus, input.button {
 
 #welcome {
   display: none; }
+  #welcome ol {
+    list-style-type: decimal;
+    margin: 0 0 20px 150px;
+    text-align: left; }
+    #welcome ol li {
+      font-size: 24px; }
 
 #new_player_form {
   width: 550px; }
@@ -285,7 +291,7 @@ a:active, a:focus, input.button {
       #players li .player .twithole {
         background: url(/images/ribbons.png) -108px 0 no-repeat; }
       #players li .player img {
-        max-width: 100%; }
+        width: 100%; }
       #players li .player .points {
         background-color: rgba(0, 0, 0, 0.6);
         bottom: 0;
