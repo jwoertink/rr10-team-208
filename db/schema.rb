@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
   end
 
   create_table "tweets", :force => true do |t|
+    t.integer  "status_id",         :limit => 8
     t.string   "screen_name",       :limit => 20
     t.string   "text",              :limit => 140
     t.string   "lang",              :limit => 2

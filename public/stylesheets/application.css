@@ -212,6 +212,32 @@ a:active, a:focus, input.button {
 .question {
   min-height: 300px;
   width: 900px; }
+  .question .avatar {
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    border: 5px solid white;
+    display: block;
+    float: right;
+    height: 130px;
+    margin: 10px 0 0 10px;
+    overflow: hidden;
+    position: relative;
+    text-align: right;
+    width: 130px; }
+    .question .avatar img {
+      width: 100%;
+      height: 100%; }
+    .question .avatar span {
+      background-color: rgba(0, 0, 0, 0.6);
+      bottom: 0;
+      display: block;
+      left: 0;
+      position: absolute;
+      width: 100%; }
+      .question .avatar span strong {
+        font-size: 15px;
+        margin: 10px; }
   .question h1 .handle {
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.6); }
   .question.red {
@@ -241,16 +267,6 @@ a:active, a:focus, input.button {
       color: rgba(112, 25, 152, 0.6); }
   .question.true_false ul li a {
     font-size: 2.3em; }
-  .question img.profile_image {
-    box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-    -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-    -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-    border: 5px solid white;
-    display: block;
-    float: right;
-    margin: 10px 0 0 10px;
-    width: 130px;
-    height: 130px; }
   .question h1, .question h2 {
     margin-bottom: 25px;
     text-align: left; }

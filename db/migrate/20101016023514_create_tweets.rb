@@ -1,6 +1,7 @@
 class CreateTweets < ActiveRecord::Migration
   def self.up
     create_table :tweets do |t|
+      t.integer :status_id,       :limit => 8
       t.string  :screen_name,     :limit => 20
       t.string  :text,            :limit => 140
       t.string  :lang,            :limit => 2
