@@ -292,6 +292,8 @@ var Game = {
 					$('.player').removeClass('current');
 					$(currentPlayerContainer).addClass('current');
 					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').children('span').text());
+					console.log('setting new player');
+					console.debug(currentPlayer);
 			}
 		} else {
 			Game.state = "stop";
@@ -511,6 +513,7 @@ var Game = {
 		Game.players = [];
 		$(Game.nextTermOrder).each(function(i,player) {
 			player.attributes['points'] = Game.defaultPointValue;
+			Game.players.push(player);
 		});
 		Game.reseatPlayers();
 
