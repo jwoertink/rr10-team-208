@@ -305,7 +305,7 @@ var Game = {
       q.append('<div class="avatar"><img src="' + question.profile_image_url + '" class="profile_image" /></div>');
     }
 
-		q.append('<h2>' + question.heading + '</h1>');
+		q.append('<h2>' + question.heading + ' Worth +' + question.value + '</h1>');
     content = question.content.replace(/(@\w+)/gi, "<span class=\"handle\">$1</span>");
     q.append('<h1>' + content + '</h1>');
 		var t = "";
@@ -332,7 +332,7 @@ var Game = {
 			$('.splash').remove();
 			Flash['wrong'] = 'WRONG!! Drink up!';
 			Action.displayFlash();
-			Game.nextTurn();
+			Game.nextTurn(question);
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
 		Game.timeoutTimers.push(timeoutTimer);
@@ -360,7 +360,7 @@ var Game = {
 				Game.nextTermOrder.push(currentPlayer);
 				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
 			}
-			Game.nextTurn();
+			Game.nextTurn(question);
 			
 			return false;
 		});
@@ -376,16 +376,23 @@ var Game = {
 		Game.intervalTimers = [];
 		Game.timeoutTimers = [];
 	},
-	nextTurn: function() {
+	nextTurn: function(previousQuestion) {
+    // console.log(previousQuestion);
+
 		$('.splash').remove();
 		$.ajax({
 			url: '/psas/random',
 			dataType: 'json',
-			type: 'GET',
+			data: { previousQuestion:previousQuestion },
+			type: 'POST',
 			success: function(data) {
 				var psa = $('<div class="psa splash"></div>');
-				$(psa).append('<div class="birdie"></div>');
-				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
+				$(psa).append('<h2>Last Question Was (' + data.psa.previous_question.category + ')</h2>');
+				$(psa).append('<img src="' + data.psa.previous_question.profile_image_url + '" class="left" style="border: 4px solid white; width: 100px; height: 100px; margin: 0 10px 10px 0;" />');
+				$(psa).append('<h2>' + data.psa.previous_question.content + '</h2>');
+				$(psa).append('<br /><h1>Correct Answer Was: ' + data.psa.previous_question.answers[parseInt(data.psa.previous_question.selection)] + '</h1>');
+
+				$(psa).append('<br /><fieldset><legend>TwitHole PSA</legend><p>' + data.psa.text + '</p></fieldset><br />');
 				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
 				$('body').prepend(psa);
 				centerSplashScreen(600, 0);

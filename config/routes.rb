@@ -13,7 +13,7 @@ Twithole::Application.routes.draw do
 
   resources :psas do
     collection do
-      get :random
+      post :random
     end
   end
 

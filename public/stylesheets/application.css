@@ -54,6 +54,12 @@ ol, ul {
   visibility: hidden;
   width: 0; }
 
+.left {
+  float: left; }
+
+.right {
+  float: right; }
+
 .text-left {
   text-align: left; }
 
@@ -167,7 +173,7 @@ a:active, a:focus, input.button {
   text-align: center;
   z-index: 1000; }
   .splash .birdie {
-    background: url(/images/birdie.png) top right;
+    background: url(/images/birdie.png) top right no-repeat;
     height: 115px;
     position: absolute;
     right: -33px;
@@ -208,6 +214,14 @@ a:active, a:focus, input.button {
 
 .psa {
   max-width: 600px; }
+  .psa fieldset {
+    border-radius: 12px;
+    -moz-border-radius: 12px;
+    -webkit-border-radius: 12px;
+    border: 1px solid white;
+    padding: 10px; }
+    .psa fieldset legend {
+      margin: 0 10px; }
 
 .question {
   min-height: 300px;
