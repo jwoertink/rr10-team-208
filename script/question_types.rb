@@ -49,8 +49,8 @@ class HowManyCharacters < HowManyQuestion
   def generate
     if tweets = tweet_sample_uniq(3) {|_| _.text.size }
       new_question(tweets.first,
-        "\"#{tweets.first.text}\"",
         'How many characters are in this tweet?',
+        "\"#{tweets.first.text}\"",
         tweets.map {|_| _.text.size.to_s })
     end
   end
@@ -71,8 +71,8 @@ class HowManyRetweets < HowManyQuestion
   def generate
     if tweets = tweet_sample_uniq(3) {|_| _.retweet_count }
       new_question(tweets.first,
-        "\"#{tweets.first.text}\"",
         'How many times was this retweeted?',
+        "\"#{tweets.first.text}\"",
         tweets.map {|_| _.retweet_count.to_s })
     end
   end
@@ -82,8 +82,8 @@ class GuessTagForTweet < HashTagsQuestion
   def generate
     if tweets = tweet_sample(3) {|_| _.hash_tags.size == 1 }
       new_question(tweets.first,
+        "Guess the missing hash tag.",
         "\"#{tweets.first.text_without_hash_tags}\"",
-        "Guess the missing hash tag",
         tweets.map {|_| _.hash_tags.first })
     end
   end
@@ -93,8 +93,8 @@ class GuessTweetForTag < HashTagsQuestion
   def generate
     if tweets = tweet_sample(3) {|_| _.hash_tags.size == 1 and _.text.size <= 70 }
       new_question(tweets.first,
-        tweets.first.hash_tags.first,
         "Which tweet does this hash tag go with?",
+        tweets.first.hash_tags.first,
         tweets.map {|_| _.text_without_hash_tags })
     end
   end
@@ -124,8 +124,8 @@ class GuessLocationOfTweet < LocationQuestion
   def generate
     if tweets = tweet_sample(3) {|_| !_.location.empty? }
       new_question(tweets.first,
-        "\"#{tweets.first.text}\"",
         "Guess the location of this tweet.",
+        "\"#{tweets.first.text}\"",
         tweets.map {|_| _.location })
     end
   end
@@ -135,8 +135,8 @@ class GuessLanguageOfTweet < LocationQuestion
   def generate
     if tweets = tweet_sample_uniq(3) {|_| _.lang }
       new_question(tweets.first,
-        "\"#{tweets.first.text}\"",
         "Guess the language of this tweet.",
+        "\"#{tweets.first.text}\"",
         tweets.map {|_| _.language.name })
     end
   end
@@ -146,8 +146,8 @@ class GuessPicForTweet < PicturesQuestion
   def generate
     if tweets = tweet_sample(3) {|_| _.has_profile_image? and _.text.size <= 70 }
       new_question(tweets.first,
-        "\"#{tweets.first.text}\"",
         "Which avatar goes with this tweet?",
+        "\"#{tweets.first.text}\"",
         tweets.map {|_| _.profile_image_url })
     end
   end
