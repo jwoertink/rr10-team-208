@@ -352,7 +352,7 @@ var Game = {
       q.append('<div class="avatar"><img src="' + question.profile_image_url + '" class="profile_image" /></div>');
     }
 
-		q.append('<h2>' + question.heading + ' Worth +' + question.value + '</h1>');
+		q.append('<h2>' + question.heading + ' Worth -' + question.value + ' bird seed</h1>');
     content = question.content.replace(/(@\w+)/gi, "<span class=\"handle\">$1</span>");
     q.append('<h1>' + content + '</h1>');
 		var t = "";
@@ -402,7 +402,7 @@ var Game = {
 			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {
 				currentPlayer.attributes['status'] = 'completed';
 				currentPlayer.attributes['points'] = 0;
-				$('.points', currentPlayerContainer).text('Done!');
+				$('.points', currentPlayerContainer).text('<strong>Done!</strong>');
 				$(currentPlayerContainer).addClass('completed');
 				Game.nextTermOrder.push(currentPlayer);
 				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
