@@ -475,6 +475,7 @@ var Game = {
 				$('body').prepend(data);
 				centerSplashScreen(650, 0);
 				$('.splash h1 strong').text(ordinal(Game.terms));
+				$('#president strong').text(Game.nextTermOrder[0].attributes['name']);
 				var winner = false;
 				var winningPlayer = null;
 				$(Game.nextTermOrder).each(function(i, player) {
