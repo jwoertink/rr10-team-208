@@ -9,4 +9,8 @@ class WelcomeController < ApplicationController
   def official_rules
     render(:layout => false)
   end
+  
+  def faq
+    render(:layout => false)
+  end
 end
