@@ -11,7 +11,7 @@ Twithole::Application.routes.draw do
   match '/welcome_screen' => 'partials#welcome_screen'
   match '/end_of_term' => 'partials#end_of_term'
   match '/faq' => 'welcome#faq'
-  
+  match '/end_of_game' => 'partials#end_of_game'
 
   resources :psas do
     collection do

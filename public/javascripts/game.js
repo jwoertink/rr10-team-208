@@ -475,6 +475,8 @@ var Game = {
 				$('body').prepend(data);
 				centerSplashScreen(650, 0);
 				$('.splash h1 strong').text(ordinal(Game.terms));
+				var winner = false;
+				var winningPlayer = null;
 				$(Game.nextTermOrder).each(function(i, player) {
 					switch(i) {
 						case 0 :
@@ -493,12 +495,20 @@ var Game = {
 							//don't know..
 					}
 					$('.splash #positions').append('<li>' + player.attributes['name'] + ' - '+player.attributes['score']+'</li>');
-					$('#play_term').live('click', function() {
-						Game.startTerm();
-						return false;
-					});
+					if(player.attributes['score'] >= 11) {
+						winner = true;
+						winningPlayer = player;
+					}
 				});
 				
+				$('#play_term').live('click', function() {
+					if(winner) {
+						Game.endSession(winningPlayer);
+					} else {
+						Game.startTerm();
+					}
+					return false;
+				});
 			},
 			error: function(a,b,error) {
 				
@@ -517,7 +527,25 @@ var Game = {
 		Game.reseatPlayers();
 
 	},
-	endSession: function() {
-		// Stuff to do when the game is over!
+	endSession: function(winningPlayer) {
+		$('.splash').remove();
+		$('.psa').remove();
+		Game.state = 'end';
+		Game.players = [];
+		
+		$.ajax({
+			url: '/end_of_game',
+			dataType: 'html',
+			type: 'get',
+			success: function(data) {
+				$('body').prepend(data);
+				centerSplashScreen(650, 0);
+				$('span.winner').text(winningPlayer.attributes['name']);
+			},
+			error: function(a,b,error) {
+				
+			}
+		});
+
 	}
 };

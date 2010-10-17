@@ -8,6 +8,7 @@ class PartialsController < ApplicationController
   def waiting_on_players;end
   def welcome_screen;end
   def end_of_term;end
+  def end_of_game;end
   
   private
   
