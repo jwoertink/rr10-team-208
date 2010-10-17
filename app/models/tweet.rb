@@ -20,4 +20,8 @@ class Tweet < ActiveRecord::Base
     self.text.gsub(@@hash_tag_pattern, '_')
   end
   
+  def has_profile_image?
+    !(profile_image_url =~ /\/images\/default_profile/)
+  end
+  
 end

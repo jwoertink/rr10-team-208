@@ -1,5 +1,6 @@
 $(function() {
 	openingScene();
+	moveClouds();
 });
 
 function openingScene() {
@@ -9,6 +10,15 @@ function openingScene() {
 		});
 		$('#logo').fadeOut();
 	}, 2000);
+}
+
+function moveClouds() {
+	setInterval(function() {
+		$('body').animate({
+			'background-position': "center bottom, -=1% 0%"
+		});
+	}, 800);
+	
 }
 
 function showWelcomeScreen() {
@@ -35,7 +45,7 @@ function setButtonControls() {
 
 function centerSplashScreen(w, h) {
 	$('.splash').css({
-		top: "25%",
+		top: "100px",
 		left: (( $(window).width() - (w + 60)) / 2+$(window).scrollLeft() + "px")
 	});
 }
