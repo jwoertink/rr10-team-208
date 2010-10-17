@@ -65,6 +65,7 @@ var Game = {
 	timeoutTimers: [],
 	players: [],
 	nextTermOrder: [],
+	terms: 0,
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
@@ -385,6 +386,8 @@ var Game = {
 	endTerm: function() {
 		Game.log('Just completed a term');
 		Game.clearTimers();
+		Game.terms += 1;
+		Game.nextTermOrder = Game.nextTermOrder.concat(Game.players);
 		$('.spash').remove();
 		$.ajax({
 			url: '/end_of_term',
@@ -392,6 +395,32 @@ var Game = {
 			type: 'get',
 			success: function(data) {
 				$('body').prepend(data);
+				centerSplashScreen(400, 0);
+				$('.splash h1 strong').text(ordinal(Game.terms));
+				$(Game.nextTermOrder).each(function(i, player) {
+					switch(i) {
+						case 0 :
+							player.attributes['score'] += 2
+							player.attributes['position'] = 0
+							break;
+						case 1 :
+							player.attributes['score'] += 1
+							player.attributes['position'] = 1
+							break;
+						case (Game.nextTermOrder.length - 1) :
+							// this should be the twithole...
+							player.attributes['position'] = 2
+							break;
+						default :
+							//don't know..
+					}
+					$('.splash #positions').append('<li>' + player.attributes['name'] + ' - '+player.attributes['score']+'</li>');
+					$('#play_term').live('click', function() {
+						Game.startTerm();
+						return false;
+					});
+				});
+				
 			},
 			error: function(a,b,error) {
 				
@@ -405,5 +434,8 @@ var Game = {
 		*   Reset all player bird seeds to 140
 		*   start new game
 		*/
+	},
+	startTerm: function() {
+		Game.log('Start a term here');
 	}
 };
