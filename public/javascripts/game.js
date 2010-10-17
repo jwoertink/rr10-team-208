@@ -5,8 +5,18 @@ var Player = function(args) {
 		name: args["name"],
 		points: args["points"],
 		position: args["position"]
-	}
+	},
+
+  this.title = function() {
+    var titles = [ "president", "vice_president", "twithole" ];
+    if (this.attributes["position"] <= 2) {
+      return titles[this.attributes["position"]];
+    } else {
+      return "citizen";
+    }
+  }
 };
+
 var Action = {
 	displayFlash: function() {
 		$('#flash').remove();
@@ -104,7 +114,7 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-									  <div class="twithole ' + player.attributes["position"] + '"></div> \
+									  <div class="' + player.title() + '"></div> \
 									  <img src="/images/default_avatar.png" /> \
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
