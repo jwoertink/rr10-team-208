@@ -496,7 +496,7 @@ var Game = {
 							//don't know..
 					}
 					$('.splash #positions').append('<li>' + player.attributes['name'] + ' - '+player.attributes['score']+'</li>');
-					if(player.attributes['score'] >= 11) {
+					if(player.attributes['score'] >= 8) {
 						winner = true;
 						winningPlayer = player;
 					}
