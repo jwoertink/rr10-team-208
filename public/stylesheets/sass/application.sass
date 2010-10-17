@@ -9,6 +9,7 @@ $red = rgba(143, 41, 33, 0.6)
 $teal = rgba(101, 166, 168, 1)
 $transparent-black: rgba(0, 0, 0, 0.6)
 $white = rgba(255, 255, 255, 1)
+$yellow = rgba(255, 240, 0, 1)
 
 @font-face
   font-family: "MEgalopolis"
@@ -167,11 +168,11 @@ a:active, a:focus, input.button
 
   .birdie
     background: url(/images/birdie.png) top right
-    height: 112px
+    height: 115px
     position: absolute
     right: -33px
     top: -33px
-    width: 100px
+    width: 120px
 
   .scroll-overflow
     height: 400px
@@ -206,7 +207,7 @@ a:active, a:focus, input.button
   width: 550px
 
 #start_screen
-  width: 300px
+  width: 450px
   height: 300px
 
 #setting_player
@@ -219,25 +220,55 @@ a:active, a:focus, input.button
   min-height: 300px
   width: 900px
 
+  h1
+    .handle
+      text-shadow: 0 0 10px $transparent-black
+
   &.red
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($red, 25%)), to($red))
     background-image: -moz-linear-gradient(center top, lighten($red, 45%) 0%, lighten($red, 10%) 50%)
+
+    h1
+      .handle
+        color: $blue
 
   &.green
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($green, 25%)), to($green))
     background-image: -moz-linear-gradient(center top, lighten($green, 45%) 0%, lighten($green, 10%) 50%)
 
+    h1
+      .handle
+        color: $red
+
   &.blue
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($blue, 25%)), to($blue))
     background-image: -moz-linear-gradient(center top, lighten($blue, 45%) 0%, lighten($blue, 10%) 50%)
+
+    h1
+      .handle
+        color: $orange
 
   &.purple
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($purple, 25%)), to($purple))
     background-image: -moz-linear-gradient(center top, lighten($purple, 45%) 0%, lighten($purple, 10%) 50%)
 
+    h1
+      .handle
+        color: $green
+
   &.orange
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($orange, 25%)), to($orange))
     background-image: -moz-linear-gradient(center top, lighten($orange, 45%) 0%, lighten($orange, 10%) 50%)
+
+    h1
+      .handle
+        color: $purple
+
+  &.true_false
+    ul
+      li
+        a
+          font-size: 2.3em
 
   img.profile_image
     @include shadow
@@ -334,7 +365,7 @@ a:active, a:focus, input.button
 
 
       img
-        width: 100%
+        height: 100%
 
       .points
         background-color: $transparent-black

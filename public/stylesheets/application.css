@@ -168,11 +168,11 @@ a:active, a:focus, input.button {
   z-index: 1000; }
   .splash .birdie {
     background: url(/images/birdie.png) top right;
-    height: 112px;
+    height: 115px;
     position: absolute;
     right: -33px;
     top: -33px;
-    width: 100px; }
+    width: 120px; }
   .splash .scroll-overflow {
     height: 400px;
     overflow: auto; }
@@ -200,7 +200,7 @@ a:active, a:focus, input.button {
   width: 550px; }
 
 #start_screen {
-  width: 300px;
+  width: 450px;
   height: 300px; }
 
 #setting_player {
@@ -212,21 +212,35 @@ a:active, a:focus, input.button {
 .question {
   min-height: 300px;
   width: 900px; }
+  .question h1 .handle {
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6); }
   .question.red {
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(216, 97, 87, 0.6)), to(rgba(143, 41, 33, 0.6)));
     background-image: -moz-linear-gradient(center top, rgba(235, 175, 170, 0.6) 0%, rgba(184, 53, 43, 0.6) 50%); }
+    .question.red h1 .handle {
+      color: rgba(62, 103, 236, 0.6); }
   .question.green {
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(135, 216, 87, 0.6)), to(rgba(74, 143, 33, 0.6)));
     background-image: -moz-linear-gradient(center top, rgba(194, 235, 170, 0.6) 0%, rgba(95, 184, 43, 0.6) 50%); }
+    .question.green h1 .handle {
+      color: rgba(143, 41, 33, 0.6); }
   .question.blue {
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(178, 194, 247, 0.6)), to(rgba(62, 103, 236, 0.6)));
     background-image: -moz-linear-gradient(center top, rgba(255, 255, 255, 0.6) 0%, rgba(108, 140, 241, 0.6) 50%); }
+    .question.blue h1 .handle {
+      color: rgba(221, 132, 16, 0.6); }
   .question.purple {
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(180, 79, 226, 0.6)), to(rgba(112, 25, 152, 0.6)));
     background-image: -moz-linear-gradient(center top, rgba(217, 166, 240, 0.6) 0%, rgba(144, 32, 196, 0.6) 50%); }
+    .question.purple h1 .handle {
+      color: rgba(74, 143, 33, 0.6); }
   .question.orange {
     background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(245, 191, 119, 0.6)), to(rgba(221, 132, 16, 0.6)));
     background-image: -moz-linear-gradient(center top, rgba(252, 236, 214, 0.6) 0%, rgba(240, 157, 48, 0.6) 50%); }
+    .question.orange h1 .handle {
+      color: rgba(112, 25, 152, 0.6); }
+  .question.true_false ul li a {
+    font-size: 2.3em; }
   .question img.profile_image {
     box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
     -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
@@ -313,7 +327,7 @@ a:active, a:focus, input.button {
       #players li .player .twithole {
         background: url(/images/ribbons.png) -108px 0 no-repeat; }
       #players li .player img {
-        width: 100%; }
+        height: 100%; }
       #players li .player .points {
         background-color: rgba(0, 0, 0, 0.6);
         bottom: 0;
