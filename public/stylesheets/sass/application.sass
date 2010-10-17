@@ -99,6 +99,12 @@ ol, ul
   visibility: hidden
   width: 0
 
+.left
+  float: left
+
+.right
+  float: right
+
 .text-left
   text-align: left
 
@@ -167,7 +173,7 @@ a:active, a:focus, input.button
   z-index: 1000
 
   .birdie
-    background: url(/images/birdie.png) top right
+    background: url(/images/birdie.png) top right no-repeat
     height: 115px
     position: absolute
     right: -33px
@@ -215,6 +221,14 @@ a:active, a:focus, input.button
 
 .psa
   max-width: 600px
+
+  fieldset
+    @include rounded-corners
+    border: 1px solid $white
+    padding: 10px
+
+    legend
+      margin: 0 10px
 
 .question
   min-height: 300px
@@ -371,16 +385,16 @@ a:active, a:focus, input.button
         z-index: 100
 
       .president
-        background: url(/images/ribbons.png) 0 0 no-repeat
+        background: url(/images/ribbons.png) 0 0 no-repeat !important
 
       .vice_president
-        background: url(/images/ribbons.png) -36px 0 no-repeat
+        background: url(/images/ribbons.png) -36px 0 no-repeat !important
 
       .citizen
-        background: url(/images/ribbons.png) -72px 0 no-repeat
+        background: url(/images/ribbons.png) -72px 0 no-repeat !important
 
       .twithole
-        background: url(/images/ribbons.png) -108px 0 no-repeat
+        background: url(/images/ribbons.png) -108px 0 no-repeat !important
 
 
       img

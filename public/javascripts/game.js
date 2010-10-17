@@ -6,7 +6,7 @@ var retries = 1;
 var Player = function(args) {
 	this.attributes = {
 		name: args["name"],
-		points: args["points"],
+		points: Game.defaultPointValue,
 		position: args["position"],
 		avatar: args['avatar'],
 		status: "",
@@ -68,7 +68,8 @@ var Game = {
 	players: [],
 	nextTermOrder: [],
 	terms: 0,
-	
+	state: "play",
+	defaultPointValue: 30,
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
@@ -110,7 +111,7 @@ var Game = {
 						} else {
 							avatar = '/images/default_avatar.png';
 						}
-						var player = new Player({name: $(e).val(), points: 140, position: (i + 1), avatar: avatar});
+						var player = new Player({name: $(e).val(), position: (i + 1), avatar: avatar});
 						Game.players.push(player);
 					}
 				});
@@ -162,7 +163,7 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
-									  <div class="twithole ' + player.attributes["position"] + '"></div> \
+									  <div class="' + player.attributes["position"] + '"></div> \
 									  <img src="' + player.attributes['avatar'] + '"	 /> \
 									  <div class="' + player.title() + '"></div> \
 										<div class="points"> \
@@ -185,9 +186,6 @@ var Game = {
 				}
 			});
 		});
-	},
-	addPlayer: function() {
-		
 	},
 	log: function(msg) {
 		if('console' in window) {
@@ -221,6 +219,50 @@ var Game = {
 			}
 		});
 	},
+	reseatPlayers: function() {
+		var playersOrder = Game.nextTermOrder;
+		Game.nextTermOrder = [];
+		$('#players').fadeOut('slow', function() {
+			$.ajax({
+				url: '/setting_player_order',
+				dataType: 'html',
+				type: 'GET',
+				success: function(data) {
+					$('.splash').remove();
+					$('body').prepend(data);
+					centerSplashScreen(400, 0);
+					$('#gameform').fadeOut('fast');
+					window.setTimeout(function() {
+						$('#players').children().remove();
+						
+						$(playersOrder).each(function(i,player) {
+							$('#players').append(' \
+								<li> \
+									<div class="player"> \
+									  <div class="twithole ' + player.title() + '"></div> \
+									  <img src="' + player.attributes['avatar'] + '"	 /> \
+									  <div class="' + player.title() + '"></div> \
+										<div class="points"> \
+										  <strong>' + player.attributes['points'] + '</strong> \
+										  <em>bird seed</em> \
+										</div> \
+									</div> \
+									<p class="name">' + player.attributes['name'] + ' - ' + player.attributes['score'] + '</p> \
+								</li>'
+							);
+						});
+						
+						$('#players').fadeIn('fast');
+						$('.splash').remove();
+						Game.firstSessionPrep();
+					}, 3000);
+				},
+				error: function(a,b,c) {
+					alert('OH NOES!! WTF?!? PORKCHOP SANDWICHES. GET THE #!$@ OUT OF HERE!');
+				}
+			});
+		});
+	},
 	setFirstPlayer: function() {
 		currentPlayerContainer = $('.player').not('.completed').first();
 		$('.player').removeClass('current');
@@ -231,7 +273,6 @@ var Game = {
 		$('a[rel=ready]').die();
 		var players = $('.player').toArray();
 		var currentIndex = players.indexOf(currentPlayerContainer[0]);
-		console.log('current index is ' + currentIndex);
 		var lastPlayerIndex = (players.length - 1);
 		var totalPlayers = players.length;
 		var activePlayers = $('.player').not('.completed').length;
@@ -243,7 +284,7 @@ var Game = {
 					var nextIndex = players.indexOf(nextPlayerContainer[0]);
 					
 					if(currentIndex == nextIndex) {
-						currentPlayerContainer = $(players.rotate(nextIndex)[1]);
+						currentPlayerContainer = $($(players.rotate(nextIndex)).not('.completed')[1]);
 					} else {
 						currentPlayerContainer = nextPlayerContainer;
 					}
@@ -253,14 +294,13 @@ var Game = {
 					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
 			}
 		} else {
-			// There's only 1 active player, so this should be the end of the term
+			Game.state = "stop";
 			Game.endTerm();
 		}
-		
 		return currentPlayerContainer;
 	},
 	grabQuestion: function() {
-		if(currentPlayerContainer != null) {
+		if(currentPlayerContainer != null && Game.state != 'stop') {
 			$.ajax({
 				url: '/questions/new',
 				dataType: 'json',
@@ -287,8 +327,6 @@ var Game = {
 					}, 10000);
 				}
 			});
-		} else {
-			Game.endRound();
 		}
 	},
 	displayQuestion: function(question) {
@@ -314,7 +352,7 @@ var Game = {
       q.append('<div class="avatar"><img src="' + question.profile_image_url + '" class="profile_image" /></div>');
     }
 
-		q.append('<h2>' + question.heading + '</h1>');
+		q.append('<h2>' + question.heading + ' Worth -' + question.value + ' bird seed</h1>');
     content = question.content.replace(/(@\w+)/gi, "<span class=\"handle\">$1</span>");
     q.append('<h1>' + content + '</h1>');
 		var t = "";
@@ -341,7 +379,7 @@ var Game = {
 			$('.splash').remove();
 			Flash['wrong'] = 'WRONG!! Drink up!';
 			Action.displayFlash();
-			Game.nextTurn();
+			Game.nextTurn(question);
 		}, questionTime);
 		Game.intervalTimers.push(intervalTimer);
 		Game.timeoutTimers.push(timeoutTimer);
@@ -364,12 +402,12 @@ var Game = {
 			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {
 				currentPlayer.attributes['status'] = 'completed';
 				currentPlayer.attributes['points'] = 0;
-				$('.points', currentPlayerContainer).text('Done!');
+				$('.points', currentPlayerContainer).html('<strong>Done!</strong>');
 				$(currentPlayerContainer).addClass('completed');
 				Game.nextTermOrder.push(currentPlayer);
 				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
 			}
-			Game.nextTurn();
+			Game.nextTurn(question);
 			
 			return false;
 		});
@@ -385,55 +423,57 @@ var Game = {
 		Game.intervalTimers = [];
 		Game.timeoutTimers = [];
 	},
-	nextTurn: function() {
-		$('.splash').remove();
-		$.ajax({
-			url: '/psas/random',
-			dataType: 'json',
-			type: 'GET',
-			success: function(data) {
-				var psa = $('<div class="psa splash"></div>');
-				$(psa).append('<div class="birdie"></div>');
-				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
-				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
-				$('body').prepend(psa);
-				centerSplashScreen(600, 0);
-				$('a[rel=ready]').live('click', function() {
-				  var playerStatus = Game.setNewPlayer();
-					if(playerStatus != null) {
-						Game.grabQuestion();
-				 	} else {
-				 		Game.endRound();
-				 	}
-				 		
-					return false;
-				});
-			},
-			error: function(a, b, error) {
-				alert(error);
-			}
-		});
-	},
-	nextAvailablePlayerIndex: function() {
-		
+	nextTurn: function(previousQuestion) {
+		if(Game.state == 'play') {
+			$('.splash').remove();
+			$.ajax({
+				url: '/psas/random',
+				dataType: 'json',
+				data: { previousQuestion:previousQuestion },
+				type: 'POST',
+				success: function(data) {
+					var psa = $('<div class="psa splash"></div>');
+					$(psa).append('<h2>Last Question Was (' + data.psa.previous_question.category + ')</h2>');
+					$(psa).append('<img src="' + data.psa.previous_question.profile_image_url + '" class="left" style="border: 4px solid white; width: 100px; height: 100px; margin: 0 10px 10px 0;" />');
+					$(psa).append('<h2>' + data.psa.previous_question.content + '</h2>');
+					$(psa).append('<br /><h1>Correct Answer Was: ' + data.psa.previous_question.answers[parseInt(data.psa.previous_question.selection)] + '</h1>');
+					$(psa).append('<br /><fieldset><legend>TwitHole PSA</legend><p>' + data.psa.text + '</p></fieldset><br />');
+					$(psa).append('<a href="#" rel="ready" class="button go">Bring on the next question!</a>');
+					$('body').prepend(psa);
+					centerSplashScreen(600, 0);
+					$('a[rel=ready]').live('click', function() {
+					  var playerStatus = Game.setNewPlayer();
+						if(playerStatus != null) {
+							Game.grabQuestion();
+					 	}
+
+						return false;
+					});
+				},
+				error: function(a, b, error) {
+					alert(error);
+				}
+			});
+		}
 	},
 	endRound: function() {
 		//things to happen when a round is complete....
 		Game.log('Just completed a round');
 	},
 	endTerm: function() {
-		Game.log('Just completed a term');
+		$('.psa').remove();
+		$('.spash').remove();
 		Game.clearTimers();
 		Game.terms += 1;
 		Game.nextTermOrder = Game.nextTermOrder.concat(Game.players);
-		$('.spash').remove();
+		
 		$.ajax({
 			url: '/end_of_term',
 			dataType: 'html',
 			type: 'get',
 			success: function(data) {
 				$('body').prepend(data);
-				centerSplashScreen(400, 0);
+				centerSplashScreen(650, 0);
 				$('.splash h1 strong').text(ordinal(Game.terms));
 				$(Game.nextTermOrder).each(function(i, player) {
 					switch(i) {
@@ -464,16 +504,15 @@ var Game = {
 				
 			}
 		});
-		/* TODO:
-		*   stop current term
-		*   reorganize players
-		*   Assign the new roles
-		*   Award score points (+2 for president, +1 for VP)
-		*   Reset all player bird seeds to 140
-		*   start new game
-		*/
+		
 	},
 	startTerm: function() {
-		Game.log('Start a term here');
+		Game.state = 'play';
+		Game.players = [];
+		$(Game.nextTermOrder).each(function(i,player) {
+			player.attributes['points'] = Game.defaultPointValue;
+		});
+		Game.reseatPlayers();
+
 	}
 };
