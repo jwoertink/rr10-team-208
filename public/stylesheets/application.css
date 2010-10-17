@@ -190,17 +190,17 @@ a:active, a:focus, input.button {
     .splash ul.controls li {
       display: inline-block;
       margin-right: 10px; }
+  .splash ol, .splash ul {
+    list-style-type: decimal;
+    margin: 0 0 20px 150px;
+    text-align: left; }
+    .splash ol li, .splash ul li {
+      font-size: 24px; }
   .splash p:last-child {
     margin-bottom: 0; }
 
 #welcome {
   display: none; }
-  #welcome ol {
-    list-style-type: decimal;
-    margin: 0 0 20px 150px;
-    text-align: left; }
-    #welcome ol li {
-      font-size: 24px; }
 
 #new_player_form {
   width: 550px; }
@@ -332,6 +332,7 @@ a:active, a:focus, input.button {
       box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
       -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
       -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+      background-color: black;
       border: 5px solid black;
       height: 130px;
       margin-bottom: 10px;

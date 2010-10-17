@@ -195,19 +195,19 @@ a:active, a:focus, input.button
       display: inline-block
       margin-right: 10px
 
-  p:last-child
-    margin-bottom: 0
-
-#welcome
-  display: none
-
-  ol
+  ol, ul
     list-style-type: decimal
     margin: 0 0 20px 150px
     text-align: left
 
     li
       font-size: 24px
+
+  p:last-child
+    margin-bottom: 0
+
+#welcome
+  display: none
 
 #new_player_form
   width: 550px
@@ -365,6 +365,7 @@ a:active, a:focus, input.button
 
     .player
       @include shadow
+      background-color: $black
       border: 5px solid $black
       height: 130px
       margin-bottom: 10px
