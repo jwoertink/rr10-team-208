@@ -146,7 +146,7 @@ var Game = {
 									  <div class="' + player.title() + '"></div> \
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
-										  <em>bird seeds</em> \
+										  <em>bird seed</em> \
 										</div> \
 									</div> \
 									<p class="name">' + player.attributes['name'] + '</p> \
