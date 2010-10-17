@@ -1,6 +1,8 @@
 #new_player_form.splash
   %h1 Enter Player Names
-  %p Optional: include your twitter handle, e.g. @twitholegame
+  %p Optional: bring in an avatar by using your twitter handle, e.g. @twitholegame
+  %p Minimum 3 Players, Maximum 8 Players
+  
   = form_tag("#", :id => "gameform") do
     .field
       = label_tag(:player_1)
