@@ -7,7 +7,17 @@ var Player = function(args) {
 		position: args["position"],
 		avatar: args['avatar']
 	}
+
+  this.title = function() {
+    var titles = [ "president", "vice_president", "twithole" ];
+    if (this.attributes["position"] <= 2) {
+      return titles[this.attributes["position"]];
+    } else {
+      return "citizen";
+    }
+  }
 };
+
 var Action = {
 	displayFlash: function() {
 		$('#flash').remove();
@@ -122,6 +132,7 @@ var Game = {
 				success: function(data) {
 					$('.splash').remove();
 					$('body').prepend(data);
+					centerSplashScreen(400, 0);
 					$('#gameform').fadeOut('fast');
 					window.setTimeout(function() {
 						$('#players').children().remove();
@@ -130,8 +141,13 @@ var Game = {
 							$('#players').append(' \
 								<li> \
 									<div class="player"> \
+<<<<<<< HEAD
 									  <div class="twithole ' + player.attributes["position"] + '"></div> \
 									  <img src="' + player.attributes['avatar'] + '" /> \
+=======
+									  <div class="' + player.title() + '"></div> \
+									  <img src="/images/default_avatar.png" /> \
+>>>>>>> b2c5dbda1581be5de2460894527f065b3945dfed
 										<div class="points"> \
 										  <strong>' + player.attributes['points'] + '</strong> \
 										  <em>bird seeds</em> \
@@ -172,6 +188,7 @@ var Game = {
 			success: function(data) {
 				$('.splash').remove();
 				$('body').prepend(data);
+				centerSplashScreen(300, 0);
 				var timer;
 				timer = window.setInterval(function() {
 					var time = $('.splash').find('.counter').text();
@@ -236,12 +253,19 @@ var Game = {
 		$('.question').remove();
 		$('.splash').remove();
 		var q = $('<div class="question splash"></div>');
+		q.append('<h2>Fix Me with a Category</h1>');
 		q.append('<h1>' + question.content + '</h1>');
+		var t = "";
+		t += '<ul class="answers">';
 		$(question.answers).each(function(i,e) {
-			q.append('<a href="#" class="answer" rel="' + i + '">' + e + '</a>');
+			t += '<li><a href="#" class="button answer" rel="' + i + '">' + e + '</a></li>';
 		});
+		t += '</ul>';
+		q.append(t);
+		q.append("<br class=\"clear\" />");
 		q.append('<span class="counter">' + question.countdown + '</span>');
 		$('body').prepend(q);
+		centerSplashScreen(900, 0);
 		var questionTime = parseInt($('.counter', q).text(), 10) * 1000;
 		var intervalTimer;
 		var timeoutTimer;
@@ -299,6 +323,7 @@ var Game = {
 				$(psa).append('<h1>' + data.psa.text + '</h1><br />');
 				$(psa).append('<a href="#" rel="ready" class="button">Bring on the next question!</a>');
 				$('body').prepend(psa);
+				centerSplashScreen(600, 0);
 				$('a[rel=ready]').live('click', function() {
 				  var playerStatus = Game.setNewPlayer();
 					if(playerStatus != null) {

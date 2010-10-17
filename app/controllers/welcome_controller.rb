@@ -3,6 +3,7 @@ class WelcomeController < ApplicationController
   end
   
   def terms
+    render(:layout => false)
   end
   
   def official_rules
