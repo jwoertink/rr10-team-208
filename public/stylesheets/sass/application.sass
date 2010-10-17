@@ -167,11 +167,11 @@ a:active, a:focus, input.button
 
   .birdie
     background: url(/images/birdie.png) top right
-    height: 112px
+    height: 115px
     position: absolute
     right: -33px
     top: -33px
-    width: 100px
+    width: 120px
 
   .scroll-overflow
     height: 400px
@@ -206,7 +206,7 @@ a:active, a:focus, input.button
   width: 550px
 
 #start_screen
-  width: 300px
+  width: 450px
   height: 300px
 
 #setting_player
@@ -238,6 +238,12 @@ a:active, a:focus, input.button
   &.orange
     background-image: -webkit-gradient(linear, left top, left bottom, from(lighten($orange, 25%)), to($orange))
     background-image: -moz-linear-gradient(center top, lighten($orange, 45%) 0%, lighten($orange, 10%) 50%)
+
+  &.true_false
+    ul
+      li
+        a
+          font-size: 2.3em
 
   img.profile_image
     @include shadow
@@ -334,7 +340,7 @@ a:active, a:focus, input.button
 
 
       img
-        width: 100%
+        height: 100%
 
       .points
         background-color: $transparent-black
