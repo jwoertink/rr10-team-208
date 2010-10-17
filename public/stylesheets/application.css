@@ -349,13 +349,13 @@ a:active, a:focus, input.button {
         width: 36px;
         z-index: 100; }
       #players li .player .president {
-        background: url(/images/ribbons.png) 0 0 no-repeat; }
+        background: url(/images/ribbons.png) 0 0 no-repeat !important; }
       #players li .player .vice_president {
-        background: url(/images/ribbons.png) -36px 0 no-repeat; }
+        background: url(/images/ribbons.png) -36px 0 no-repeat !important; }
       #players li .player .citizen {
-        background: url(/images/ribbons.png) -72px 0 no-repeat; }
+        background: url(/images/ribbons.png) -72px 0 no-repeat !important; }
       #players li .player .twithole {
-        background: url(/images/ribbons.png) -108px 0 no-repeat; }
+        background: url(/images/ribbons.png) -108px 0 no-repeat !important; }
       #players li .player img {
         height: 100%; }
       #players li .player .points {
