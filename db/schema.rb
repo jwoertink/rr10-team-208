@@ -13,7 +13,7 @@
 ActiveRecord::Schema.define(:version => 20101017010507) do
 
   create_table "languages", :force => true do |t|
-    t.string   "code"
+    t.string   "code",       :limit => 2
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"

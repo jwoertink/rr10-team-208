@@ -288,7 +288,7 @@ var Game = {
 				Flash['correct'] = 'YAY! Well played';
 				Action.displayFlash();
 				var newPoints = parseInt($('.points', currentPlayer).text(), 10) - question.value;
-				$('.points', currentPlayer).text(newPoints);
+				$('.points strong', currentPlayer).text(newPoints);
 			} else {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
