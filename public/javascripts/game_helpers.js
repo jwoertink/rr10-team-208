@@ -104,18 +104,15 @@ var Base64 = {
 		return string;
 	}
 }	
-Array.prototype.rotate = (function() {
-    var unshift = Array.prototype.unshift,
-        splice = Array.prototype.splice;
 
-    return function(count) {
-        var len = this.length >>> 0,
-            count = count >> 0;
+Array.prototype.rotate = function(count) {
+	var arr = this.slice(0);
+	for(var i = 0; i < count; i++) {
+		arr.push(arr.shift());
+	}
+	return arr;
+}
 
-        unshift.apply(this, splice.call(this, count % len, len));
-        return this;
-    };
-})();
 function ordinal(n) {
    var s = ["th","st","nd","rd"];
    var v = n%100;
