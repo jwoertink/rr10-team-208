@@ -288,7 +288,8 @@ var Game = {
 		var q = $('<div class="question splash ' + color + '"></div>');
 		q.append('<img src="' + question.profile_image_url + '" class="profile_image"/>');
 		q.append('<h2>' + question.heading + '</h1>');
-		q.append('<h1>' + question.content + '</h1>');
+    content = question.content.replace(/(@\w+)/gi, "<span class=\"handle\">$1</span>");
+    q.append('<h1>' + content + '</h1>');
 		var t = "";
 		t += '<ul class="answers">';
 		$(question.answers).each(function(i,e) {
