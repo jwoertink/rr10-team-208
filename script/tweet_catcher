@@ -13,14 +13,16 @@ $min_tweets = 100
 $sleep_period = 30 # seconds
 
 $question_types = QuestionType::Chooser.new(
-  HowManyTweets.new(    :weight => 1, :value => 1, :countdown => 10),
-  HowManyCharacters.new(:weight => 1, :value => 1, :countdown => 10),
-  HowManyFollowers.new( :weight => 1, :value => 1, :countdown => 10),
-  HowManyRetweets.new(  :weight => 1, :value => 1, :countdown => 10),
-  GuessTagForTweet.new( :weight => 1, :value => 1, :countdown => 10),
-  GuessTweetForTag.new( :weight => 1, :value => 1, :countdown => 10),
-  HasMoreFollowers.new( :weight => 1, :value => 1, :countdown => 10),
-  HasMoreTweets.new(    :weight => 1, :value => 1, :countdown => 10)
+  HowManyTweets.new(        :weight => 1, :value => 30, :countdown => 10),
+  HowManyCharacters.new(    :weight => 1, :value => 30, :countdown => 10),
+  HowManyFollowers.new(     :weight => 1, :value => 30, :countdown => 10),
+  HowManyRetweets.new(      :weight => 1, :value => 30, :countdown => 10),
+  GuessTagForTweet.new(     :weight => 1, :value => 30, :countdown => 10),
+  GuessTweetForTag.new(     :weight => 1, :value => 30, :countdown => 10),
+  HasMoreFollowers.new(     :weight => 1, :value => 30, :countdown => 10),
+  HasMoreTweets.new(        :weight => 1, :value => 30, :countdown => 10),
+  GuessLocationOfTweet.new( :weight => 1, :value => 30, :countdown => 10),
+  GuessLanguageOfTweet.new( :weight => 1, :value => 30, :countdown => 10)
 )
 
 def generate_questions
@@ -40,6 +42,8 @@ def catch_tweet(status)
   tweet = Tweet.new(
       :screen_name => status.user.screen_name,
       :text => status.text,
+      :lang => status.user.lang,
+      :location => status.user.location,
       :profile_image_url => status.user.profile_image_url,
       :tweet_count => status.user.statuses_count || 0,
       :follower_count => status.user.followers_count || 0,

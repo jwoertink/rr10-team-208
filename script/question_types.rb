@@ -22,6 +22,18 @@ class TrueFalseQuestion < QuestionType
   end
 end
 
+class LocationQuestion < QuestionType
+  def category
+    'Location'
+  end
+end
+
+class PicturesQuestion < QuestionType
+  def category
+    'Pictures'
+  end
+end
+
 class HowManyTweets < HowManyQuestion
   def generate
     if tweets = tweets_with_counts(3) {|_| _.tweet_count }
@@ -98,6 +110,46 @@ class HasMoreTweets < TrueFalseQuestion
       true_false_question(tweets.first,
         "#{tweets.first.screen_name} has more tweets than #{tweets.last.screen_name}",
         tweets.first.tweet_count > tweets.last.tweet_count)
+    end
+  end
+end
+
+class GuessLocationOfTweet < LocationQuestion
+  def generate
+    if tweets = tweet_sample(3) {|_| !_.location.empty? }
+      new_question(tweets.first,
+        "#{tweets.first.text}\n\nGuess the location of this tweet.",
+        tweets.map {|_| _.location })
+    end
+  end
+end
+
+class GuessLanguageOfTweet < LocationQuestion
+  def generate
+    if tweets = tweet_sample(3)
+      new_question(tweets.first,
+        "#{tweets.first.text}\n\nGuess the language of this tweet.",
+        tweets.map {|_| _.lang })
+    end
+  end
+end
+
+class GuessPicForTweet < PicturesQuestion
+  def generate
+    if tweets = tweet_sample(3) {|_| _.has_profile_image? }
+      new_question(tweets.first,
+        "Which tweet goes with this avatar?",
+        tweets.map {|_| _.text })
+    end
+  end
+end
+
+class GuessTweetForPic < PicturesQuestion
+  def generate
+    if tweets = tweet_sample(3) {|_| _.has_profile_image? }
+      new_question(tweets.first,
+        "#{tweet.first.text}\n\nWhich avatar goes with this tweet?",
+        tweets.map {|_| _.profile_image_url })
     end
   end
 end

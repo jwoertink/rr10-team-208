@@ -16,6 +16,7 @@ class QuestionType
       :content => content,
       :correct_answer => answers.first,
       :incorrect_answers => answers.drop(1),
+      :profile_image_url => tweet.profile_image_url,
       :value => value,
       :countdown => countdown)
     tweet.delete

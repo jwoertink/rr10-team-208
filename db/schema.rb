@@ -27,10 +27,11 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
   end
 
   create_table "questions", :force => true do |t|
-    t.text     "category"
+    t.string   "category"
     t.text     "content"
     t.text     "correct_answer"
     t.text     "incorrect_answers"
+    t.string   "profile_image_url"
     t.integer  "value"
     t.integer  "countdown"
     t.datetime "created_at"
@@ -47,6 +48,8 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
   create_table "tweets", :force => true do |t|
     t.string   "screen_name",       :limit => 20
     t.string   "text",              :limit => 140
+    t.string   "lang",              :limit => 2
+    t.string   "location"
     t.string   "profile_image_url"
     t.integer  "tweet_count",                      :default => 0, :null => false
     t.integer  "follower_count",                   :default => 0, :null => false

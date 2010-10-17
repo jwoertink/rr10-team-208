@@ -3,6 +3,8 @@ class CreateTweets < ActiveRecord::Migration
     create_table :tweets do |t|
       t.string  :screen_name,     :limit => 20
       t.string  :text,            :limit => 140
+      t.string  :lang,            :limit => 2
+      t.string  :location
       t.string  :profile_image_url
       t.integer :tweet_count,     :default => 0,  :null => false
       t.integer :follower_count,  :default => 0,  :null => false
