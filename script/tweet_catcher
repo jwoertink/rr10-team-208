@@ -7,10 +7,10 @@ require 'set'
 
 $twitter_user = 'twitholegame'
 $twitter_password = '4ssh0le!'
-$max_tweets = 500
-$max_questions = 500
-$min_tweets = 200
-$sleep_period = 30 # seconds
+$max_tweets = 1000
+$max_questions = 1000
+$min_tweets = 250
+$sleep_period = 60 # seconds
 
 $question_types = QuestionType::Chooser.new(
   HowManyTweets.new(        :weight => 1,   :value => 30, :countdown => 5),
@@ -67,6 +67,16 @@ def catch_tweets
   end
 end
 
+def cull_tweets
+  sleep $sleep_period
+  Tweet.delete_all(['created_at < ?', Time.zone.now - 24.hours])
+end
+
+def cull_questions
+  sleep $sleep_period
+  Questions.delete_all(['created_at < ?', Time.zone.now - 24.hours])
+end
+
 def continually
   loop do
     begin
@@ -80,7 +90,9 @@ end
 pid = fork do
   threads = [
     Thread.new { continually { catch_tweets } },
-    Thread.new { continually { generate_questions } }
+    Thread.new { continually { generate_questions } },
+    Thread.new { continually { cull_tweets } },
+    Thread.new { continually { cull_questions } }
   ]
   threads.each {|_| _.join }
 end
