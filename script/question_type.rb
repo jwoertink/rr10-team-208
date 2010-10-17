@@ -37,7 +37,9 @@ class QuestionType
     values = Set[]
     tweet_sample(n) do |t|
       v = yield t
-      values << v unless values.include? v
+      if v and not values.include? v
+        values << v
+      end
     end
   end
   

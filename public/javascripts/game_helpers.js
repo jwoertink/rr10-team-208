@@ -104,3 +104,20 @@ var Base64 = {
 		return string;
 	}
 }	
+Array.prototype.rotate = (function() {
+    var unshift = Array.prototype.unshift,
+        splice = Array.prototype.splice;
+
+    return function(count) {
+        var len = this.length >>> 0,
+            count = count >> 0;
+
+        unshift.apply(this, splice.call(this, count % len, len));
+        return this;
+    };
+})();
+function ordinal(n) {
+   var s = ["th","st","nd","rd"];
+   var v = n%100;
+   return n+(s[(v-20)%10]||s[v]||s[0]);
+}

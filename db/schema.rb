@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(:version => 20101017010507) do
     t.integer  "follower_count",                   :default => 0, :null => false
     t.integer  "retweet_count",                    :default => 0, :null => false
     t.datetime "joined_at"
+    t.boolean  "verified_user"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

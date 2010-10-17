@@ -7,7 +7,8 @@ var Player = function(args) {
 		points: args["points"],
 		position: args["position"],
 		avatar: args['avatar'],
-		status: ""
+		status: "",
+		score: 0
 	}
 
   this.title = function() {
@@ -64,6 +65,7 @@ var Game = {
 	timeoutTimers: [],
 	players: [],
 	nextTermOrder: [],
+	terms: 0,
 	find_player_by_name: function(name) {
 		var player;
 		if(Game.players.length == 0) {
@@ -123,12 +125,7 @@ var Game = {
 	start: function() {
 		Game.grabQuestion();
 		$(window).bind('beforeunload', function(event) {
-			if(confirm('Leave?')) {
-				
-			} else {
-				return '';
-			}
-			
+			return '';
 		});
 	},
 	randomizePlayers: function() {
@@ -213,29 +210,37 @@ var Game = {
 		});
 	},
 	setFirstPlayer: function() {
-		currentPlayerContainer = $('.player:first');
+		currentPlayerContainer = $('.player').not('.completed').first();
 		$('.player').removeClass('current');
 		$(currentPlayerContainer).addClass('current');
 		currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
 	},
 	setNewPlayer: function() {
 		var currentIndex = $('.player').toArray().indexOf(currentPlayerContainer[0]);
-		var playerCount = $('.player').length;
-		if(currentIndex != -1) {
-			if(currentIndex < (playerCount - 1)) {
-				if((currentIndex + 1) > playerCount) {
+		console.log('current index is ' + currentIndex);
+		var lastPlayerIndex = $('.player').toArray().indexOf($('.player:last')[0]);
+		var totalPlayers = $('.player').length;
+		var activePlayers = $('.player').not('.completed').length;
+		if(activePlayers > 1) {
+			if(currentIndex == lastPlayerIndex) {
 					Game.setFirstPlayer();
-				} else {
-					currentPlayerContainer = $('.player').eq(currentIndex + 1);
+			} else {
+					var group = $('.player').toArray();
+					var nextPlayerContainer = $(group.rotate(currentIndex)).not('.completed').first();
+					if($(nextPlayerContainer).siblings('.name').text() == $(currentPlayerContainer).siblings('.name').text()) {
+						//var arr = group.rotate(currentIndex);
+						currentPlayerContainer = $(group.rotate(currentIndex)[1]);
+					} else {
+						currentPlayerContainer = nextPlayerContainer;
+					}
+					
 					$('.player').removeClass('current');
 					$(currentPlayerContainer).addClass('current');
 					currentPlayer = Game.find_player_by_name($(currentPlayerContainer).siblings('.name').text());
-				}
-			} else {
-				Game.setFirstPlayer();
 			}
 		} else {
-			Game.setFirstPlayer();
+			// There's only 1 active player, so this should be the end of the term
+			Game.endTerm();
 		}
 		
 		return currentPlayerContainer;
@@ -247,7 +252,6 @@ var Game = {
 				dataType: 'json',
 				type: 'GET',
 				success: function(data) {
-				  console.log(data);
 					Game.displayQuestion(data.question);
 				},
 				error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -319,18 +323,19 @@ var Game = {
 				Flash['wrong'] = 'WRONG!! Drink up!';
 				Action.displayFlash();
 			}
-			
+			if(currentPlayer.attributes['points'] <= 0 && currentPlayer.attributes['status'] == '') {
+				currentPlayer.attributes['status'] = 'completed';
+				currentPlayer.attributes['points'] = 0;
+				$('.points', currentPlayerContainer).text('Done!');
+				$(currentPlayerContainer).addClass('completed');
+				Game.nextTermOrder.push(currentPlayer);
+				Game.players.splice(Game.players.indexOf(currentPlayer) ,1);
+			}
 			Game.nextTurn();
-
+			
 			return false;
 		});
-		if(currentPlayer.attributes['points'] <= 0) {
-			currentPlayer.attributes['status'] = 'completed';
-			currentPlayer.attributes['points'] = 0;
-			$('.points', currentPlayerConttainer).text('Done!');
-			Game.nextTermOrder.push(currentPlayer);
-		}
-		Game.log('Next Round will be ' + Game.nextTermOrder);
+
 	},
 	clearTimers: function() {
 		$(Game.intervalTimers).each(function(i,timer) {
@@ -371,8 +376,66 @@ var Game = {
 			}
 		});
 	},
+	nextAvailablePlayerIndex: function() {
+		
+	},
 	endRound: function() {
 		//things to happen when a round is complete....
 		Game.log('Just completed a round');
+	},
+	endTerm: function() {
+		Game.log('Just completed a term');
+		Game.clearTimers();
+		Game.terms += 1;
+		Game.nextTermOrder = Game.nextTermOrder.concat(Game.players);
+		$('.spash').remove();
+		$.ajax({
+			url: '/end_of_term',
+			dataType: 'html',
+			type: 'get',
+			success: function(data) {
+				$('body').prepend(data);
+				centerSplashScreen(400, 0);
+				$('.splash h1 strong').text(ordinal(Game.terms));
+				$(Game.nextTermOrder).each(function(i, player) {
+					switch(i) {
+						case 0 :
+							player.attributes['score'] += 2
+							player.attributes['position'] = 0
+							break;
+						case 1 :
+							player.attributes['score'] += 1
+							player.attributes['position'] = 1
+							break;
+						case (Game.nextTermOrder.length - 1) :
+							// this should be the twithole...
+							player.attributes['position'] = 2
+							break;
+						default :
+							//don't know..
+					}
+					$('.splash #positions').append('<li>' + player.attributes['name'] + ' - '+player.attributes['score']+'</li>');
+					$('#play_term').live('click', function() {
+						Game.startTerm();
+						return false;
+					});
+				});
+				
+			},
+			error: function(a,b,error) {
+				
+			}
+		});
+		/* TODO:
+		*   stop current term
+		*   reorganize players
+		*   Assign the new roles
+		*   Award score points (+2 for president, +1 for VP)
+		*   Reset all player bird seeds to 140
+		*   start new game
+		*/
+	},
+	startTerm: function() {
+		Game.log('Start a term here');
 	}
 };

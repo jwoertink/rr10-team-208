@@ -7,22 +7,23 @@ require 'set'
 
 $twitter_user = 'twitholegame'
 $twitter_password = '4ssh0le!'
-$max_tweets = 500
-$max_questions = 500
-$min_tweets = 200
-$sleep_period = 30 # seconds
+$max_tweets = 1000
+$max_questions = 1000
+$min_tweets = 250
+$sleep_period = 60 # seconds
 
 $question_types = QuestionType::Chooser.new(
-  HowManyTweets.new(        :weight => 1, :value => 30, :countdown => 5),
-  HowManyCharacters.new(    :weight => 1, :value => 10, :countdown => 8),
-  HowManyFollowers.new(     :weight => 1, :value => 30, :countdown => 5),
-  HowManyRetweets.new(      :weight => 1, :value => 30, :countdown => 10),
-  GuessTagForTweet.new(     :weight => 1, :value => 30, :countdown => 15),
-  GuessTweetForTag.new(     :weight => 1, :value => 30, :countdown => 15),
-  HasMoreFollowers.new(     :weight => 1, :value => 15, :countdown => 10),
-  HasMoreTweets.new(        :weight => 1, :value => 15, :countdown => 10),
-  GuessLocationOfTweet.new( :weight => 1, :value => 25, :countdown => 10),
-  GuessLanguageOfTweet.new( :weight => 1, :value => 10, :countdown => 10)
+  HowManyTweets.new(        :weight => 1,   :value => 30, :countdown => 5),
+  HowManyCharacters.new(    :weight => 1,   :value => 10, :countdown => 8),
+  HowManyFollowers.new(     :weight => 1,   :value => 30, :countdown => 5),
+  HowManyRetweets.new(      :weight => 1,   :value => 30, :countdown => 10),
+  GuessTagForTweet.new(     :weight => 1,   :value => 30, :countdown => 15),
+  GuessTweetForTag.new(     :weight => 1,   :value => 30, :countdown => 15),
+  HasMoreFollowers.new(     :weight => 1,   :value => 15, :countdown => 10),
+  HasMoreTweets.new(        :weight => 1,   :value => 15, :countdown => 10),
+  GuessLocationOfTweet.new( :weight => 1,   :value => 25, :countdown => 10),
+  GuessLanguageOfTweet.new( :weight => 1,   :value => 10, :countdown => 10),
+  WhichIsFromCeleb.new(     :weight => 10,  :value => 30, :countdown => 10)
 )
 
 def generate_questions
@@ -35,7 +36,8 @@ end
 
 def good_tweet?(tweet)
   tweet.hash_tags.size > 0 or
-  tweet.retweet_count > 0
+  tweet.retweet_count > 0 or
+  tweet.verified_user
 end
 
 def catch_tweet(status)
@@ -48,7 +50,8 @@ def catch_tweet(status)
       :tweet_count => status.user.statuses_count || 0,
       :follower_count => status.user.followers_count || 0,
       :retweet_count => status.retweet_count || 0,
-      :joined_at => status.created_at)
+      :joined_at => status.created_at,
+      :verified_user => status.user.verified)
   tweet.save if good_tweet? tweet
 rescue Exception => e
   Rails.logger.error e
@@ -64,6 +67,16 @@ def catch_tweets
   end
 end
 
+def cull_tweets
+  sleep $sleep_period
+  Tweet.delete_all(['created_at < ?', Time.zone.now - 24.hours])
+end
+
+def cull_questions
+  sleep $sleep_period
+  Questions.delete_all(['created_at < ?', Time.zone.now - 24.hours])
+end
+
 def continually
   loop do
     begin
@@ -77,7 +90,9 @@ end
 pid = fork do
   threads = [
     Thread.new { continually { catch_tweets } },
-    Thread.new { continually { generate_questions } }
+    Thread.new { continually { generate_questions } },
+    Thread.new { continually { cull_tweets } },
+    Thread.new { continually { cull_questions } }
   ]
   threads.each {|_| _.join }
 end
