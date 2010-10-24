@@ -12,7 +12,7 @@
 html, body {
   background-color: #ebfbff;
   background-image: url(/images/clouds.png), url(/images/trees.png);
-  background-position: bottom center, bottom center;
+  background-position: 0 0, bottom center;
   background-repeat: repeat, repeat-x;
   font-family: Megalopolis, Helvetica, Arial, sans-serif;
   height: 100%; }
@@ -60,7 +60,7 @@ ol, ul {
 .right {
   float: right; }
 
-.text-left {
+.text_left {
   text-align: left; }
 
 .text-right {
@@ -73,9 +73,9 @@ ol, ul {
   border-radius: 12px;
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
   background-image: -moz-linear-gradient(center top, #ebfbff 0%, #6be1ff 50%);
   border: 0 none;
@@ -95,9 +95,9 @@ a.button {
   border-radius: 12px;
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#ebfbff), to(#6be1ff));
   background-image: -moz-linear-gradient(center top, #ebfbff 0%, #6be1ff 50%);
   border: 0 none;
@@ -128,9 +128,9 @@ a:active, a:focus, input.button {
   border-radius: 12px;
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
-  box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-  -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-  -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
   color: white;
   display: none;
   font-size: 72px;
@@ -161,9 +161,9 @@ a:active, a:focus, input.button {
   border-radius: 12px;
   -moz-border-radius: 12px;
   -webkit-border-radius: 12px;
-  box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-  -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-  -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
   background-color: rgba(0, 0, 0, 0.6);
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(64, 64, 64, 0.6)), to(rgba(0, 0, 0, 0.6)));
   background-image: -moz-linear-gradient(center top, rgba(115, 115, 115, 0.6) 0%, rgba(26, 26, 26, 0.6) 50%);
@@ -176,8 +176,8 @@ a:active, a:focus, input.button {
     background: url(/images/birdie.png) top right no-repeat;
     height: 115px;
     position: absolute;
-    right: -33px;
-    top: -33px;
+    right: -50px;
+    top: -50px;
     width: 120px; }
   .splash .scroll-overflow {
     height: 400px;
@@ -212,6 +212,26 @@ a:active, a:focus, input.button {
 #setting_player {
   width: 400px; }
 
+.page a {
+  color: #fff000; }
+
+.page h2 {
+  color: #65a6a8;
+  margin: 5px 0; }
+
+.page ol {
+  list-style: decimal;
+  margin-left: 25px; }
+
+.page .tip {
+  color: #ffd3f6;
+  font-family: Helvetica;
+  font-size: 14px;
+  margin: 5px 0; }
+
+.faq_a {
+  color: rgba(221, 132, 16, 0.6); }
+
 .psa {
   max-width: 600px; }
   .psa fieldset {
@@ -227,9 +247,9 @@ a:active, a:focus, input.button {
   min-height: 300px;
   width: 900px; }
   .question .avatar {
-    box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-    -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-    -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+    -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
     border: 5px solid white;
     display: block;
     float: right;
@@ -328,10 +348,12 @@ a:active, a:focus, input.button {
     display: inline-block;
     font-size: 12px;
     margin-right: 10px; }
+    #players li .name {
+      color: rgba(112, 25, 152, 0.6); }
     #players li .player {
-      box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-      -webkit-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
-      -moz-box-shadow: 0 0 15px rgba(128, 128, 128, 0.6);
+      box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+      -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
+      -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.6);
       background-color: black;
       border: 5px solid black;
       height: 130px;
@@ -342,7 +364,8 @@ a:active, a:focus, input.button {
       width: 130px; }
       #players li .player.current {
         height: 150px;
-        width: 150px; }
+        width: 150px;
+        border-color: #fff000; }
       #players li .player .president, #players li .player .vice_president, #players li .player .twithole, #players li .player .citizen {
         position: absolute;
         height: 86px;

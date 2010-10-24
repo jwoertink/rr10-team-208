@@ -10,6 +10,7 @@ $teal = rgba(101, 166, 168, 1)
 $transparent-black: rgba(0, 0, 0, 0.6)
 $white = rgba(255, 255, 255, 1)
 $yellow = rgba(255, 240, 0, 1)
+$pink = rgba(255, 211, 246, 1)
 
 @font-face
   font-family: "MEgalopolis"
@@ -24,10 +25,10 @@ $yellow = rgba(255, 240, 0, 1)
   -moz-border-radius: $radius
   -webkit-border-radius: $radius
 
-@mixin shadow($radius: 15px, $color: lighten($transparent-black, 50%))
-  box-shadow: 0 0 $radius $color
-  -webkit-box-shadow: 0 0 $radius $color
-  -moz-box-shadow: 0 0 $radius $color
+@mixin shadow($radius: 15px, $color: $transparent-black)
+  box-shadow: 0 0 $radius 0 $color
+  -webkit-box-shadow: 0 0 $radius 0 $color
+  -moz-box-shadow: 0 0 $radius 0 $color
 
 @mixin button
   @include rounded-corners(12px)
@@ -56,7 +57,7 @@ $yellow = rgba(255, 240, 0, 1)
 html, body
   background-color: $light-blue
   background-image: url(/images/clouds.png), url(/images/trees.png)
-  background-position: bottom center, bottom center
+  background-position: 0 0, bottom center
   background-repeat: repeat, repeat-x
   font-family: Megalopolis, Helvetica, Arial, sans-serif
   height: 100%
@@ -105,7 +106,7 @@ ol, ul
 .right
   float: right
 
-.text-left
+.text_left
   text-align: left
 
 .text-right
@@ -176,8 +177,8 @@ a:active, a:focus, input.button
     background: url(/images/birdie.png) top right no-repeat
     height: 115px
     position: absolute
-    right: -33px
-    top: -33px
+    right: -50px
+    top: -50px
     width: 120px
 
   .scroll-overflow
@@ -219,6 +220,26 @@ a:active, a:focus, input.button
 #setting_player
   width: 400px
 
+.page a
+  color: $yellow
+  
+.page h2
+  color: $teal
+  margin: 5px 0
+
+.page ol
+  list-style: decimal
+  margin-left: 25px
+
+.page .tip
+  color: $pink
+  font-family: Helvetica
+  font-size: 14px
+  margin: 5px 0
+
+.faq_a
+  color: $orange
+  
 .psa
   max-width: 600px
 
@@ -362,7 +383,10 @@ a:active, a:focus, input.button
     display: inline-block
     font-size: 12px
     margin-right: 10px
-
+    
+    .name
+      color: $purple
+    
     .player
       @include shadow
       background-color: $black
@@ -377,6 +401,7 @@ a:active, a:focus, input.button
       &.current
         height: 150px
         width: 150px
+        border-color: $yellow
 
       .president, .vice_president, .twithole, .citizen
         position: absolute

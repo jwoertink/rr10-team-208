@@ -332,6 +332,7 @@ var Game = {
 	displayQuestion: function(question) {
 		$('.question').remove();
 		$('.splash').remove();
+		$('#flash').remove();
 
 		var color;
 		switch (question.category) {

@@ -1,26 +1,27 @@
-.splash
+.splash.page
+  .birdie
   %h1 Twithole Game FAQ
+  .scroll-overflow.text_left
+    %p Q: Does Twithole tweet anything on my behalf if I use my twitter handle?
+    %p.faq_a A: No, if you give us a twitter handle, we only use it to pull in a profile picture for the game.
 
-  %p Q: Does Twithole tweet anything on my behalf if I use my twitter handle?
-  %p.faq_a A: No, if you give us a twitter handle, we only use it to pull in a profile picture for the game.
+    %p Q: Where do the questions come from?
+    %p.faq_a A: Twithole uses the Twitter Streaming API to collects real tweets. We categorize each tweet for different types of questions and display them for players.
 
-  %p Q: Where do the questions come from?
-  %p.faq_a A: Twithole uses the Twitter Streaming API to collects real tweets. We categorize each tweet for different types of questions and display them for players.
+    %p Q: Are these real tweets?
+    %p.faq_a A: Yes, all Twithole content is taken from real tweets. Even the wrong answers.
 
-  %p Q: Are these real tweets?
-  %p.faq_a A: Yes, all Twithole content is taken from real tweets. Even the wrong answers.
+    %p Q: How do you know the answer is correct?
+    %p.faq_a A: Because we asked it, ya-dummy.
 
-  %p Q: How do you know the answer is correct?
-  %p.faq_a A: Because we asked it, ya-dummy.
+    %p Q: How old are the tweets used in Twithole?
+    %p.faq_a A: All question content has been tweeted within the the last 24 hours.
 
-  %p Q: How old are the tweets used in Twithole?
-  %p.faq_a A: All question content has been tweeted within the the last 24 hours.
+    %p Q: Is Twithole just luck?
+    %p.faq_a A: No, you can be good at Twithole. While some questions may require a guess, the best players have a strategy for selecting answers.
 
-  %p Q: Is Twithole just luck?
-  %p.faq_a A: No, you can be good at Twithole. While some questions may require a guess, the best players have a strategy for selecting answers.
-
-  %p Q: Can my tweet become a Twithole question?
-  %p.faq_a A: Yes. However, the chances are slim you'd see yourself in your own game of Twithole.
+    %p Q: Can my tweet become a Twithole question?
+    %p.faq_a A: Yes. However, the chances are slim you'd see yourself in your own game of Twithole.
 
   %br
   = link_to("Back to Game", "#", :id => "back_to_game", :class => "button go")

@@ -35,7 +35,7 @@ function openingScene() {
 function moveClouds() {
 	setInterval(function() {
 		$('body').stop(true, true).animate({
-			'background-position': "-=1px 0%, center bottom"
+			'background-position': "-=1px -10px, center bottom"
 		});
 	}, 300);
 	

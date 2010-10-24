@@ -24,16 +24,17 @@
   #footer
     &copy; 2010
     =link_to('SinCityRuby.com', 'http://sincityruby.com/',:target => "blank")
+    &nbsp;|&nbsp;
     = link_to(raw("Terms &amp; Conditions"), "#", :id => 'terms_link')
-    Designed for RailsRumble.com 2010
+    &nbsp;|&nbsp;
     = link_to(raw("FAQ"), "#", :id => "faq_link")
-    = link_to("Remember to vote for us.", "http://railsrumble.com/teams/sincity-rb", :target => "blank")
+    &nbsp;|&nbsp;
+    %span Designed for RailsRumble.com 2010
 
   :javascript
     var rumbleUrl = 'http://railsrumble.com';
 
   = javascript_include_tag("jquery.min", 'easing', 'game_helpers', 'game', :defaults)
-  = javascript_include_tag("http://blog.railsrumble.com/javascripts/rumble-r10-sash.js")
 
   -#http://twitholegame.r10.railsrumble.com/ Google Analytics
   
