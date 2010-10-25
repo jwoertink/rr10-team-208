@@ -502,7 +502,7 @@ var Game = {
 						winningPlayer = player;
 					}
 				});
-				
+				$('#play_term').die();
 				$('#play_term').live('click', function() {
 					if(winner) {
 						Game.endSession(winningPlayer);
