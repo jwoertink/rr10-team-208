@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-ENV["RAILS_ENV"] ||= 'daemon_dev'
+ENV["RAILS_ENV"] ||= 'development'
 require File.expand_path("../../config/environment", __FILE__)
 require File.expand_path('../question_types', __FILE__)
 require 'set'
@@ -25,6 +25,14 @@ $question_types = QuestionType::Chooser.new(
   GuessLanguageOfTweet.new( :weight => 1,   :value => 10, :countdown => 10),
   WhichIsFromCeleb.new(     :weight => 20,  :value => 30, :countdown => 10)
 )
+
+TweetStream.configure do |config|
+  config.consumer_key       = 'Eglxo9ixhoxIn4ieH6MiQw'
+  config.consumer_secret    = 'TUfkXc5RCdkOONRQ0bMesa406ifiyN6AEO8LArsQas'
+  config.oauth_token        = '203435846-6c0bCLksEVSr7TFNFQkL2EosbSMhZbmgpg0BK0cW'
+  config.oauth_token_secret = 'u6C6dDUf5LfstGKEfESKveEgmJmscUZmUORnDRqr1g'
+  config.auth_method        = :oauth
+end
 
 def generate_questions
   if Question.count < $max_questions and Tweet.count > $min_tweets
@@ -59,7 +67,8 @@ rescue Exception => e
 end
 
 def catch_tweets
-  TweetStream::Client.new($twitter_user, $twitter_password).on_delete do |status_id, user_id|
+  # TweetStream::Client.new($twitter_user, $twitter_password).on_delete do |status_id, user_id|
+  TweetStream::Client.new.on_delete do |status_id, user_id|
     Tweet.delete_all(:status_id => status_id)
   end.sample do |status, client|
     if Tweet.count < $max_tweets
